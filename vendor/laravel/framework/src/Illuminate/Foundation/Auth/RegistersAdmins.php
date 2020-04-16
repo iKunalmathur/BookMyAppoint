@@ -6,9 +6,9 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-trait RegistersUsers
+trait RegistersAdmins
 {
-    use RedirectsUsers;
+    use RedirectsAdmins;
 
     /**
      * Show the application registration form.
@@ -17,7 +17,7 @@ trait RegistersUsers
      */
     public function showRegistrationForm()
     {
-        return view('User.auth.register');
+        return view('Admin.auth.register');
     }
 
     /**
@@ -30,11 +30,11 @@ trait RegistersUsers
     {
         $this->validator($request->all())->validate();
 
-        event(new Registered($user = $this->create($request->all())));
+        event(new Registered($admin = $this->create($request->all())));
 
-        $this->guard()->login($user);
+        $this->guard()->login($admin);
 
-        return $this->registered($request, $user)
+        return $this->registered($request, $admin)
                         ?: redirect($this->redirectPath());
     }
 
@@ -45,17 +45,17 @@ trait RegistersUsers
      */
     protected function guard()
     {
-        return Auth::guard('user');
+        return Auth::guard('admin');
     }
 
     /**
-     * The user has been registered.
+     * The admin has been registered.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  mixed  $user
+     * @param  mixed  $admin
      * @return mixed
      */
-    protected function registered(Request $request, $user)
+    protected function registered(Request $request, $admin)
     {
         //
     }

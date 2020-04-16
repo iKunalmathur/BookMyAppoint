@@ -2,7 +2,7 @@
 
 namespace Illuminate\Foundation\Auth;
 
-trait RedirectsUsers
+trait RedirectsAdmins
 {
     /**
      * Get the post register / login redirect path.
@@ -15,6 +15,6 @@ trait RedirectsUsers
             return $this->redirectTo();
         }
 
-        return property_exists($this, 'redirectTo') ? $this->redirectTo : 'user/home';
+        return property_exists($this, 'redirectTo') ? $this->redirectTo : '/';
     }
 }

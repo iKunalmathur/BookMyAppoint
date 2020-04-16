@@ -6,9 +6,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 
-trait AuthenticatesUsers
+trait AuthenticatesAdmins
 {
-    use RedirectsUsers, ThrottlesLogins;
+    use RedirectsAdmins, ThrottlesLogins;
 
     /**
      * Show the application's login form.
@@ -17,7 +17,7 @@ trait AuthenticatesUsers
      */
     public function showLoginForm()
     {
-        return view('User.auth.login');
+        return view('Admin.auth.login');
     }
 
     /**
@@ -31,6 +31,7 @@ trait AuthenticatesUsers
     public function login(Request $request)
     {
         // dd($request->all());
+
         $this->validateLogin($request);
 
         // If the class is using the ThrottlesLogins trait, we can automatically throttle
@@ -183,6 +184,6 @@ trait AuthenticatesUsers
      */
     protected function guard()
     {
-        return Auth::guard('user');
+        return Auth::guard('admin');
     }
 }
