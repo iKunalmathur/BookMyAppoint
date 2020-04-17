@@ -40,6 +40,7 @@
 /vendor/tijsverkoyen
 /vendor/vlucas
 /vendor/webmozart
+/RAW_FILES
 .env
 .env.backup
 .phpunit.result.cache

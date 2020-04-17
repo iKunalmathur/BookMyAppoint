@@ -15,47 +15,62 @@ Route::get('/', function () {
     return view('welcome');
 })->name('index');
 
-// Auth::routes();
 
 ////////Admin//////
+Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function () {
 
-Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
-    // Authentication Routes...
-    Route::get('login', 'Auth\LoginController@showLoginForm')->name('admin.login');
-    Route::post('login', 'Auth\LoginController@login');
-    Route::post('logout', 'Auth\LoginController@logout')->name('logout');
-    // Registration Routes...
-    // Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('register');
-    // Route::post('register', 'Auth\RegisterController@register');
-    Route::get('home', 'HomeController@index')->name('admin.home');
+// Authentication Routes...
+    Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
+    Route::post('login', 'Auth\LoginController@login')->name('login');
+
+});
+Route::middleware(['auth:admin'])->namespace('Admin')->prefix('admin')->name('admin.')->group(function () {
+
+    Route::get('home', 'HomeController@index')->name('home');
+    Route::resource('profile','ProfileController');
+
 });
 
 //////User////
+Route::namespace('User')->prefix('user')->name('user.')->group(function () {
 
-Route::group(['namespace' => 'User', 'prefix' => 'user'], function () {
-    // Authentication Routes...
-    Route::get('login', 'Auth\LoginController@showLoginForm')->name('user.login');
-    Route::post('login', 'Auth\LoginController@login');
-    Route::post('logout', 'Auth\LoginController@logout')->name('logout');
-    // Registration Routes...
-    Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('user.register');
-    Route::post('register', 'Auth\RegisterController@register');
-    Route::get('home', 'HomeController@index')->name('user.home');
+// Authentication Routes...
+    Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
+    Route::post('login', 'Auth\LoginController@login')->name('login');
+// Registration Routes...
+    Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('register');
+    Route::post('register', 'Auth\RegisterController@register')->name('register');
+    Route::get('home', 'HomeController@index')->name('home');
+
+});
+Route::middleware(['auth:user'])->namespace('User')->prefix('user')->name('user.')->group(function () {
+
+    Route::get('home', 'HomeController@index')->name('home');
+    Route::resource('profile','ProfileController');
 
 });
 
+
 //////Client///////
 
-Route::group(['namespace' => 'Client'], function () {
-    // Authentication Routes...
-    Route::get('login', 'Auth\LoginController@showLoginForm')->name('client.login');
+Route::namespace('Client')->prefix('')->name('client.')->group(function () {
+// Authentication Routes...
+    Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
     Route::post('login', 'Auth\LoginController@login');
-    Route::post('logout', 'Auth\LoginController@logout')->name('logout');
-    // Registration Routes...
-    Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('client.register');
+// Registration Routes...
+    Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('register');
     Route::post('register', 'Auth\RegisterController@register');
-    Route::get('home', 'HomeController@index')->name('client.home');
+});
+
+Route::middleware(['auth:client'])->namespace('Client')->prefix('')->name('client.')->group(function () {
+
+    Route::get('home', 'HomeController@index')->name('home');
+    Route::resource('profile','ProfileController');
+
 });
 
 ////////////////////////Routes//////////////////////////////////
 
+// LOGOUT
+
+Route::post('logout', 'Auth\LoginController@logout')->name('logout');
