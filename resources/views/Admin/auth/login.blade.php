@@ -11,6 +11,7 @@
         <form method="POST" action="{{ route('admin.login') }}">
             @csrf
             <h2 class="sr-only">Login Form</h2>
+            {{-- @include('includes.messages') --}}
             <div class="illustration"><img src="{{ asset('assets/img/icons/admin333333-96.png') }}" style="color: #0072c6;"></img></div>
             <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" placeholder="Email" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
             @error('email')

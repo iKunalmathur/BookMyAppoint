@@ -3,7 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
-
+use App\Model\user\User;
+use App\Model\client\Client;
 class HomeController extends Controller
 {
     /**
@@ -23,6 +24,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('Admin.home');
+        $usercount = User::all()->count();
+        $clientcount = Client::all()->count();
+        return view('Admin.home',compact('usercount','clientcount'));
     }
 }

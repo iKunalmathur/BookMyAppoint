@@ -1,11 +1,15 @@
 <?php
 
 namespace App\Http\Controllers\Client;
-
+ 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use App\Model\client\Client;
+use App\Model\Country;
+use App\Model\State;
+use App\Model\City;
 
 class ProfileController extends Controller
 {
@@ -17,8 +21,11 @@ class ProfileController extends Controller
     public function index()
     {   
         $id = Auth::user()->id;
-        $client = Client::find($id)->first();
-        return view('client.profile',compact('client'));
+        $client = Client::find($id);
+        $countries = Country::select('id','name')->get();
+        $states = State::select('id','name')->get();
+        $cities = City::select('id','name')->get();
+        return view('client.profile',compact('client','countries','states','cities'));
     }
 
     /**
@@ -75,26 +82,57 @@ class ProfileController extends Controller
     {
          $this->validate($request,[
             'name' => ['required', 'string', 'max:255'],
-            // 'role' => ['required',],
             'email' => ['required', 'string', 'email', 'max:255'],
+            'old_password' => ['required',]
             // 'phone' => ['required', 'numeric'],
             // 'password' => ['required', 'string', 'min:8', 'confirmed'],
            
         ]);
+
+        $client = Client::find($id);
+
         // dd($request->all());
-         // dd($id);
-        $client = Client::find($id)->first();
-         if ($request->hasFile('image')){
-            $imageName = $request->image->store('public/clients_image');
-            // dd($client);
-            $client->image = $imageName;
-        }
-        $client->name = $request->name;
-        $client->email = $request->email;
-        $client->phone = $request->phone;
-        $client->address = $request->address;
-        $client->save();
-        return redirect()->back()->with('message','Clinet details has been Updated');
+
+        if (Hash::check($request->old_password, $client->password)){
+
+            // new password
+            if(isset($request->password)){
+                $this->validate($request,[
+                'password' => 'confirmed|min:4',
+                ]);
+                $client->password = Hash::make($request->password);
+                $request->session()->flash('success', 'Password changed');
+            }
+
+            if ($request->hasFile('image')){
+                $imageName = $request->image->store('public/clients_image');
+                $client->image = $imageName;
+            }
+                $client->name = $request->name;
+                $client->email = $request->email;
+                $client->phone = $request->phone;
+                $client->address = $request->address;
+                $client->city = $request->city;
+                $client->state = $request->state;
+                $client->country = $request->country;
+                $isChanged = $client->isDirty();
+                $client->save();
+
+                if( $isChanged){
+                    // changes have been made
+                    return redirect()->back()->with('message','Client details has been Updated');
+                }
+                return redirect()->back()->with('message2','No changes has been made');
+
+
+            }
+            else{
+
+                return redirect()->back()->with('error', 'Password does not match');
+                // $request->session()->flash('error', ' Password does not match');
+
+            }
+
     }
 
     /**
@@ -107,4 +145,5 @@ class ProfileController extends Controller
     {
         //
     }
+    
 }

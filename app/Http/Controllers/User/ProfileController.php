@@ -1,9 +1,15 @@
 <?php
 
 namespace App\Http\Controllers\User;
-
+ 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use App\Model\user\User;
+use App\Model\Country;
+use App\Model\State;
+use App\Model\City;
 
 class ProfileController extends Controller
 {
@@ -13,8 +19,13 @@ class ProfileController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        //
+    {   
+        $id = Auth::user()->id;
+        $user = User::find($id);
+        $countries = Country::select('id','name')->get();
+        $states = State::select('id','name')->get();
+        $cities = City::select('id','name')->get();
+        return view('user.profile',compact('user','countries','states','cities'));
     }
 
     /**
@@ -69,7 +80,61 @@ class ProfileController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+         $this->validate($request,[
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255'],
+            'old_password' => ['required',]
+            // 'phone' => ['required', 'numeric'],
+            // 'password' => ['required', 'string', 'min:8', 'confirmed'],
+           
+        ]);
+
+        $user = User::find($id);
+
+        // dd($request->all());
+
+        if (Hash::check($request->old_password, $user->password)){
+
+            // new password
+            if(isset($request->password)){
+                $this->validate($request,[
+                'password' => 'confirmed|min:4',
+                ]);
+                $user->password = Hash::make($request->password);
+                $request->session()->flash('success', 'Password changed');
+            }
+
+            if ($request->hasFile('image')){
+                $imageName = $request->image->store('public/users_image');
+                $user->image = $imageName;
+            }
+                $user->company_name = $request->company_name;
+                $user->name = $request->name;
+                $user->company_email = $request->company_email;
+                $user->email = $request->email;
+                $user->phone = $request->phone;
+                $user->address = $request->address;
+                $user->city = $request->city;
+                $user->state = $request->state;
+                $user->country = $request->country;
+                $isChanged = $user->isDirty();
+                $user->save();
+
+                if( $isChanged){
+                    // changes have been made
+                    return redirect()->back()->with('message','user details has been Updated');
+                }
+                return redirect()->back()->with('message2','No changes has been made');
+
+
+            }
+            else{
+
+                return redirect()->back()->with('error', 'Password does not match');
+                // $request->session()->flash('error', ' Password does not match');
+
+            }
+
     }
 
     /**
@@ -82,4 +147,5 @@ class ProfileController extends Controller
     {
         //
     }
+    
 }

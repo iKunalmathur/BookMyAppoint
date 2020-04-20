@@ -16,7 +16,8 @@ Route::get('/', function () {
 })->name('index');
 
 
-////////Admin//////
+////////////Admin/////////////
+
 Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function () {
 
 // Authentication Routes...
@@ -28,10 +29,14 @@ Route::middleware(['auth:admin'])->namespace('Admin')->prefix('admin')->name('ad
 
     Route::get('home', 'HomeController@index')->name('home');
     Route::resource('profile','ProfileController');
+    Route::resource('users','UserController');
+    Route::resource('clients','ClientController');
+
 
 });
 
-//////User////
+//////////User/////////////
+
 Route::namespace('User')->prefix('user')->name('user.')->group(function () {
 
 // Authentication Routes...
@@ -51,7 +56,7 @@ Route::middleware(['auth:user'])->namespace('User')->prefix('user')->name('user.
 });
 
 
-//////Client///////
+////////////Client///////////
 
 Route::namespace('Client')->prefix('')->name('client.')->group(function () {
 // Authentication Routes...
@@ -69,8 +74,13 @@ Route::middleware(['auth:client'])->namespace('Client')->prefix('')->name('clien
 
 });
 
-////////////////////////Routes//////////////////////////////////
+//////////////////////////////Routes//////////////////////////////////
 
 // LOGOUT
 
-Route::post('logout', 'Auth\LoginController@logout')->name('logout');
+Route::post('logout', 'Client\Auth\LoginController@logout')->name('logout');
+
+// Map routes
+Route::get('getstates/{data?}', 'MapController@getStates')->name('map.getstates');
+
+Route::get('getcities/{data?}', 'MapController@getCities')->name('map.getcities');

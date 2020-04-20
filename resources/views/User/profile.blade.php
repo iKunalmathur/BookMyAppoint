@@ -3,237 +3,159 @@
 <html>
 
 <head>
-    @include('layouts.dashboard.head')
+    @include('layouts.user.head')
+    <style type="text/css">
+        input[type="file"] {
+    display: none;
+    }
+    .custom-file-upload {
+        border: 1px solid #ccc;
+        display: inline-block;
+        padding: 6px 12px;
+        cursor: pointer;
+    }
+    </style>
 </head>
 
 <body id="page-top">
     <div id="wrapper">
         @section('profileActive','active')
-        @include('layouts.dashboard.sidebar')
+        @include('layouts.user.sidebar')
         <div class="d-flex flex-column" id="content-wrapper">
             <div id="content">
                 {{-- header --}}
-            @include('layouts.dashboard.header')
+            @include('layouts.user.header')
             <div class="container-fluid">
-                 <div class="d-sm-flex justify-content-between align-items-center mb-4">
-                    <h3 class="text-dark mb-0">Dashboard</h3><a class="btn btn-primary btn-sm d-none d-sm-inline-block" role="button" href="#"><i class="fas fa-download fa-sm text-white-50"></i>&nbsp;Generate Report</a></div>
-               {{-- <div class="row">
-                    <div class="col-md-6 col-xl-3 mb-4">
-                        <div class="card shadow border-left-primary py-2">
+                <h3 class="text-dark mb-4">Profile</h3>
+                {{-- include message --}}
+                @include('includes.messages')
+            <form role="form" action="{{ route('user.profile.update',$user->id) }}" method="POST" enctype="multipart/form-data">
+               @csrf
+               @method('PUT')
+                <div class="row mb-3">
+                    <div class="col-lg-4">
+                        <div class="card mb-3">
+                            <div class="card-body text-center shadow"><img class="rounded-circle mb-3 mt-4" src="{{asset(Storage::disk('local')->url(Auth::user()->image))}}" width="160" height="160">
+                                <label for="file-upload" class="custom-file-upload">
+                                    <i class="fas fa-upload"></i> Upload image
+                                </label>
+                                <input id="file-upload" name="image" type="file"/>
+                                {{-- <div class="mb-3"><button class="btn btn-primary btn-sm" type="button">Change Photo</button></div> --}}
+                            </div>
+                        </div>
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3">
+                                <h6 class="text-primary font-weight-bold m-0">Appointments&nbsp;</h6>
+                            </div>
                             <div class="card-body">
-                                <div class="row align-items-center no-gutters">
-                                    <div class="col mr-2">
-                                        <div class="text-uppercase text-primary font-weight-bold text-xs mb-1"><span>Earnings (monthly)</span></div>
-                                        <div class="text-dark font-weight-bold h5 mb-0"><span>$40,000</span></div>
-                                    </div>
-                                    <div class="col-auto"><i class="fas fa-calendar fa-2x text-gray-300"></i></div>
+                                <h4 class="small font-weight-bold">Pending<span class="float-right">20%</span></h4>
+                                <div class="progress progress-sm mb-3">
+                                    <div class="progress-bar bg-danger" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%;"><span class="sr-only">20%</span></div>
+                                </div>
+                                <h4 class="small font-weight-bold">In Process<span class="float-right">40%</span></h4>
+                                <div class="progress progress-sm mb-3">
+                                    <div class="progress-bar bg-warning" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%;"><span class="sr-only">40%</span></div>
+                                </div>
+                                <h4 class="small font-weight-bold">Compleated<span class="float-right">Complete!</span></h4>
+                                <div class="progress progress-sm mb-3">
+                                    <div class="progress-bar bg-success" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;"><span class="sr-only">100%</span></div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6 col-xl-3 mb-4">
-                        <div class="card shadow border-left-success py-2">
-                            <div class="card-body">
-                                <div class="row align-items-center no-gutters">
-                                    <div class="col mr-2">
-                                        <div class="text-uppercase text-success font-weight-bold text-xs mb-1"><span>Earnings (annual)</span></div>
-                                        <div class="text-dark font-weight-bold h5 mb-0"><span>$215,000</span></div>
+                    <div class="col-lg-8">
+                        <div class="row">
+                            <div class="col">
+                                <div class="card shadow mb-3">
+                                    <div class="card-header py-3">
+                                        <p class="text-primary m-0 font-weight-bold">User / Company Settings</p>
                                     </div>
-                                    <div class="col-auto"><i class="fas fa-dollar-sign fa-2x text-gray-300"></i></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-xl-3 mb-4">
-                        <div class="card shadow border-left-info py-2">
-                            <div class="card-body">
-                                <div class="row align-items-center no-gutters">
-                                    <div class="col mr-2">
-                                        <div class="text-uppercase text-info font-weight-bold text-xs mb-1"><span>Tasks</span></div>
-                                        <div class="row no-gutters align-items-center">
-                                            <div class="col-auto">
-                                                <div class="text-dark font-weight-bold h5 mb-0 mr-3"><span>50%</span></div>
-                                            </div>
-                                            <div class="col">
-                                                <div class="progress progress-sm">
-                                                    <div class="progress-bar bg-info" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%;"><span class="sr-only">50%</span></div>
+                                    <div class="card-body">
+                                        
+                                            <div class="form-row">
+                                                <div class="col">
+                                                    <div class="form-group"><label for="companyname"><strong>Company Name</strong></label><input class="form-control" value="{{$user->company_name}}"  type="text" placeholder="name" name="company_name"></div>
+                                                </div>
+                                                <div class="col">
+                                                    <div class="form-group"><label for="email"><strong>Company Email Address</strong></label><input class="form-control" value="{{$user->company_email}}"  type="email" name="company_email"></div>
                                                 </div>
                                             </div>
-                                        </div>
+                                            <div class="form-row">
+                                                <div class="col">
+                                                    <div class="form-group"><label for="companyname"><strong>Name</strong></label><input class="form-control" value="{{$user->name}}"  type="text" placeholder="name" name="name"></div>
+                                                </div>
+                                                <div class="col">
+                                                    <div class="form-group"><label for="email"><strong>Email Address</strong></label><input class="form-control" value="{{$user->email}}"  type="email"name="email"></div>
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="col">
+                                                    <div class="form-group"><label for="first_name"><strong>Contact no.</strong></label><input class="form-control" value="{{$user->phone}}" type="text" placeholder="phone" name="phone"></div>
+                                                </div>
+                                                <div class="col">
+                                                    <div class="form-group"><label for="last_name"><strong>Password</strong></label><input class="form-control"  type="text" required name="old_password"></div>
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="col">
+                                                    <div class="form-group"><label for="last_name"><strong>New Password</strong></label> <input id="password" type="password" class="form-control @error('password') is-invalid @enderror"placeholder="New Password" name="password" autocomplete="new-password"></div>
+                                                </div>
+                                                <div class="col">
+                                                    <div class="form-group"><label for="last_name"><strong>Confirm Password</strong></label><input id="password-confirm" type="password" class="form-control" placeholder="Password (repeat)" name="password_confirmation"  autocomplete="new-password"></div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group"><button class="btn btn-primary btn-sm" type="submit">Save Settings</button></div>
+                                        
                                     </div>
-                                    <div class="col-auto"><i class="fas fa-clipboard-list fa-2x text-gray-300"></i></div>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-xl-3 mb-4">
-                        <div class="card shadow border-left-warning py-2">
-                            <div class="card-body">
-                                <div class="row align-items-center no-gutters">
-                                    <div class="col mr-2">
-                                        <div class="text-uppercase text-warning font-weight-bold text-xs mb-1"><span>Pending Requests</span></div>
-                                        <div class="text-dark font-weight-bold h5 mb-0"><span>18</span></div>
+                                <div class="card shadow">
+                                    <div class="card-header py-3">
+                                        <p class="text-primary m-0 font-weight-bold">Company Address</p>
                                     </div>
-                                    <div class="col-auto"><i class="fas fa-comments fa-2x text-gray-300"></i></div>
+                                    <div class="card-body">
+                                        <form>
+                                            <div class="form-group"><label for="address"><strong>Address</strong></label><input class="form-control" type="text" value="{{$user->address}}"  name="address"></div>
+                                            <div class="form-row">
+                                                <div class="col">
+                                                    <label>Select Country</label>
+                                                    <select class="custom-select"  data-placeholder="Select a Country" id="country_id" style="width: 100%;" name="country">
+                                                      @foreach ($countries as $country)
+                                                          <option value="{{ $country->id }}"
+                                                            @if ($country->id == $user->country)
+                                                              selected
+                                                          @endif
+                                                            >{{ $country->name }}</option>
+                                                      @endforeach 
+                                                    </select>
+                                                </div>
+                                                <div class="col">
+                                                    <label>Select State</label>
+                                                    <select class="custom-select" id="state_id" data-placeholder="Select a State" style="width: 100%;" name="state">
+                                                    </select>
+                                                </div>
+                                                
+                                            </div>
+                                            <div class="form-row" style="padding-top:10px;">
+                                                <div class="col">
+                                                    <label >Select City</label>
+                                                    <select class="custom-select"  data-placeholder="Select a City" style="width: 100%;" id="city_id" name="city"> 
+                                                    </select>
+                                                </div>
+                                                <div class="col">
+                                                </div>
+
+                                            </div>
+                                            <br>
+                                            <div class="form-group"><button class="btn btn-primary btn-sm" type="submit">Save&nbsp;Settings</button></div>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-lg-7 col-xl-8">
-                        <div class="card shadow mb-4">
-                            <div class="card-header d-flex justify-content-between align-items-center">
-                                <h6 class="text-primary font-weight-bold m-0">Earnings Overview</h6>
-                                <div class="dropdown no-arrow"><button class="btn btn-link btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false" type="button"><i class="fas fa-ellipsis-v text-gray-400"></i></button>
-                                    <div class="dropdown-menu shadow dropdown-menu-right animated--fade-in"
-                                        role="menu">
-                                        <p class="text-center dropdown-header">dropdown header:</p><a class="dropdown-item" role="presentation" href="#">&nbsp;Action</a><a class="dropdown-item" role="presentation" href="#">&nbsp;Another action</a>
-                                        <div class="dropdown-divider"></div><a class="dropdown-item" role="presentation" href="#">&nbsp;Something else here</a></div>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <div class="chart-area"><canvas data-bs-chart="{&quot;type&quot;:&quot;line&quot;,&quot;data&quot;:{&quot;labels&quot;:[&quot;Jan&quot;,&quot;Feb&quot;,&quot;Mar&quot;,&quot;Apr&quot;,&quot;May&quot;,&quot;Jun&quot;,&quot;Jul&quot;,&quot;Aug&quot;],&quot;datasets&quot;:[{&quot;label&quot;:&quot;Earnings&quot;,&quot;fill&quot;:true,&quot;data&quot;:[&quot;0&quot;,&quot;10000&quot;,&quot;5000&quot;,&quot;15000&quot;,&quot;10000&quot;,&quot;20000&quot;,&quot;15000&quot;,&quot;25000&quot;],&quot;backgroundColor&quot;:&quot;rgba(78, 115, 223, 0.05)&quot;,&quot;borderColor&quot;:&quot;rgba(78, 115, 223, 1)&quot;}]},&quot;options&quot;:{&quot;maintainAspectRatio&quot;:false,&quot;legend&quot;:{&quot;display&quot;:false},&quot;title&quot;:{},&quot;scales&quot;:{&quot;xAxes&quot;:[{&quot;gridLines&quot;:{&quot;color&quot;:&quot;rgb(234, 236, 244)&quot;,&quot;zeroLineColor&quot;:&quot;rgb(234, 236, 244)&quot;,&quot;drawBorder&quot;:false,&quot;drawTicks&quot;:false,&quot;borderDash&quot;:[&quot;2&quot;],&quot;zeroLineBorderDash&quot;:[&quot;2&quot;],&quot;drawOnChartArea&quot;:false},&quot;ticks&quot;:{&quot;fontColor&quot;:&quot;#858796&quot;,&quot;padding&quot;:20}}],&quot;yAxes&quot;:[{&quot;gridLines&quot;:{&quot;color&quot;:&quot;rgb(234, 236, 244)&quot;,&quot;zeroLineColor&quot;:&quot;rgb(234, 236, 244)&quot;,&quot;drawBorder&quot;:false,&quot;drawTicks&quot;:false,&quot;borderDash&quot;:[&quot;2&quot;],&quot;zeroLineBorderDash&quot;:[&quot;2&quot;]},&quot;ticks&quot;:{&quot;fontColor&quot;:&quot;#858796&quot;,&quot;padding&quot;:20}}]}}}"></canvas></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-5 col-xl-4">
-                        <div class="card shadow mb-4">
-                            <div class="card-header d-flex justify-content-between align-items-center">
-                                <h6 class="text-primary font-weight-bold m-0">Revenue Sources</h6>
-                                <div class="dropdown no-arrow"><button class="btn btn-link btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false" type="button"><i class="fas fa-ellipsis-v text-gray-400"></i></button>
-                                    <div class="dropdown-menu shadow dropdown-menu-right animated--fade-in"
-                                        role="menu">
-                                        <p class="text-center dropdown-header">dropdown header:</p><a class="dropdown-item" role="presentation" href="#">&nbsp;Action</a><a class="dropdown-item" role="presentation" href="#">&nbsp;Another action</a>
-                                        <div class="dropdown-divider"></div><a class="dropdown-item" role="presentation" href="#">&nbsp;Something else here</a></div>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <div class="chart-area"><canvas data-bs-chart="{&quot;type&quot;:&quot;doughnut&quot;,&quot;data&quot;:{&quot;labels&quot;:[&quot;Direct&quot;,&quot;Social&quot;,&quot;Referral&quot;],&quot;datasets&quot;:[{&quot;label&quot;:&quot;&quot;,&quot;backgroundColor&quot;:[&quot;#4e73df&quot;,&quot;#1cc88a&quot;,&quot;#36b9cc&quot;],&quot;borderColor&quot;:[&quot;#ffffff&quot;,&quot;#ffffff&quot;,&quot;#ffffff&quot;],&quot;data&quot;:[&quot;50&quot;,&quot;30&quot;,&quot;15&quot;]}]},&quot;options&quot;:{&quot;maintainAspectRatio&quot;:false,&quot;legend&quot;:{&quot;display&quot;:false},&quot;title&quot;:{}}}"></canvas></div>
-                                <div
-                                    class="text-center small mt-4"><span class="mr-2"><i class="fas fa-circle text-primary"></i>&nbsp;Direct</span><span class="mr-2"><i class="fas fa-circle text-success"></i>&nbsp;Social</span><span class="mr-2"><i class="fas fa-circle text-info"></i>&nbsp;Refferal</span></div>
-                        </div>
-                    </div>
-                </div>
+            </form>
             </div>
-            <div class="row">
-                <div class="col-lg-6 mb-4">
-                    <div class="card shadow mb-4">
-                        <div class="card-header py-3">
-                            <h6 class="text-primary font-weight-bold m-0">Projects</h6>
-                        </div>
-                        <div class="card-body">
-                            <h4 class="small font-weight-bold">Server migration<span class="float-right">20%</span></h4>
-                            <div class="progress mb-4">
-                                <div class="progress-bar bg-danger" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%;"><span class="sr-only">20%</span></div>
-                            </div>
-                            <h4 class="small font-weight-bold">Sales tracking<span class="float-right">40%</span></h4>
-                            <div class="progress mb-4">
-                                <div class="progress-bar bg-warning" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%;"><span class="sr-only">40%</span></div>
-                            </div>
-                            <h4 class="small font-weight-bold">Customer Database<span class="float-right">60%</span></h4>
-                            <div class="progress mb-4">
-                                <div class="progress-bar bg-primary" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;"><span class="sr-only">60%</span></div>
-                            </div>
-                            <h4 class="small font-weight-bold">Payout Details<span class="float-right">80%</span></h4>
-                            <div class="progress mb-4">
-                                <div class="progress-bar bg-info" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 80%;"><span class="sr-only">80%</span></div>
-                            </div>
-                            <h4 class="small font-weight-bold">Account setup<span class="float-right">Complete!</span></h4>
-                            <div class="progress mb-4">
-                                <div class="progress-bar bg-success" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;"><span class="sr-only">100%</span></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card shadow mb-4">
-                        <div class="card-header py-3">
-                            <h6 class="text-primary font-weight-bold m-0">Todo List</h6>
-                        </div>
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item">
-                                <div class="row align-items-center no-gutters">
-                                    <div class="col mr-2">
-                                        <h6 class="mb-0"><strong>Lunch meeting</strong></h6><span class="text-xs">10:30 AM</span></div>
-                                    <div class="col-auto">
-                                        <div class="custom-control custom-checkbox"><input class="custom-control-input" type="checkbox" id="formCheck-1"><label class="custom-control-label" for="formCheck-1"></label></div>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="list-group-item">
-                                <div class="row align-items-center no-gutters">
-                                    <div class="col mr-2">
-                                        <h6 class="mb-0"><strong>Lunch meeting</strong></h6><span class="text-xs">11:30 AM</span></div>
-                                    <div class="col-auto">
-                                        <div class="custom-control custom-checkbox"><input class="custom-control-input" type="checkbox" id="formCheck-2"><label class="custom-control-label" for="formCheck-2"></label></div>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="list-group-item">
-                                <div class="row align-items-center no-gutters">
-                                    <div class="col mr-2">
-                                        <h6 class="mb-0"><strong>Lunch meeting</strong></h6><span class="text-xs">12:30 AM</span></div>
-                                    <div class="col-auto">
-                                        <div class="custom-control custom-checkbox"><input class="custom-control-input" type="checkbox" id="formCheck-3"><label class="custom-control-label" for="formCheck-3"></label></div>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="row">
-                        <div class="col-lg-6 mb-4">
-                            <div class="card text-white bg-primary shadow">
-                                <div class="card-body">
-                                    <p class="m-0">Primary</p>
-                                    <p class="text-white-50 small m-0">#4e73df</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6 mb-4">
-                            <div class="card text-white bg-success shadow">
-                                <div class="card-body">
-                                    <p class="m-0">Success</p>
-                                    <p class="text-white-50 small m-0">#1cc88a</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6 mb-4">
-                            <div class="card text-white bg-info shadow">
-                                <div class="card-body">
-                                    <p class="m-0">Info</p>
-                                    <p class="text-white-50 small m-0">#36b9cc</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6 mb-4">
-                            <div class="card text-white bg-warning shadow">
-                                <div class="card-body">
-                                    <p class="m-0">Warning</p>
-                                    <p class="text-white-50 small m-0">#f6c23e</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6 mb-4">
-                            <div class="card text-white bg-danger shadow">
-                                <div class="card-body">
-                                    <p class="m-0">Danger</p>
-                                    <p class="text-white-50 small m-0">#e74a3b</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6 mb-4">
-                            <div class="card text-white bg-secondary shadow">
-                                <div class="card-body">
-                                    <p class="m-0">Secondary</p>
-                                    <p class="text-white-50 small m-0">#858796</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> --}}
-        </div>
     </div>
     <footer class="bg-white sticky-footer">
         <div class="container my-auto">
@@ -241,7 +163,263 @@
         </div>
     </footer>
     </div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a></div>
-    @include('layouts.dashboard.bottom')
+    @include('layouts.user.bottom')
 </body>
+<script>
+
+
+
+    $('#state_id').prop("disabled",true);
+    $('#city_id').prop("disabled",true);
+    $("#country_id").on('change',function() {
+            var id = $(this).val();
+            //console.log(id);
+            //alert(id);
+          //  $("#loding2").show();
+            $("#state_id").find('option').remove();
+            if (id) {
+                //console.log(id);
+                $.ajax({
+                    type: "GET",
+                    url: '{{ route('map.getstates')}}' ,
+                    data:  ({country_id : id}),
+                    //cache: false,
+                    success: function(msg)
+                    {
+                        // console.log('result: '+msg);
+                        // console.log(JSON.stringify(msg));
+                        //false;
+                         $("#city_id").find('option').remove();
+                          $("#city_id").prop("disabled",true);
+                        $('#state_id').prop("disabled",false);
+                        $("#loding2").hide();
+                        var response = JSON.parse(msg);
+                        // var response = JSON.stringify(msg);
+                        var state_name="";
+                        //console.log('result: '+response);
+                        if(response.length>0)
+                        {
+                            //removeOptions(document.getElementById('cities'));
+
+                            for(i=0;i<response.length;i++)
+                            {
+                                states = response[i]['name'];
+
+                                document.getElementById("state_id").options[i] =  new Option(states,response[i]['id']);
+                            }
+
+                            document.getElementById('state_id').focus();
+
+                        }
+
+            
+                    },
+                    /*success: function(html) {
+                        console.log(html);
+                        $("#loding2").hide();
+                        $.each(html, function(key, value) {
+                            $('<option>').val('').text('select');
+                            $('<option>').val(key).text(value).appendTo($("#cities"));
+                        });
+                    },*/
+                    error: function(e)
+                    {
+                        //$('#city_id').prop("disabled", true);
+                        //$('#state_id').prop("disabled", true);
+                        alert("Country Invalid : " + e.responseText.message);
+                        console.log(e);
+                    }
+                });
+            }
+
+            else{
+                $("#loding2").hide();
+                $('#city_id').prop("disabled", true);
+                $('#state_id').prop("disabled",true);
+            }
+        });
+
+    $("#state_id").on('change',function() {
+            var state_id = $(this).val();
+            //console.log(id);
+            //alert('state_id'+state_id);
+          //  $("#loding2").show();
+            $("#city_id").find('option').remove();
+            if (state_id) {
+                //console.log(state_id);
+                $.ajax({
+                    type: "GET",
+                    url: '{{ route('map.getcities')}}' ,
+                    data:  ({state_id : state_id}),
+                    //cache: false,
+                    success: function(msg)
+                    {
+                        // console.log('result: '+msg);
+                        // console.log(JSON.stringify(msg));
+                        //false;
+                        $('#city_id').prop("disabled",false)
+                        $("#loding2").hide();
+                        var response = JSON.parse(msg);
+                        // var response = JSON.stringify(msg);
+                        var city_name="";
+                        //console.log('result: '+response);
+                        if(response.length>0)
+                        {
+                            //removeOptions(document.getElementById('cities'));
+
+                            for(i=0;i<response.length;i++)
+                            {
+                                cities = response[i]['name'];
+
+                                document.getElementById("city_id").options[i] =  new Option(cities,response[i]['id']);
+                            }
+
+                            document.getElementById('city_id').focus();
+
+                        }
+                    },
+                    /*success: function(html) {
+                        console.log(html);
+                        $("#loding2").hide();
+                        $.each(html, function(key, value) {
+                            $('<option>').val('').text('select');
+                            $('<option>').val(key).text(value).appendTo($("#cities"));
+                        });
+                    },*/
+                    error: function(e)
+                    {
+                        //$('#city_id').prop("disabled", true);
+                        //$('#state_id').prop("disabled", true);
+                        alert("State Invalid : " + e.responseText.message);
+                        console.log(e);
+                    }
+                });
+            }
+            
+            else{
+                $("#loding2").hide();
+                $('#city_id').prop("disabled", true);
+                $('#state_id').prop("disabled",true);
+            }
+        });
+</script>
+{{-- ---------------------------------------------- --}}
+<script>
+    $(document).ready(function () {
+        //debugger;
+        var country_id = document.getElementById('country_id').value;
+        var state_id = '{{$user->state}}';
+        var cityid = '{{$user->city}}';
+    {{-- console.log({{$user->state}});
+        console.log({{$user->city}});--}}
+       $('#state_id').prop("disabled",true)
+        $('#city_id').prop("disabled",true)
+        //var departmentsid = document.getElementById('departments_id').value;
+        //var designationsid = document.getElementById('designations_id').value;
+        //alert(departmentsid);
+        $("#state_id").find('option').remove();
+        //alert(state_id);
+        $.ajax({
+            type: "GET",
+            url: '{{ route('map.getstates') }}' ,
+            data:  ({country_id : country_id}),
+            //cache: false,
+            success: function(msg) {
+                //console.log(msg);
+                //false;
+                $('#state_id').prop("disabled", false)
+                $("#loding2").hide();
+                var response = JSON.parse(msg);
+                //var state_name = "";
+
+                if (response.length > 0) {
+                    //removeOptions(document.getElementById('cities'));
+                    /**/
+                    for(i=0;i<response.length;i++)
+                    {
+                        var state_id = '{{$user->state}}';
+                        //alert(state_id);
+                        states = response[i]['name'];
+                        if(response[i]['id'] == state_id){
+                           // alert('hi');
+                            document.getElementById("state_id").options[i] = new Option(states, response[i]['id']);
+                            document.getElementById("state_id").options[i].setAttribute('selected',true);
+                        }else{
+                            document.getElementById("state_id").options[i] = new Option(states, response[i]['id']);
+                        }
+                    }
+                    /**/
+
+                }
+
+
+                var country_id = document.getElementById('country_id').value;
+                var  state_id = document.getElementById('state_id').value;
+                $("#city_id").find('option').remove();
+                $.ajax({
+                    type: "GET",
+                    url: '{{ route('map.getcities') }}' ,
+                    data:  ({country_id : country_id, state_id: state_id}),
+                    //cache: false,
+                    success: function(msg) {
+                        //console.log(msg);
+                        //false;
+                        $('#city_id').prop("disabled", false);
+                        $("#loding2").hide();
+                        var response = JSON.parse(msg);
+                        var state_name = "";
+
+
+
+
+                        /**/
+                        for(i=0;i<response.length;i++)
+                        {
+                            var state_id = '{{$user->state}}';
+                            var cityid = '{{$user->city}}';
+                            //alert(state_id);
+                            citys = response[i]['name'];
+                            if(response[i]['id'] == cityid){
+                                // alert('hi');
+                                document.getElementById("city_id").options[i] = new Option(citys, response[i]['id']);
+                                document.getElementById("city_id").options[i].setAttribute('selected',true);
+                            }else{
+                                document.getElementById("city_id").options[i] = new Option(citys, response[i]['id']);
+                            }
+                        }
+                        /**/
+                    },
+                    /*success: function(html) {
+                        console.log(html);
+                        $("#loding2").hide();
+                        $.each(html, function(key, value) {
+                            $('<option>').val('').text('select');
+                            $('<option>').val(key).text(value).appendTo($("#cities"));
+                        });
+                    },*/
+                    error: function(e)
+                    {
+                        alert("An error occurred: " + e.responseText.message);
+                        console.log(e);
+                    }
+                });
+            },
+            /*success: function(html) {
+                console.log(html);
+                $("#loding2").hide();
+                $.each(html, function(key, value) {
+                    $('<option>').val('').text('select');
+                    $('<option>').val(key).text(value).appendTo($("#cities"));
+                });
+            },*/
+            error: function(e)
+            {
+                alert("An error occurred: " + e.responseText.message);
+                console.log(e);
+            }
+        });
+
+    })
+</script>
 
 </html>
