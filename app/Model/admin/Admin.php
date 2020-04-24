@@ -7,8 +7,21 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
+/**
+ * 
+ */
+// class Admin extends Model
+// {
+    
+// }
 class Admin extends Authenticatable
 {
+
+    public function phone()
+    {
+        return $this->hasOne('App\Model\phone');
+    }
+    
     use Notifiable;
 
     /**
@@ -37,4 +50,6 @@ class Admin extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    
 }

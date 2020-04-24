@@ -8,6 +8,21 @@ use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
+
+    public function country()
+    {
+      return $this->belongsTo('App\Model\Country');
+    }
+
+    // public function country_id()
+    // {
+    //     return $this->belongsTo('App\Model\Country');
+    // }
+
+     // public function country_id(){
+     //    return $this->hasMany('App\Model\Country','id', 'country_id');
+     //   }
+
     use Notifiable;
 
     /**

@@ -93,7 +93,7 @@
                                                     <div class="form-group"><label for="first_name"><strong>Contact no.</strong></label><input class="form-control" value="{{$user->phone}}" type="text" placeholder="phone" name="phone"></div>
                                                 </div>
                                                 <div class="col">
-                                                    <div class="form-group"><label for="last_name"><strong>Password</strong></label><input class="form-control"  type="text" required name="old_password"></div>
+                                                    <div class="form-group"><label for="last_name"><strong>Password</strong></label><input class="form-control"  type="text" required name="old_password" ></div>
                                                 </div>
                                             </div>
                                             <div class="form-row">

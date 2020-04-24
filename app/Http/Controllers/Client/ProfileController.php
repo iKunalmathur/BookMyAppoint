@@ -114,7 +114,7 @@ class ProfileController extends Controller
                 $client->address = $request->address;
                 $client->city = $request->city;
                 $client->state = $request->state;
-                $client->country = $request->country;
+                $client->country_id = $request->country;
                 $isChanged = $client->isDirty();
                 $client->save();
 

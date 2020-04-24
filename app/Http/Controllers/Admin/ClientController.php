@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Model\client\Client;
+use App\Model\Country;
 
 class ClientController extends Controller
 {
@@ -15,7 +16,9 @@ class ClientController extends Controller
      */
     public function index()
     {
-        $clients =Client::all();
+        $clients = Client::with('country')->paginate(20);
+        // dd($clients);
+        // dd($clients->getRelations());
         return view('Admin.client.show',compact('clients'));
     }
 

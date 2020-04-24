@@ -143,7 +143,7 @@
                                                     <select class="custom-select"  data-placeholder="Select a Country" id="country_id" style="width: 100%;" name="country">
                                                       @foreach ($countries as $country)
                                                           <option value="{{ $country->id }}"
-                                                            @if ($country->id == $client->country)
+                                                            @if ($country->id == $client->country_id)
                                                               selected
                                                           @endif
                                                             >{{ $country->name }}</option>

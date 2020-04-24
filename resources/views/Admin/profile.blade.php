@@ -6,14 +6,14 @@
     @include('layouts.admin.head')
     <style type="text/css">
         input[type="file"] {
-    display: none;
-    }
-    .custom-file-upload {
-        border: 1px solid #ccc;
-        display: inline-block;
-        padding: 6px 12px;
-        cursor: pointer;
-    }
+            display: none;
+        }
+        .custom-file-upload {
+            border: 1px solid #ccc;
+            display: inline-block;
+            padding: 6px 12px;
+            cursor: pointer;
+        }
     </style>
 </head>
 
@@ -24,34 +24,34 @@
         <div class="d-flex flex-column" id="content-wrapper">
             <div id="content">
                 {{-- header --}}
-            @include('layouts.admin.header')
-            <div class="container-fluid">
-                <h3 class="text-dark mb-4">Profile</h3>
-                {{-- include message --}}
-                @include('includes.messages')
-            <form role="form" action="{{ route('admin.profile.update',$admin->id) }}" method="POST" enctype="multipart/form-data">
-               @csrf
-               @method('PUT')
-                <div class="row mb-3">
-                    <div class="col-lg-4">
-                        <div class="card mb-3">
-                            <div class="card-body text-center shadow"><img class="rounded-circle mb-3 mt-4" src="{{asset(Storage::disk('local')->url(Auth::user()->image))}}" width="160" height="160">
-                                <label for="file-upload" class="custom-file-upload">
-                                    <i class="fas fa-upload"></i> Upload image
-                                </label>
-                                <input id="file-upload" name="image" type="file"/>
+                @include('layouts.admin.header')
+                <div class="container-fluid">
+                    <h3 class="text-dark mb-4">Profile</h3>
+                    {{-- include message --}}
+                    @include('includes.messages')
+                    <form role="form" action="{{ route('admin.profile.update',$admin->id) }}" method="POST" enctype="multipart/form-data">
+                     @csrf
+                     @method('PUT')
+                     <div class="row mb-3">
+                        <div class="col-lg-4">
+                            <div class="card mb-3">
+                                <div class="card-body text-center shadow"><img class="rounded-circle mb-3 mt-4" src="{{asset(Storage::disk('local')->url(Auth::user()->image))}}" width="160" height="160">
+                                    <label for="file-upload" class="custom-file-upload">
+                                        <i class="fas fa-upload"></i> Upload image
+                                    </label>
+                                    <input id="file-upload" name="image" type="file"/>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-lg-8">
-                        <div class="row">
-                            <div class="col">
-                                <div class="card shadow mb-3">
-                                    <div class="card-header py-3">
-                                        <p class="text-primary m-0 font-weight-bold">Admin Settings</p>
-                                    </div>
-                                    <div class="card-body">
-                                        
+                        <div class="col-lg-8">
+                            <div class="row">
+                                <div class="col">
+                                    <div class="card shadow mb-3">
+                                        <div class="card-header py-3">
+                                            <p class="text-primary m-0 font-weight-bold">Admin Settings</p>
+                                        </div>
+                                        <div class="card-body">
+                                            
                                             <div class="form-row">
                                                 <div class="col">
                                                     <div class="form-group"><label for="companyname"><strong>Name</strong></label><input class="form-control" value="{{$admin->name}}"  type="text" placeholder="name" name="name"></div>
@@ -62,7 +62,7 @@
                                             </div>
                                             <div class="form-row">
                                                 <div class="col">
-                                                    <div class="form-group"><label for="first_name"><strong>Contact no.</strong></label><input class="form-control" value="{{$admin->phone}}" type="text" placeholder="phone" name="phone"></div>
+                                                    <div class="form-group"><label for="first_name"><strong>Contact no.</strong></label><input class="form-control" value="{{$admin->phone->phone_number}}" type="text" placeholder="phone" name="phone"></div>
                                                 </div>
                                                 <div class="col">
                                                     <div class="form-group"><label for="last_name"><strong>Password</strong></label><input class="form-control"  type="text" required name="old_password"></div>
@@ -77,10 +77,10 @@
                                                 </div>
                                             </div>
                                             <div class="form-group"><button class="btn btn-primary btn-sm" type="submit">Save Settings</button></div>
-                                        
+                                            
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="card shadow">
+                                    <div class="card shadow">
                                     {{-- <div class="card-header py-3">
                                         <p class="text-primary m-0 font-weight-bold">Contact Settings</p>
                                     </div> --}}
@@ -127,14 +127,14 @@
                     </div>
                 </div>
             </form>
-            </div>
+        </div>
     </div>
     <footer class="bg-white sticky-footer">
         <div class="container my-auto">
             <div class="text-center my-auto copyright"><span>Copyright © BookMyAppoint.2020</span></div>
         </div>
     </footer>
-    </div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a></div>
-    @include('layouts.admin.bottom')
+</div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a></div>
+@include('layouts.admin.bottom')
 </body>
 </html>

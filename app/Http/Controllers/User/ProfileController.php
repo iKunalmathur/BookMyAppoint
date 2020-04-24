@@ -21,11 +21,14 @@ class ProfileController extends Controller
     public function index()
     {   
         $id = Auth::user()->id;
-        $user = User::find($id);
+        $user = User::with('country')->find($id);
+        // $user->getRelation('country');
+        // dd($user->getRelations());
+        // dd($user->getRelation('country')->name);
         $countries = Country::select('id','name')->get();
-        $states = State::select('id','name')->get();
-        $cities = City::select('id','name')->get();
-        return view('user.profile',compact('user','countries','states','cities'));
+        // $states = State::select('id','name')->get();
+        // $cities = City::select('id','name')->get();
+        return view('user.profile',compact('user','countries'));
     }
 
     /**

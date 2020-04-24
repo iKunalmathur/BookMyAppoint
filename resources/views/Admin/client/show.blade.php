@@ -53,7 +53,7 @@
                                         <td>{{ $client->name }}</td>
                                         <td>{{ $client->email }}</td>
                                         <td>{{ $client->phone }}</td>
-                                        <td><textarea class="form-control" readonly>{{ $client->address }}</textarea></td>
+                                        <td><textarea class="form-control" readonly>{{$client->address}}, {{ $client->getRelation('country')->name }}</textarea></td>
                                         <td style="padding-left: 6px;"><a class="btn btn-warning btn-circle ml-1" role="button" data-bs-hover-animate="pulse" style="width: 30px;height: 30px;"><i class="fas fa-pen text-white"></i></a></td>
                                         <td style="padding-left: 11px;"><a class="btn btn-danger btn-circle ml-1" role="button" data-bs-hover-animate="pulse" style="width: 30px;height: 30px;"><i class="fas fa-trash text-white"></i></a></td>
                                     </tr>

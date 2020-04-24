@@ -9,6 +9,11 @@ use Illuminate\Notifications\Notifiable;
 
 class Client extends Authenticatable
 {
+    public function country()
+    {
+      return $this->belongsTo('App\Model\Country');
+    }
+    
     use Notifiable;
 
     /**
