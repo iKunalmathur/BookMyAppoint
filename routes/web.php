@@ -52,6 +52,7 @@ Route::middleware(['auth:user'])->namespace('User')->prefix('user')->name('user.
 
     Route::get('home', 'HomeController@index')->name('home');
     Route::resource('profile','ProfileController');
+    Route::resource('slot','SlotController');
 
 });
 
