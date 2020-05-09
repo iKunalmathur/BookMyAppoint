@@ -9,11 +9,20 @@ use Illuminate\Notifications\Notifiable;
 
 class Client extends Authenticatable
 {
+    // public function appointment()
+    // {
+    //     return $this->hasMany('App\Model\client\Appointment');
+    // }
+
     public function country()
     {
       return $this->belongsTo('App\Model\Country');
     }
     
+    public  function appointment()
+    {
+        return $this->hasMany('App\Model\client\Appointment');
+    }
     use Notifiable;
 
     /**

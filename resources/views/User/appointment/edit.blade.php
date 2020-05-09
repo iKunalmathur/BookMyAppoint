@@ -20,32 +20,34 @@
                 <div class="col">
                     <div class="card shadow mb-3">
                                     <div class="card-header py-3">
-                                        <p class="text-primary m-0 font-weight-bold">@include('includes.messages')</p>
+                                        <p class="text-primary m-0 font-weight-bold">User Settings</p>
                                     </div>
+                                    @include('includes.messages')
                                     <div class="card-body">
-                                        <form method="POST" action="{{ route('user.appointment.store') }}">
-                                        @csrf
+                                        <form role="form" action="{{ route('user.appointment.update',$appointment->id) }}" method="POST" enctype="multipart/form-data">
+                                       @csrf
+                                       @method('PUT')
                                             <div class="form-row">
                                                 <div class="col">
-                                                    <div class="form-group"><label for="companyname"><strong>Name</strong></label><input class="form-control" type="text" placeholder="Customer name" value="{{Request::old('name')}}" name="name"></div>
+                                                    <div class="form-group"><label for="companyname"><strong>Name</strong></label><input disabled class="form-control" value="{{Auth::user()->name}}"  type="text" placeholder="name" name="name"></div>
                                                 </div>
                                                 <div class="col">
-                                                    <div class="form-group"><label for="email"><strong>Email Address</strong></label><input class="form-control" placeholder="Customer Email add" value="{{Request::old('email')}}" type="email" name="email"></div>
+                                                    <div class="form-group"><label for="email"><strong>Email Address</strong></label><input disabled class="form-control" value="{{Auth::user()->email}}"  type="email" name="email"></div>
                                                 </div>
                                             </div>
                                             <div class="form-row">
                                                 <div class="col">
-                                                    <div class="form-group"><label for="first_name"><strong>Contact no.</strong></label><input class="form-control" type="text" placeholder="Customer phone no" value="{{Request::old('phone')}}" name="phone"></div>
+                                                    <div class="form-group"><label for="first_name"><strong>Contact no.</strong></label><input disabled class="form-control" value="{{Auth::user()->phone}}" type="text" placeholder="phone" name="phone"></div>
                                                 </div>
                                                 <div class="col">
                                                     <label>Select Service provider</label>
-                                                    <select class="custom-select"  data-placeholder="Select a user" required id="user_id" style="width: 100%;" name="user_id">
+                                                    <select class="custom-select"  data-placeholder="Select a user" required id="user_id" disabled style="width: 100%;" name="user_id">
                                                         <option value="" selected disabled hidden>Choose here</option>
                                                       @foreach ($users as $user)
                                                           <option value="{{ $user->id }}"
-                                                            {{-- @if ($user->id == $client->user_id)
+                                                            @if ($user->id == $appointment->user_id)
                                                               selected
-                                                          @endif --}}
+                                                          @endif
                                                             >{{ $user->company_name }}</option>
                                                       @endforeach 
                                                     </select>
@@ -64,8 +66,9 @@
                                                         <option value="" selected disabled hidden>Choose here</option>
                                                     </select>
                                                 </div>
-                                            </div><br>
-                                            <div class="form-group"><button class="btn btn-primary btn-sm" type="submit">Add</button></div>
+                                            </div>
+                                            <br>
+                                            <div class="form-group"><button class="btn btn-primary btn-sm" type="submit">Update</button></div>
                                         </form>
                                     </div>
                                 </div>
@@ -212,5 +215,90 @@
                 $('#slot_id').prop("disabled",true);
             }
         });
+</script>
+{{-- ---------------------------------------- --}}
+<script type="text/javascript">
+    $(document).ready(function () {
+       var user_id = document.getElementById('user_id').value;
+        var slot_id = '{{$appointment->appointment_slot_id}}'; 
+        $('#slot_id').prop("disabled",true)
+        $("#slot_id").find('option').remove();
+        var service_id = '{{$appointment->service_id}}'; 
+        $('#service_id').prop("disabled",true)
+        $("#service_id").find('option').remove();
+        $.ajax({
+            type: "GET",
+            url: '{{ route('client.getslots') }}' ,
+            data:  ({user_id : user_id}),
+            success: function(msg) {
+               $('#slot_id').prop("disabled", false)
+                // $("#loding2").hide(); 
+                var response = JSON.parse(msg);
+                if (response.length > 0) {
+                    //removeOptions(document.getElementById('cities'));
+                    /**/
+                    for(i=0;i<response.length;i++)
+                    {
+                        var slot_id = '{{$appointment->appointment_slot_id}}';
+                        //alert(slot_id);
+                        states = response[i]['slot_name'];
+                        slots = ""+response[i]['slot_name'];
+                                slotsdates = response[i]['date'];
+                                const d = new Date(slotsdates)
+                                const dtf = new Intl.DateTimeFormat('en', { year: 'numeric', month: 'short', day: '2-digit' }) 
+                                const [{ value: mo },,{ value: da },,{ value: ye }] = dtf.formatToParts(d)
+                                dateString = `${da}-${mo}-${ye}` 
+                                // console.log(dateString)
+
+                                ///////// Time AM/PM ///////////
+                                var timeString = response[i]['time'];
+                                var H = +timeString.substr(0, 2);
+                                var h = H % 12 || 12;
+                                var ampm = (H < 12 || H === 24) ? "am" : "pm";
+                                timeString = h + timeString.substr(2, 3)+" "+ ampm;
+                        if(response[i]['id'] == slot_id){
+                           // alert('hi');
+                            document.getElementById("slot_id").options[i] = new Option(slots+", "+dateString+", "+timeString,response[i]['id']);
+                            document.getElementById("slot_id").options[i].setAttribute('selected',true);
+                        }else{
+                            document.getElementById("slot_id").options[i] = new Option(slots+", "+dateString+", "+timeString,response[i]['id']);
+                        }
+                    }
+                    /**/
+
+                }
+            }
+        })
+         $.ajax({
+            type: "GET",
+            url: '{{ route('client.getservices') }}' ,
+            data:  ({user_id : user_id}),
+            success: function(msg) {
+               $('#service_id').prop("disabled", false)
+                // $("#loding2").hide(); 
+                var response = JSON.parse(msg);
+                if (response.length > 0) {
+                    //removeOptions(document.getElementById('cities'));
+                    /**/
+                    for(i=0;i<response.length;i++)
+                    {
+                        var service_id = '{{$appointment->service_id}}';
+                        //alert(service_id);
+                        states = response[i]['service_name'];
+                        if(response[i]['id'] == service_id){
+                           // alert('hi');
+                            document.getElementById("service_id").options[i] = new Option(states, response[i]['id']);
+                            document.getElementById("service_id").options[i].setAttribute('selected',true);
+                        }else{
+                            document.getElementById("service_id").options[i] = new Option(states, response[i]['id']);
+                        }
+                    }
+                    /**/
+
+                }
+            }
+        })
+
+    })
 </script>
 </html>

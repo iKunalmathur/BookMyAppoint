@@ -23,6 +23,7 @@ class ProfileController extends Controller
         $id = Auth::user()->id;
         $user = User::with('country')->find($id);
         // $user->getRelation('country');
+        // dd($user);
         // dd($user->getRelations());
         // dd($user->getRelation('country')->name);
         $countries = Country::select('id','name')->get();
@@ -86,7 +87,8 @@ class ProfileController extends Controller
          $this->validate($request,[
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255'],
-            'old_password' => ['required',]
+            'old_password' => ['required',],
+            'bio' => ['required',],
             // 'phone' => ['required', 'numeric'],
             // 'password' => ['required', 'string', 'min:8', 'confirmed'],
            
@@ -112,8 +114,9 @@ class ProfileController extends Controller
                 $user->image = $imageName;
             }
                 $user->company_name = $request->company_name;
-                $user->name = $request->name;
                 $user->company_email = $request->company_email;
+                $user->bio = $request->bio;
+                $user->name = $request->name;
                 $user->email = $request->email;
                 $user->phone = $request->phone;
                 $user->address = $request->address;

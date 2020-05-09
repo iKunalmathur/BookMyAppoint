@@ -12,10 +12,53 @@
         <div class="d-flex flex-column" id="content-wrapper">
             <div id="content">
                 {{-- header --}}
-            @include('layouts.user.header')
-            <div class="container-fluid">
-                 <div class="d-sm-flex justify-content-between align-items-center mb-4">
+                @include('layouts.user.header')
+                <div class="container-fluid">
+                   <div class="d-sm-flex justify-content-between align-items-center mb-4">
                     <h3 class="text-dark mb-0">Dashboard</h3><a class="btn btn-primary btn-sm d-none d-sm-inline-block" role="button" href="#"><i class="fas fa-download fa-sm text-white-50"></i>&nbsp;Generate Report</a></div>
+                    <div class="row" style="width: auto;">
+                        <div class="col-8">
+                            <div class="card mb-3">
+                                <div class="card-body text-left shadow">
+                                    <div class="row">
+                                        <div class="col-auto text-center"><img class="rounded-circle mb-3 mt-4" src="{{asset(Storage::disk('local')->url(Auth::user()->image))}}" width="160" height="160" /></div>
+                                        <div class="col">
+                                            <div class="form-group"><strong>Company Name:</strong><h4>{{Auth::user()->company_name}}</h4></div>
+                                            <div class="form-group"><strong>Company Email:</strong><h4>{{Auth::user()->company_email}}</h4></div>
+                                            <div class="form-group"><strong>Name:</strong><h4>{{Auth::user()->name}}</h4></div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="form-group"><strong>Email:</strong><h4>{{Auth::user()->email}}</h4></div>
+                                            <div class="form-group"><strong>Phone:</strong><h4>{{Auth::user()->phone}}</h4></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="text-primary font-weight-bold m-0">Appointments </h6>
+                                </div>
+                                <div class="card-body">
+                                    <h4 class="small font-weight-bold">Pending<span class="float-right">20%</span></h4>
+                                    <div class="progress progress-sm mb-3">
+                                        <div class="progress-bar bg-danger" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%;"><span class="sr-only">20%</span></div>
+                                    </div>
+                                    <h4 class="small font-weight-bold">In Process<span class="float-right">40%</span></h4>
+                                    <div class="progress progress-sm mb-3">
+                                        <div class="progress-bar bg-warning" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%;"><span class="sr-only">40%</span></div>
+                                    </div>
+                                    <h4 class="small font-weight-bold">Compleated<span class="float-right">Complete!</span></h4>
+                                    <div class="progress progress-sm mb-3">
+                                        <div class="progress-bar bg-success" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;"><span class="sr-only">100%</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                {{-- <div class="row">
                     <div class="col-md-6 col-xl-3 mb-4">
                         <div class="card shadow border-left-primary py-2">
@@ -239,8 +282,8 @@
             <div class="text-center my-auto copyright"><span>Copyright © BookMyAppoint.2020</span></div>
         </div>
     </footer>
-    </div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a></div>
-    @include('layouts.user.bottom')
+</div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a></div>
+@include('layouts.user.bottom')
 </body>
 
 </html>

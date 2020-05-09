@@ -53,7 +53,9 @@ Route::middleware(['auth:user'])->namespace('User')->prefix('user')->name('user.
     Route::get('home', 'HomeController@index')->name('home');
     Route::resource('profile','ProfileController');
     Route::resource('slot','SlotController');
-
+    Route::resource('service','ServiceController');
+    Route::resource('appointment','AppointmentController');
+    Route::get('changestatus/{data?}', 'AppointmentController@changestatus')->name('changestatus');
 });
 
 
@@ -72,7 +74,9 @@ Route::middleware(['auth:client'])->namespace('Client')->prefix('')->name('clien
 
     Route::get('home', 'HomeController@index')->name('home');
     Route::resource('profile','ProfileController');
-
+    Route::resource('appointment','AppointmentController');
+    Route::get('getslots/{data?}','AppointmentController@getslots')->name('getslots');
+    Route::get('getservices/{data?}','AppointmentController@getservices')->name('getservices');
 });
 
 //////////////////////////////Routes//////////////////////////////////

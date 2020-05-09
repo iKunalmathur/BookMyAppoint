@@ -7,7 +7,7 @@
 
 <body id="page-top">
     <div id="wrapper">
-        @section('SlotActive','active')
+        @section('ServiceActive','active')
         @include('layouts.user.sidebar')
         <div class="d-flex flex-column" id="content-wrapper">
             <div id="content">
@@ -15,32 +15,24 @@
                 @include('layouts.user.header')
                 <div class="container-fluid">
                      <div class="d-sm-flex justify-content-between align-items-center mb-4">
-                        <h3 class="text-dark mb-0">Create Slot</h3>{{-- <a class="btn btn-primary btn-sm d-none d-sm-inline-block" role="button" href="#"><i class="fas fa-download fa-sm text-white-50"></i>&nbsp;Generate Report</a> --}}</div>
+                        <h3 class="text-dark mb-0">Create Service</h3>{{-- <a class="btn btn-primary btn-sm d-none d-sm-inline-block" role="button" href="#"><i class="fas fa-download fa-sm text-white-50"></i>&nbsp;Generate Report</a> --}}</div>
                 @include('includes.messages')
                 </div>
-            <div class="col">
+            <div class="col-4">
                 <div class="card shadow mb-3">
                     <div class="card-header py-3">
-                        <p class="text-primary m-0 font-weight-bold">Create Slot</p>
+                        <p class="text-primary m-0 font-weight-bold">Create Service</p>
                     </div>
                     <div class="card-body">
-                        <form method="POST" action="{{ route('user.slot.store') }}">
+                        <form method="POST" action="{{ route('user.service.store') }}">
                              @csrf
                             <div class="form-row">
                                 <div class="col">
-                                    <div class="form-group"><label for="username"><strong>Slot name</strong></label><input class="form-control" type="text" placeholder="Slot name" value="Book" name="slotname"></div>
+                                    <div class="form-group"><label for="servicename"><strong>Service name</strong></label><input class="form-control" type="text" placeholder="Service name" name="service_name"></div>
                                 </div>
-                                <div class="col">
-                                    <div class="form-group"><label for="last_name"><strong>Date</strong><br></label><input class="form-control" name="date" id="Date" type="date"></div>
-                                </div>
+                                
                             </div>
                             <div class="form-row">
-                                <div class="col">
-                                    <div class="form-group"><label for="first_name"><strong>Timing</strong></label><input class="form-control" name="time" type="time"></div>
-                                </div>
-                                <div class="col">
-                                    <div class="form-group"><label for="last_name"><strong>Message</strong></label><input class="form-control" type="text" placeholder="any message ?" name="message"></div>
-                                </div>
                             </div>
                             <div class="form-group"><button class="btn btn-primary btn-sm" type="submit">Add</button></div>
                         </form>
