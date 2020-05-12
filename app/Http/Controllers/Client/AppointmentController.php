@@ -21,10 +21,12 @@ class AppointmentController extends Controller
 
     public function index()
     {
-        $appointments = Appointment::with('user:id,company_name','appointment_slot:id,date,time','service:id,service_name')->where([
+        $appointments = Appointment::with('user:id,company_name','appointment_slot:id,date,time,date_time','service:id,service_name')->where([
             ['client_id', '=', Auth::user()->id],])->whereHas('appointment_slot', function($q){
                 $q->where('date','>=', Carbon::today());
-            })->get()->sortBy('appointment_slot.time')->sortBydesc('appointment_slot.date');
+            // })->get()->sortBy('appointment_slot.time')->sortBydesc('appointment_slot.date');
+            })->get()->sortBy('appointment_slot.date_time');
+            // ->sortBy('appointment_slot.date')
             return  view('client.appointment.show',compact('appointments'));
 
         // ])->whereDate('created_at', Carbon::today())->get();
@@ -64,6 +66,7 @@ class AppointmentController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request->all());
         $this->validate($request,[
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255'],
@@ -72,10 +75,10 @@ class AppointmentController extends Controller
             'service_id'=> ['required',],
             'phone' => ['required'],
         ]);
-        $tokken_no = rand();
-
+        // $tokken_no = rand();
+        $tokken_no = "ATN".rand(100000,999999);
         // dd($tokken_no);
-        // dd($request->all());
+        
 
         $appointment = new Appointment;
         $appointment->tokken_no = $tokken_no;
@@ -133,7 +136,8 @@ class AppointmentController extends Controller
             'phone' => ['required'],
         ]);
         // $tokken_no = rand();
-
+        // $tokken_no = "ATN".rand(100000,999999);
+        // dd($tokken_no);
         // dd($tokken_no);
         // dd($request->all());
 

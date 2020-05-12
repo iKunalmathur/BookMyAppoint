@@ -17,7 +17,7 @@ class SlotController extends Controller
     public function index() 
     {
         Appointment_slot::where('date',"<",\Carbon\Carbon::today())->delete();
-        $slots = Appointment_slot::where('user_id',Auth::user()->id)->orderBy('date','ASC')->get();
+        $slots = Appointment_slot::where('user_id',Auth::user()->id)->orderBy('date_time','ASC')->get();
         return view('user.slot.show',compact('slots'));
     }
 
@@ -113,6 +113,7 @@ class SlotController extends Controller
         $Slot->date = $request->date;
         $Slot->time = $request->time;
         $Slot->message = $request->message;
+        $Slot->date_time = "$request->date $request->time";
         $isChanged = $Slot->isDirty();
         $Slot->save();
         if( $isChanged){

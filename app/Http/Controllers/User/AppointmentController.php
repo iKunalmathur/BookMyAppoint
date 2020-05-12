@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use App\Model\client\Appointment;
 use App\Model\client\Client;
 use Illuminate\Support\Facades\Auth;
-use App\Model\user\User;
+use App\Model\user\User; 
 use App\Model\user\Service;
 use App\Model\user\Appointment_slot;
 class AppointmentController extends Controller
@@ -21,9 +21,9 @@ class AppointmentController extends Controller
     public function index()
     {
         // $appointments = Appointment::with('user:id,company_name','appointment_slot:id,date,time','service:id,service_name')->where('client_id',Auth::user()->id)->get();
-        $appointments = Appointment::with('client:id,name,phone','appointment_slot:id,date,time','service:id,service_name')->where('user_id',Auth::user()->id)->whereHas('appointment_slot', function($q){
+        $appointments = Appointment::with('client:id,name,phone','appointment_slot:id,date,time,date_time','service:id,service_name')->where('user_id',Auth::user()->id)->whereHas('appointment_slot', function($q){
     $q->where('date','>=', Carbon::today());
-})->get();
+})->get()->sortBy('appointment_slot.date_time');
         // dd($appointments);
         // dd($appointments);
         // foreach ($appointments as $appointment) {
@@ -64,7 +64,8 @@ class AppointmentController extends Controller
             'service_id'=> ['required',],
             'phone' => ['required'],
         ]);
-        $tokken_no = rand();
+        // $tokken_no = rand();
+        $tokken_no = "ATN".rand(100000,999999);
 
         // dd($tokken_no);
         // dd($request->all());
@@ -128,7 +129,7 @@ class AppointmentController extends Controller
             'service_id'=> ['required',],
             // 'phone' => ['required'],
         ]);
-        // $tokken_no = rand();
+        // $tokken_no = "ATN".rand(100000,999999);
         // dd($tokken_no);
         // dd($request->all());
 

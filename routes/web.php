@@ -11,10 +11,14 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('index');
+// Route::get('/', function () {
+//     return view('welcome');
+// })->name('index');
 
+Route::get('/','welcomeController@index')->name('index');
+
+// Route::resource('bookappointment','bookappointController');
+Route::resource('bookappointment','bookappointController')->middleware(['auth:client']);
 
 ////////////Admin/////////////
 
@@ -56,6 +60,7 @@ Route::middleware(['auth:user'])->namespace('User')->prefix('user')->name('user.
     Route::resource('service','ServiceController');
     Route::resource('appointment','AppointmentController');
     Route::get('changestatus/{data?}', 'AppointmentController@changestatus')->name('changestatus');
+    Route::get('opnclsstatus','ProfileController@opnclsstatus')->name('opnclsstatus');
 });
 
 

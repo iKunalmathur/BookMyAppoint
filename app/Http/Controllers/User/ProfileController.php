@@ -151,7 +151,14 @@ class ProfileController extends Controller
      */
     public function destroy($id)
     {
-        //
+        
     }
-    
+
+    public function opnclsstatus(Request $request)
+    {
+        $user = User::findOrFail($request->user_id);
+        $user->status = $request->status;
+        $user->save();
+        return response()->json(['message' => 'status updated successfully.']);
+    }
 }
