@@ -22,7 +22,8 @@
                                     <div class="card-header py-3">
                                         <p class="text-primary m-0 font-weight-bold">Add Appointment</p>
                                     </div>
-                                    @include('includes.messages')
+                                    {{-- @include('includes.messages') --}}
+                                    @include('includes.notify')
                                     <div class="card-body">
                                         <form method="POST" action="{{ route('client.appointment.store') }}">
                                         @csrf

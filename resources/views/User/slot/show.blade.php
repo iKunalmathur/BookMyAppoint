@@ -20,7 +20,9 @@
                 <div class="col">
                 <div class="card shadow">
                     <div class="card-header py-3" style="padding-left: 20px;">
-                        @include('includes.messages')
+                        {{-- @include('includes.messages') --}}
+                        {{-- include notify --}}
+                        @include('includes.notify') 
                     </div>
                     <div class="card-body">
                         <div class="row">

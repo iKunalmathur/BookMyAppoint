@@ -22,7 +22,9 @@
                                     <div class="card-header py-3">
                                         <p class="text-primary m-0 font-weight-bold">User Settings</p>
                                     </div>
-                                    @include('includes.messages')
+                                    {{-- @include('includes.messages') --}}
+                                    {{-- include notify --}}
+                                    @include('includes.notify') 
                                     <div class="card-body">
                                         <form role="form" action="{{ route('user.appointment.update',$appointment->id) }}" method="POST" enctype="multipart/form-data">
                                        @csrf

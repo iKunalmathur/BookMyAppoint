@@ -2,7 +2,9 @@
 @section('title', 'BookMyAppoint.')
 @section('main-content') 
     <div class="container" style="margin-top: 50px;">
-    @include('includes.messages')
+    {{-- @include('includes.messages') --}}
+    {{-- include notify --}}
+    @include('includes.notify') 
         <div class="row">
             <div class="col-auto" style="padding-left: 12px;padding-right: 12px;"><img class="img-thumbnail" src="{{asset(Storage::disk('local')->url($sp->image))}}" width="300px" height="300px" style="min-width: 300px;width: 320px;" /></div>
 

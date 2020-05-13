@@ -28,7 +28,9 @@
             <div class="container-fluid">
                 <h3 class="text-dark mb-4">Profile</h3>
                 {{-- include message --}}
-                @include('includes.messages')
+                {{-- @include('includes.messages') --}}
+                {{-- include notify --}}
+                @include('includes.notify')
             <form role="form" action="{{ route('client.profile.update',$client->id) }}" method="POST" enctype="multipart/form-data">
                @csrf
                @method('PUT')

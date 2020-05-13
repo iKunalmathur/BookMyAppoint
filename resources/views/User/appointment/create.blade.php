@@ -10,86 +10,89 @@
         @section('appointmentActive','active')
         @include('layouts.user.sidebar')
         <div class="d-flex flex-column" id="content-wrapper">
-                <div id="content">
-                    {{-- header --}}
+            <div id="content">
+                {{-- header --}}
                 @include('layouts.user.header')
                 <div class="container-fluid">
-                     <div class="d-sm-flex justify-content-between align-items-center mb-4">
-                        <h3 class="text-dark mb-0">Create app</h3>{{-- <a class="btn btn-primary btn-sm d-none d-sm-inline-block" role="button" href="#"><i class="fas fa-download fa-sm text-white-50"></i>&nbsp;Generate Report</a> --}}</div>       
+                   <div class="d-sm-flex justify-content-between align-items-center mb-4">
+                    <h3 class="text-dark mb-0">Create app</h3>{{-- <a class="btn btn-primary btn-sm d-none d-sm-inline-block" role="button" href="#"><i class="fas fa-download fa-sm text-white-50"></i>&nbsp;Generate Report</a> --}}</div> 
+
                 </div>
                 <div class="col">
                     <div class="card shadow mb-3">
-                                    <div class="card-header py-3">
-                                        <p class="text-primary m-0 font-weight-bold">@include('includes.messages')</p>
+                        <div class="card-header py-3">
+                            <p class="text-primary m-0 font-weight-bold">{{-- @include('includes.messages') --}}
+                                {{-- include notify --}}
+                            @include('includes.notify') </p>
+                        </div>
+                        <div class="card-body">
+                            <form method="POST" action="{{ route('user.appointment.store') }}">
+                                @csrf
+                                <div class="form-row">
+                                    <div class="col">
+                                        <div class="form-group"><label for="companyname"><strong>Name</strong></label><input class="form-control" type="text" placeholder="Customer name" value="{{Request::old('name')}}" name="name"></div>
                                     </div>
-                                    <div class="card-body">
-                                        <form method="POST" action="{{ route('user.appointment.store') }}">
-                                        @csrf
-                                            <div class="form-row">
-                                                <div class="col">
-                                                    <div class="form-group"><label for="companyname"><strong>Name</strong></label><input class="form-control" type="text" placeholder="Customer name" value="{{Request::old('name')}}" name="name"></div>
-                                                </div>
-                                                <div class="col">
-                                                    <div class="form-group"><label for="email"><strong>Email Address</strong></label><input class="form-control" placeholder="Customer Email add" value="{{Request::old('email')}}" type="email" name="email"></div>
-                                                </div>
-                                            </div>
-                                            <div class="form-row">
-                                                <div class="col">
-                                                    <div class="form-group"><label for="first_name"><strong>Contact no.</strong></label><input class="form-control" type="text" placeholder="Customer phone no" value="{{Request::old('phone')}}" name="phone"></div>
-                                                </div>
-                                                <div class="col">
-                                                    <label>Select Service provider</label>
-                                                    <select class="custom-select"  data-placeholder="Select a user" required id="user_id" style="width: 100%;" name="user_id">
-                                                        <option value="" selected disabled hidden>Choose here</option>
-                                                      @foreach ($users as $user)
-                                                          <option value="{{ $user->id }}"
-                                                            {{-- @if ($user->id == $client->user_id)
-                                                              selected
-                                                          @endif --}}
-                                                            >{{ $user->company_name }}</option>
-                                                      @endforeach 
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="form-row">
-                                                <div class="col">
-                                                    <label>Select Slot</label>
-                                                    <select class="custom-select" id="slot_id" data-placeholder="Select a Slot" style="width: 100%;" name="slot_id">
-                                                        <option value="" selected disabled hidden>Choose here</option>
-                                                    </select>
-                                                </div>
-                                                <div class="col">
-                                                    <label>Select Service</label>
-                                                    <select class="custom-select" id="service_id" data-placeholder="Select a Service" style="width: 100%;" name="service_id">
-                                                        <option value="" selected disabled hidden>Choose here</option>
-                                                    </select>
-                                                </div>
-                                            </div><br>
-                                            <div class="form-group"><button class="btn btn-primary btn-sm" type="submit">Add</button></div>
-                                        </form>
+                                    <div class="col">
+                                        <div class="form-group"><label for="email"><strong>Email Address</strong></label><input class="form-control" placeholder="Customer Email add" value="{{Request::old('email')}}" type="email" name="email"></div>
                                     </div>
                                 </div>
-                </div>
-            </div>
-    <footer class="bg-white sticky-footer">
-        <div class="container my-auto">
-            <div class="text-center my-auto copyright"><span>Copyright © BookMyAppoint.2020</span></div>
-        </div>
-    </footer>
-    </div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a></div>
-    @include('layouts.user.bottom')
-</body>
-<script type="text/javascript">
-    $('#slot_id').prop("disabled",true);
-    $('#service_id').prop("disabled",true);
-    $("#user_id").on('change',function() {
-            var id = $(this).val();
+                                <div class="form-row">
+                                    <div class="col">
+                                        <div class="form-group"><label for="first_name"><strong>Contact no.</strong></label><input class="form-control" type="text" placeholder="Customer phone no" value="{{Request::old('phone')}}" name="phone"></div>
+                                    </div>
+                                    <div class="col">
+                                        <label>Select Service provider</label>
+                                        <select class="custom-select"  data-placeholder="Select a user" required id="user_id" style="width: 100%;" name="user_id">
+                                            <option value="" selected disabled hidden>Choose here</option>
+                                            @foreach ($users as $user)
+                                            <option value="{{ $user->id }}"
+                                                            {{-- @if ($user->id == $client->user_id)
+                                                              selected
+                                                              @endif --}}
+                                                              >{{ $user->company_name }}</option>
+                                                              @endforeach 
+                                                          </select>
+                                                      </div>
+                                                  </div>
+                                                  <div class="form-row">
+                                                    <div class="col">
+                                                        <label>Select Slot</label>
+                                                        <select class="custom-select" id="slot_id" data-placeholder="Select a Slot" style="width: 100%;" name="slot_id">
+                                                            <option value="" selected disabled hidden>Choose here</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col">
+                                                        <label>Select Service</label>
+                                                        <select class="custom-select" id="service_id" data-placeholder="Select a Service" style="width: 100%;" name="service_id">
+                                                            <option value="" selected disabled hidden>Choose here</option>
+                                                        </select>
+                                                    </div>
+                                                </div><br>
+                                                <div class="form-group"><button class="btn btn-primary btn-sm" type="submit">Add</button></div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <footer class="bg-white sticky-footer">
+                                <div class="container my-auto">
+                                    <div class="text-center my-auto copyright"><span>Copyright © BookMyAppoint.2020</span></div>
+                                </div>
+                            </footer>
+                        </div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a></div>
+                        @include('layouts.user.bottom')
+                    </body>
+                    <script type="text/javascript">
+                        $('#slot_id').prop("disabled",true);
+                        $('#service_id').prop("disabled",true);
+                        $("#user_id").on('change',function() {
+                            var id = $(this).val();
             // console.log(id);
             //alert(id);
           //  $("#loding2").show();
-            $("#slot_id").find('option').remove();
-            $("#service_id").find('option').remove();
-            if (id) {
+          $("#slot_id").find('option').remove();
+          $("#service_id").find('option').remove();
+          if (id) {
                 // console.log(id);
                 $.ajax({
                     type: "GET",
@@ -103,8 +106,8 @@
                         //false;
                          // $("#city_id").find('option').remove();
                           // $("#city_id").prop("disabled",true);
-                        $('#slot_id').prop("disabled",false);
-                        $("#loding2").hide();
+                          $('#slot_id').prop("disabled",false);
+                          $("#loding2").hide();
                         // var response = JSON.stringify(msg);
                         // console.log('result: '+response);
                         var response = JSON.parse(msg);
@@ -136,7 +139,7 @@
 
                         }
 
-            
+                        
                     },
                     /*success: function(html) {
                         console.log(html);
@@ -166,8 +169,8 @@
                         //false;
                          // $("#city_id").find('option').remove();
                           // $("#city_id").prop("disabled",true);
-                        $('#service_id').prop("disabled",false);
-                        $("#loding2").hide();
+                          $('#service_id').prop("disabled",false);
+                          $("#loding2").hide();
                         // var response = JSON.stringify(msg);
                         // console.log('result: '+response);
                         var response = JSON.parse(msg);
@@ -186,7 +189,7 @@
 
                         }
 
-            
+                        
                     },
                     /*success: function(html) {
                         console.log(html);
@@ -212,5 +215,5 @@
                 $('#slot_id').prop("disabled",true);
             }
         });
-</script>
-</html>
+    </script>
+    </html>

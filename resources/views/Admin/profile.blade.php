@@ -28,11 +28,13 @@
                 <div class="container-fluid">
                     <h3 class="text-dark mb-4">Profile</h3>
                     {{-- include message --}}
-                    @include('includes.messages')
+                    {{-- @include('includes.messages') --}}
+                    {{-- include notify --}}
+                    @include('includes.notify')
                     <form role="form" action="{{ route('admin.profile.update',$admin->id) }}" method="POST" enctype="multipart/form-data">
-                     @csrf
-                     @method('PUT')
-                     <div class="row mb-3">
+                       @csrf
+                       @method('PUT')
+                       <div class="row mb-3">
                         <div class="col-lg-4">
                             <div class="card mb-3">
                                 <div class="card-body text-center shadow"><img class="rounded-circle mb-3 mt-4" src="{{asset(Storage::disk('local')->url(Auth::user()->image))}}" width="160" height="160">
@@ -51,7 +53,7 @@
                                             <p class="text-primary m-0 font-weight-bold">Admin Settings</p>
                                         </div>
                                         <div class="card-body">
-                                            
+
                                             <div class="form-row">
                                                 <div class="col">
                                                     <div class="form-group"><label for="companyname"><strong>Name</strong></label><input class="form-control" value="{{$admin->name}}"  type="text" placeholder="name" name="name"></div>
