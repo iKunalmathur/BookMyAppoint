@@ -7,7 +7,6 @@
     @include('includes.notify')
     <div class="row">
       <div class="col-auto" style="padding-left: 12px;padding-right: 12px;"><img class="img-thumbnail" src="{{asset(Storage::disk('local')->url($sp->image))}}" width="300px" height="300px" style="min-width: 300px;width: 320px;" /></div>
-hmmmmmmmm
       <div class="col">
         <h1><strong>{{$sp->company_name}}</strong><br /></h1>
         <h2>{{$sp->email}}</h2>
