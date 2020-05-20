@@ -18,7 +18,7 @@
                         <h3 class="text-dark mb-0">Create Slot</h3>{{-- <a class="btn btn-primary btn-sm d-none d-sm-inline-block" role="button" href="#"><i class="fas fa-download fa-sm text-white-50"></i>&nbsp;Generate Report</a> --}}</div>
                 {{-- @include('includes.messages') --}}
                 {{-- include notify --}}
-                @include('includes.notify') 
+                @include('includes.notify')
                 </div>
             <div class="col">
                 <div class="card shadow mb-3">
@@ -30,10 +30,10 @@
                              @csrf
                             <div class="form-row">
                                 <div class="col">
-                                    <div class="form-group"><label for="username"><strong>Slot name</strong></label><input class="form-control" type="text" placeholder="Slot name" value="Book" name="slotname"></div>
+                                    <div class="form-group"><label for="sname"><strong>Slot name</strong></label><input class="form-control" type="text" placeholder="Slot name" value="Book" name="slotname"></div>
                                 </div>
                                 <div class="col">
-                                    <div class="form-group"><label for="last_name"><strong>Date</strong><br></label><input class="form-control" name="date" id="Date" type="date"></div>
+                                    <div class="form-group"><label for="date"><strong>Date</strong><br></label><input class="form-control" name="date" value="{{ date('Y-m-d') }}" id="Date" type="date"></div>
                                 </div>
                             </div>
                             <div class="form-row">
@@ -67,9 +67,9 @@
                 month = '0' + month.toString();
             if(day < 10)
                 day = '0' + day.toString();
-            
+
             var minDate= year + '-' + month + '-' + day;
-            
+
             $('#Date').attr('min', minDate);
         });
     </script>

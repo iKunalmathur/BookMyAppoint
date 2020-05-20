@@ -48,18 +48,18 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                 @foreach($users as $user)  
+                                 @foreach($users as $user)
                                  <tr>
                                     <td>{{ $loop->index +1 }}</td>
                                     <td><img class="rounded-circle mr-2" width="30" height="30" src="{{asset(Storage::disk('local')->url($user->image))}}">{{ $user->company_name }}</td>
                                     <td>{{ $user->name }}</td>
                                     <td>{{ $user->email }}</td>
                                     <td>{{ $user->phone }}</td>
-                                    <td>{{ $user->status? 'Active' : 'Inactive' }}</td>
+                                    <td>{{ $user->active ? 'Active' : 'Inactive' }}</td>
                                     <td style="padding-left: 6px;"><a class="btn btn-warning btn-circle ml-1" role="button" data-bs-hover-animate="pulse" style="width: 30px;height: 30px;"><i class="fas fa-pen text-white"></i></a></td>
                                     <td style="padding-left: 11px;"><a class="btn btn-danger btn-circle ml-1" role="button" data-bs-hover-animate="pulse" style="width: 30px;height: 30px;"><i class="fas fa-trash text-white"></i></a></td>
                                 </tr>
-                                @endforeach 
+                                @endforeach
                                 <tr></tr>
                                 <tr></tr>
                             </tbody>
@@ -105,7 +105,7 @@
     @include('layouts.admin.bottom')
     <script>
         $(document).ready(function(){
-            $('[data-toggle="popover"]').popover();   
+            $('[data-toggle="popover"]').popover();
         });
     </script>
 

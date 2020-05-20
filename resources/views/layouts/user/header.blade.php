@@ -38,7 +38,7 @@
             <script type="text/javascript">
                 $(document).ready(function() {
                   var status = ({{Auth::user()->status}} == 1) ? 'open' :'close';
-                  $('#lblName').text(status);                 
+                  $('#lblName').text(status);
                   $('#formCheck-1').change(function () {
                     let status = $(this).prop('checked') === true ? 1 : 0;
                     let userId = $(this).data('id');
@@ -87,7 +87,7 @@
                     class="dropdown-item" role="presentation" href="#"><i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>&nbsp;Activity log</a>
                     <div class="dropdown-divider"></div><a class="dropdown-item" role="presentation" href="{{ route('logout') }}"
                     onclick="event.preventDefault();
-                    document.getElementById('logout-form').submit();"><i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>&nbsp;Logout</a></div>
+                    document.getElementById('logout-form').submit();"><i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 " style="color:red"></i>&nbsp;Logout</a></div>
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                         @csrf
                     </form>

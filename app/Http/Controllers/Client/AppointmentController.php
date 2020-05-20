@@ -21,11 +21,12 @@ class AppointmentController extends Controller
 
     public function index()
     {
-        $appointments = Appointment::with('user:id,company_name','appointment_slot:id,date,time,date_time','service:id,service_name')->where([
-            ['client_id', '=', Auth::user()->id],])->whereHas('appointment_slot', function($q){
-                $q->where('date','>=', Carbon::today());
+      $appointments = Appointment::with('user','appointment_slot','service:id,service_name')->where('client_id',Auth::user()->id)->get()->sortBy('appointment_slot.date_time');
+        // $appointments = Appointment::with('user:id,company_name','appointment_slot:id,date','service:id,service_name')->where('client_id', '=', Auth::user()->id)->get();
+            // ['client_id', '=', Auth::user()->id],])->whereHas('appointment_slot', function($q){
+                // $q->where('date','>=', Carbon::today());
             // })->get()->sortBy('appointment_slot.time')->sortBydesc('appointment_slot.date');
-            })->get()->sortBy('appointment_slot.date_time');
+            // })->get()->sortBy('appointment_slot.date_time');
             // ->sortBy('appointment_slot.date')
             return  view('client.appointment.show',compact('appointments'));
 
@@ -33,9 +34,9 @@ class AppointmentController extends Controller
         // dd($appointments);
         // dd($appointments);
         // foreach ($appointments as $appointment) {
-
+        //
         //     dd($appointment->getRelations());
-
+        //
         // }
         // dd($appointments->getRelation());
                 // $mytime = \Carbon\Carbon::now();
@@ -78,7 +79,7 @@ class AppointmentController extends Controller
         // $tokken_no = rand();
         $tokken_no = "ATN".rand(100000,999999);
         // dd($tokken_no);
-        
+
 
         $appointment = new Appointment;
         $appointment->tokken_no = $tokken_no;
@@ -88,7 +89,11 @@ class AppointmentController extends Controller
         $appointment->service_id = $request->service_id;
         $appointment->client_name = $request->name;
         $appointment->status = 'pending';
+        $appointment_slot = Appointment_slot::select('id','occupied')->find($request->slot_id);
+        $appointment_slot->occupied = 1;
+        $appointment_slot->save();
         $appointment->save();
+        // dd($appointment_slot->occupied);
         return redirect()->route('client.appointment.index')->with('message','Appointment Successfully Created');
 
     }
@@ -166,14 +171,20 @@ class AppointmentController extends Controller
      */
     public function destroy($id)
     {
-        Appointment::where('id',$id)->delete();
+        $appointment = Appointment::select('id','appointment_slot_id')->find($id);
+        // dd($appointment->appointment_slot_id);
+        $appointment_slot = Appointment_slot::select('id','occupied')->find($appointment->appointment_slot_id);
+        // dd($appointment_slot->occupied);
+        $appointment_slot->occupied = 0;
+        $appointment_slot->save();
+        $appointment->delete();
         return redirect()->back()->with('success','Slot Successfully Deleted');
     }
 
     public function getslots()
     {
         $user_id = $_GET['user_id'];
-        $slots = Appointment_slot::where('user_id',$user_id)->orderBy('date', 'ASC')->orderBy('time', 'ASC')->get();
+        $slots = Appointment_slot::where('user_id',$user_id)->where('occupied',0)->where('date','>=', Carbon::today())->orderBy('date', 'ASC')->orderBy('time', 'ASC')->get();
         return response()->json(json_encode($slots));
     }
     public function getservices()

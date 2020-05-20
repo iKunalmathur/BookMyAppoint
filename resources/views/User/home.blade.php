@@ -21,17 +21,36 @@
                             <div class="card mb-3">
                                 <div class="card-body text-left shadow">
                                     <div class="row">
-                                        <div class="col-auto text-center"><img class="rounded-circle mb-3 mt-4" src="{{asset(Storage::disk('local')->url(Auth::user()->image))}}" width="160" height="160" /></div>
+                                        <div class="col-auto"><img class="rounded-circle mb-3 mt-4" src="{{asset(Storage::disk('local')->url(Auth::user()->image))}}" width="160" height="160" /></div>
                                         <div class="col">
-                                            <div class="form-group"><strong>Company Name:</strong><h4>{{Auth::user()->company_name}}</h4></div>
-                                            <div class="form-group"><strong>Company Email:</strong><h4>{{Auth::user()->company_email}}</h4></div>
-                                            <div class="form-group"><strong>Name:</strong><h4>{{Auth::user()->name}}</h4></div>
+                                          <div class="row">
+                                              <div class="col">
+                                                <div class="form-group"><strong>Company Name:</strong><h4>{{Auth::user()->company_name}}</h4></div>
+                                              </div>
+                                              <div class="col">
+                                                <div class="form-group"><strong>Company Email:</strong><h4>{{Auth::user()->company_email}}</h4></div>
+                                              </div>
+                                          </div>
+                                          <div class="row">
+                                            <div class="col">
+                                              <div class="form-group"><strong>Name:</strong><h4>{{Auth::user()->name}}</h4></div>
+                                            </div>
+                                            <div class="col">
+                                              <div class="form-group"><strong>Email:</strong><h4>{{Auth::user()->email}}</h4></div>
+                                            </div>
+                                          </div>
+                                          <div class="row">
+                                            <div class="col">
+                                              <div class="form-group"><strong>Phone:</strong><h4>{{Auth::user()->phone}}</h4></div>
+                                            </div>
+                                            <div class="col">
+
+                                            </div>
+                                          </div>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col">
-                                            <div class="form-group"><strong>Email:</strong><h4>{{Auth::user()->email}}</h4></div>
-                                            <div class="form-group"><strong>Phone:</strong><h4>{{Auth::user()->phone}}</h4></div>
                                         </div>
                                     </div>
                                 </div>

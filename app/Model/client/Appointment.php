@@ -6,17 +6,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class Appointment extends Model
 {
-   public function user() 
+   public function user()
     {
         return $this->belongsTo('App\Model\user\User');
     }
-    public function client() 
+    public function client()
     {
         return $this->belongsTo('App\Model\client\Client');
     }
-    public function appointment_slot()
+    public function Appointment_slot()
     {
-        return $this->belongsTo('App\Model\user\Appointment_slot');
+      return $this->belongsTo('App\Model\user\Appointment_slot');
     }
     public function service()
     {

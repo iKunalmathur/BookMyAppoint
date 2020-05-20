@@ -18,12 +18,12 @@
                         <h3 class="text-dark mb-0">Edit Slot</h3>{{-- <a class="btn btn-primary btn-sm d-none d-sm-inline-block" role="button" href="#"><i class="fas fa-download fa-sm text-white-50"></i>&nbsp;Generate Report</a> --}}</div>
                 {{-- @include('includes.messages') --}}
                 {{-- include notify --}}
-                @include('includes.notify') 
+                @include('includes.notify')
                 </div>
             <div class="col">
                 <div class="card shadow mb-3">
                     <div class="card-header py-3">
-                        <p class="text-primary m-0 font-weight-bold">Edit Slot</p>
+                        <p class="text-primary m-0 font-weight-bold">Edit Slot info</p>
                     </div>
                     <div class="card-body">
                         <form role="form" action="{{ route('user.slot.update',$slot->id) }}" method="POST">
@@ -68,9 +68,9 @@
                 month = '0' + month.toString();
             if(day < 10)
                 day = '0' + day.toString();
-            
+
             var minDate= year + '-' + month + '-' + day;
-            
+
             $('#Date').attr('min', minDate);
         });
     </script>

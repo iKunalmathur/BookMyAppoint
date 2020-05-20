@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Model\user\User;
 use App\Model\client\Appointment;
+use App\Model\user\Appointment_slot;
 use Illuminate\Support\Facades\Auth;
 
 class bookappointController extends Controller
@@ -37,7 +38,7 @@ class bookappointController extends Controller
      */
     public function store(Request $request)
     {
-        
+
 
     }
 
@@ -95,6 +96,9 @@ class bookappointController extends Controller
         $appointment->service_id = $request->service_id;
         $appointment->client_name = $request->name;
         $appointment->status = 'pending';
+        $appointment_slot = Appointment_slot::select('id','occupied')->find($request->slot_id);
+        $appointment_slot->occupied = 1;
+        $appointment_slot->save();
         $appointment->save();
         return redirect()->route('client.appointment.index')->with('message','Appointment Successfully Created');
     }
