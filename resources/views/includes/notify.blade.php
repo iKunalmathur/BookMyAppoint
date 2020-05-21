@@ -24,7 +24,6 @@
     title: '<strong>Success</strong>',
     message: "<br>{{ session('message') }}",
     icon: 'fas fa-check',
-    url: 'https://github.com/mouse0270/bootstrap-notify',
     target: '_blank' },
     {
     // settings
@@ -170,7 +169,7 @@ $.notify({
             onClosed: null,
             icon_type: 'class' });
 
-   
+
   @endforeach
 @endif
 

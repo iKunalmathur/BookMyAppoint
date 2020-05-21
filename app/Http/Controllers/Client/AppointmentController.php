@@ -53,7 +53,7 @@ class AppointmentController extends Controller
      */
     public function create()
     {
-        $users = User::all();
+        $users = User::select('id','company_name','status')->where('active',1)->get();
         $slots = Appointment_slot::all();
 
         return  view('client.appointment.create',compact('users','slots'));

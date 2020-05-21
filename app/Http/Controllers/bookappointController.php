@@ -50,7 +50,8 @@ class bookappointController extends Controller
      */
     public function show($id)
     {
-        $sp = User::find($id);
+
+        $sp = User::where('status',1)->where('active',1)->findOrFail($id);
         // dd($sp);
         return view('bookappointment',compact('sp'));
     }

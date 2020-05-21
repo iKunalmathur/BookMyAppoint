@@ -15,7 +15,7 @@
 //     return view('welcome');
 // })->name('index');
 Route::get('/notify', function () {
-    return view('includes.notify');            
+    return view('includes.notify');
 })->name('notify');
 
 Route::get('/','welcomeController@index')->name('index');
@@ -38,7 +38,8 @@ Route::middleware(['auth:admin'])->namespace('Admin')->prefix('admin')->name('ad
     Route::resource('profile','ProfileController');
     Route::resource('users','UserController');
     Route::resource('clients','ClientController');
-
+    Route::get('openclosestatus','UserController@openclosestatus')->name('openclosestatus');
+    Route::get('activeinactivestatus','UserController@activeinactivestatus')->name('activeinactivestatus');
 
 });
 
