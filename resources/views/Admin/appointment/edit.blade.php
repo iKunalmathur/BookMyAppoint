@@ -2,34 +2,34 @@
 <html>
 
 <head>
-  @include('layouts.client.head')
+  @include('layouts.admin.head')
 </head>
 
 <body id="page-top">
   <div id="wrapper">
-    @section('appointmentActive','active')
-    @include('layouts.client.sidebar')
+    @section('ManAppActive','active')
+    @include('layouts.admin.sidebar')
     <div class="d-flex flex-column" id="content-wrapper">
       <div id="content">
         {{-- header --}}
-        @include('layouts.client.header')
+        @include('layouts.admin.header')
         <div class="container-fluid">
           <div class="d-sm-flex justify-content-between align-items-center mb-4">
-            <h3 class="text-dark mb-0">Create app</h3>{{-- <a class="btn btn-primary btn-sm d-none d-sm-inline-block" role="button" href="#"><i class="fas fa-download fa-sm text-white-50"></i>&nbsp;Generate Report</a> --}}</div>
+            <h3 class="text-dark mb-0">Edit Appointment</h3>{{-- <a class="btn btn-primary btn-sm d-none d-sm-inline-block" role="button" href="#"><i class="fas fa-download fa-sm text-white-50"></i>&nbsp;Generate Report</a> --}}</div>
           </div>
           <div class="col">
             <div class="card shadow mb-3">
               <div class="card-header py-3">
-                <p class="text-primary m-0 font-weight-bold">User Settings</p>
+                <p class="text-primary m-0 font-weight-bold">Edit Appointment info</p>
               </div>
-              @include('includes.messages')
+              @include('includes.notify')
               <div class="card-body">
-                <form role="form" action="{{ route('client.appointment.update',$appointment->id) }}" method="POST" enctype="multipart/form-data">
+                <form role="form" action="{{ route('admin.appointment.update',$appointment->id) }}" method="POST" enctype="multipart/form-data">
                   @csrf
                   @method('PUT')
                   <div class="form-row">
                     <div class="col">
-                      <div class="form-group"><label for="companyname"><strong>Name</strong></label><input class="form-control" value="{{$appointment->client_name}}"  type="text" placeholder="name" name="name"></div>
+                      <div class="form-group"><label for="companyname"><strong>Name</strong></label><input class="form-control" value="{{$appointment->getRelation('client')->name}}"  type="text" placeholder="name" name="name"></div>
                     </div>
                     <div class="col">
                       <div class="form-group"><label for="email"><strong>Email Address</strong></label><input class="form-control" value="{{$appointment->getRelation('client')->email}}"  type="email" name="email"></div>
@@ -80,7 +80,7 @@
             </div>
           </footer>
         </div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a></div>
-        @include('layouts.client.bottom')
+        @include('layouts.admin.bottom')
       </body>
       <script type="text/javascript">
       $('#slot_id').prop("disabled",true);
@@ -96,7 +96,7 @@
           // console.log(id);
           $.ajax({
             type: "GET",
-            url: '{{ route('client.getslots')}}' ,
+            url: '{{ route('admin.getslots')}}' ,
             data:  ({user_id : id}),
             //cache: false,
             success: function(msg)
@@ -159,7 +159,7 @@
       });
       $.ajax({
         type: "GET",
-        url: '{{ route('client.getservices')}}' ,
+        url: '{{ route('admin.getservices')}}' ,
         data:  ({user_id : id}),
         //cache: false,
         success: function(msg)
@@ -228,7 +228,7 @@ $(document).ready(function () {
   $("#service_id").find('option').remove();
   $.ajax({
     type: "GET",
-    url: '{{ route('client.getslots') }}' ,
+    url: '{{ route('admin.getslots') }}' ,
     data:  ({user_id : user_id}),
     success: function(msg) {
       $('#slot_id').prop("disabled", false)
@@ -271,7 +271,7 @@ $(document).ready(function () {
   })
   $.ajax({
     type: "GET",
-    url: '{{ route('client.getservices') }}' ,
+    url: '{{ route('admin.getservices') }}' ,
     data:  ({user_id : user_id}),
     success: function(msg) {
       $('#service_id').prop("disabled", false)

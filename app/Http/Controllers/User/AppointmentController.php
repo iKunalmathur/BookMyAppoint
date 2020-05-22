@@ -45,7 +45,6 @@ $appointments = Appointment::with('client:id,name,phone','appointment_slot:id,da
     {
          $users = User::where('id',Auth::user()->id)->get();
         $slots = Appointment_slot::all();
-
         return  view('user.appointment.create',compact('users','slots'));
     }
 
@@ -79,7 +78,13 @@ $appointments = Appointment::with('client:id,name,phone','appointment_slot:id,da
         $appointment = new Appointment;
         $appointment->tokken_no = $tokken_no;
         $appointment->user_id = $request->user_id;
+        //////////////////////////////////
         $appointment->appointment_slot_id = $request->slot_id;
+        //////////////////////////////////
+        $appointment_slot = Appointment_slot::select('id','occupied')->findOrFail($request->slot_id);
+        $appointment_slot->occupied = 1;
+        $appointment_slot->save();
+          //////////////////////////////////
         $appointment->client_id = $client->id;
         $appointment->service_id = $request->service_id;
         $appointment->client_name = $request->name;
@@ -112,7 +117,7 @@ $appointments = Appointment::with('client:id,name,phone','appointment_slot:id,da
     {
         $users = User::where('id',Auth::user()->id)->get();
         $slots = Appointment_slot::all();
-        $appointment = Appointment::find($id);
+        $appointment = Appointment::with('client')->findorFail($id);
         return  view('user.appointment.edit',compact('users','slots','appointment'));
     }
 
@@ -140,7 +145,17 @@ $appointments = Appointment::with('client:id,name,phone','appointment_slot:id,da
         $appointment = Appointment::find($id);
         // $appointment->tokken_no = $tokken_no;
         // $appointment->user_id = $request->user_id;
+        //////////////////////////////////
+        $appointment_slot = Appointment_slot::select('id','occupied')->findOrFail($appointment->appointment_slot_id);
+        $appointment_slot->occupied = 0;
+        $appointment_slot->save();
+        //////////////////////////////////
         $appointment->appointment_slot_id = $request->slot_id;
+        //////////////////////////////////
+        $appointment_slot = Appointment_slot::select('id','occupied')->findOrFail($request->slot_id);
+        $appointment_slot->occupied = 1;
+        $appointment_slot->save();
+        ////////////////////////////////
         // $appointment->client_id = Auth::user()->id;
         $appointment->service_id = $request->service_id;
         // $appointment->client_name = $request->name;

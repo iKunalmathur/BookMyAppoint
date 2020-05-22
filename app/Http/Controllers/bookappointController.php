@@ -86,13 +86,19 @@ class bookappointController extends Controller
             'service_id'=> ['required',],
             // 'phone' => ['required'],
         ]);
-        $tokken_no = rand();
+        $tokken_no = "ATN".rand(100000,999999);
 
         // dd($tokken_no);
         $appointment = new Appointment;
         $appointment->tokken_no = $tokken_no;
         $appointment->user_id = $id;
+        //////////////////////////////////
         $appointment->appointment_slot_id = $request->slot_id;
+        //////////////////////////////////
+        $appointment_slot = Appointment_slot::select('id','occupied')->findOrFail($request->slot_id);
+        $appointment_slot->occupied = 1;
+        $appointment_slot->save();
+          //////////////////////////////////
         $appointment->client_id = Auth::user()->id;
         $appointment->service_id = $request->service_id;
         $appointment->client_name = $request->name;

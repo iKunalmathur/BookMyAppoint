@@ -38,8 +38,12 @@ Route::middleware(['auth:admin'])->namespace('Admin')->prefix('admin')->name('ad
     Route::resource('profile','ProfileController');
     Route::resource('users','UserController');
     Route::resource('clients','ClientController');
+    Route::resource('appointment','AppointmentController');
     Route::get('openclosestatus','UserController@openclosestatus')->name('openclosestatus');
     Route::get('activeinactivestatus','UserController@activeinactivestatus')->name('activeinactivestatus');
+    Route::get('getslots/{data?}','AppointmentController@getslots')->name('getslots');
+    Route::get('getservices/{data?}','AppointmentController@getservices')->name('getservices');
+    Route::resource('tokkendetails','TokkenController');
 
 });
 
@@ -65,6 +69,7 @@ Route::middleware(['auth:user'])->namespace('User')->prefix('user')->name('user.
     Route::resource('appointment','AppointmentController');
     Route::get('changestatus/{data?}', 'AppointmentController@changestatus')->name('changestatus');
     Route::get('opnclsstatus','ProfileController@opnclsstatus')->name('opnclsstatus');
+    Route::resource('tokkendetails','TokkenController');
 });
 
 
