@@ -72,18 +72,21 @@ class AppointmentController extends Controller
       'name' => ['required', 'string', 'max:255'],
       'email' => ['required', 'string', 'email', 'max:255'],
       'user_id' => ['required',],
-      'slot_id' => ['required',],
+      'slot_id' => ['required','unique:appointments,appointment_slot_id'],
       'service_id'=> ['required',],
       'phone' => ['required'],
     ]);
     // $tokken_no = rand();
     $tokken_no = "ATN".rand(100000,999999);
     // dd($tokken_no);
-
-
     $appointment = new Appointment;
     $appointment->tokken_no = $tokken_no;
     $appointment->user_id = $request->user_id;
+    //////////////////////////////////
+    if (!User::select('status')->findOrFail($request->user_id)->status) {
+      return redirect()->back()->with('error', 'Sorry Store Closed');
+    }
+    // dd("STOP");
     //////////////////////////////////
     // $appointment_slot = Appointment_slot::select('id','occupied')->findOrFail($appointment->appointment_slot_id);
     // $appointment_slot->occupied = 0;
@@ -129,7 +132,7 @@ class AppointmentController extends Controller
   {
     $users = User::all();
     $slots = Appointment_slot::all();
-    $appointment = Appointment::with('client')->findorFail($id);
+    $appointment = Appointment::with('client')->where('status',0)->findorFail($id);
     // dd($appointment->getRelations());
     return  view('client.appointment.edit',compact('users','slots','appointment'));
   }
@@ -147,7 +150,7 @@ class AppointmentController extends Controller
       'name' => ['required', 'string', 'max:255'],
       'email' => ['required', 'string', 'email', 'max:255'],
       'user_id' => ['required',],
-      'slot_id' => ['required',],
+      'slot_id' => ['required','unique:appointments,appointment_slot_id'],
       'service_id'=> ['required',],
       'phone' => ['required'],
     ]);
@@ -157,7 +160,7 @@ class AppointmentController extends Controller
     // dd($tokken_no);
     // dd($request->all());
 
-    $appointment = Appointment::find($id);
+    $appointment = Appointment::where('status',0)->findorFail($id);
     // $appointment->tokken_no = $tokken_no;
     $appointment->user_id = $request->user_id;
     //////////////////////////////////

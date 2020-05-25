@@ -42,44 +42,45 @@
                     <div class="modal-body">
                       <div class="row">
                         <div class="col-1">
-                          <p>S.no.</p>
+                          <p class="text-center">S.no.</p>
                         </div>
                         <div class="col-2">
-                          <p>Tokken no</p>
+                          <p class="text-center">Tokken no</p>
                         </div>
                         <div class="col-3">
-                          <p>Service provider</p>
+                          <p class="text-center">Service provider</p>
                         </div>
                         <div class="col-2">
-                          <p>Service</p>
+                          <p class="text-center">Service</p>
                         </div>
                         <div class="col-2">
-                          <p>Date</p>
+                          <p class="text-center">Date</p>
                         </div>
                         <div class="col-2">
-                          <p>Time</p>
+                          <p class="text-center">Time</p>
                         </div>
                       </div>
                       @foreach($appointments as $appointment)
                         @if ($appointment->getRelation('appointment_slot')->date < date('Y-m-d'))
                           <div class="row">
                             <div class="col-1">
-                              <p>{{ $loop->index +1 }}</p>
+                              <p class="text-center">{{ $loop->index +1 }}</p>
                             </div>
                             <div class="col-2">
-                              <p>{{$appointment->tokken_no}}</p>
+                              <p class="text-center">{{$appointment->tokken_no}}</p>
                             </div>
                             <div class="col-3">
-                              <p>{{$appointment->getRelation('user')->company_name}}</p>
+                              <p class="text-center">{{$appointment->getRelation('user')->company_name}}</p>
                             </div>
                             <div class="col-2">
-                              <p>{{$appointment->getRelation('service')->service_name}}</p>
+                              <p class="text-center">{{$appointment->getRelation('service')->service_name}}</p>
                             </div>
                             <div class="col-2">
-                              <p>{{ \Carbon\Carbon::parse($appointment->getRelation('appointment_slot')->date)->format('F j, Y')}}</p>
+                              <p class="text-center">{{ \Carbon\Carbon::parse($appointment->getRelation('appointment_slot')->date)->format('F j, Y')}}</p>
                             </div>
+                            <hr>
                             <div class="col-2">
-                              <p>{{ \Carbon\Carbon::parse($appointment->getRelation('appointment_slot')->time)->format('g:i a')}}</p>
+                              <p class="text-center">{{ \Carbon\Carbon::parse($appointment->getRelation('appointment_slot')->time)->format('g:i a')}}</p>
                             </div>
                           </div>
                         @endif
@@ -105,85 +106,111 @@
                 <table class="table dataTable my-0" id="dataTable">
                   <thead>
                     <tr>
-                      <th>S.no.</th>
-                      <th>Tokken no</th>
-                      <th>Service provider</th>
-                      <th>Service</th>
-                      <th>Date</th>
-                      <th>Time</th>
-                      <th>Edit</th>
-                      <th>Delete</th>
+                      <th class="text-center">S.no.</th>
+                      <th class="text-center">Tokken no</th>
+                      <th class="text-center">Service provider</th>
+                      <th class="text-center">Service</th>
+                      <th class="text-center">Date</th>
+                      <th class="text-center">Time</th>
+                      <th class="text-center">Edit</th>
+                      <th class="text-center">Delete</th>
                     </tr>
                   </thead>
                   <tbody>
                     @foreach($appointments as $appointment)
                       @if ($appointment->getRelation('appointment_slot')->date >=  date('Y-m-d'))
+                        @php  $i = 0 @endphp
+                        @foreach ($appointments as $compare)
+                          @if ($compare->getRelation('appointment_slot')->date_time == $appointment->getRelation('appointment_slot')->date_time)
+                            @php $i++  @endphp
+                          @endif
+                        @endforeach
+                        <tr @if ($appointment->status)
+                          {{-- style="background-color: #8BC34A;color: #3a3b45;" --}}
+                        @endif>
+                        <td class="text-center">{{ $loop->index +1 }}</td>
+                        <td class="text-center"><p>{{$appointment->tokken_no}}<p></td>
+                          <td class="text-center">{{$appointment->getRelation('user')->company_name}}</td>
+                          <td class="text-center">{{$appointment->getRelation('service')->service_name}}</td>
+                          <td class="text-center">{{ \Carbon\Carbon::parse($appointment->getRelation('appointment_slot')->date)->format('F j, Y')}}
+                            @if ($i == 2)
+                              <hr style="border-top-color: red;">
+                            @endif
+                          </td>
+                          <td class="text-center">{{ \Carbon\Carbon::parse($appointment->getRelation('appointment_slot')->time)->format('g:i a')}}
+                            @if ($i == 2)
+                              <hr style="border-top-color: red;">
+                            @endif
+                          </td>
+                          {{-- <td class="text-center">{{ $appointment->occupied? 'yes' : 'no' }}</td> --}}
+                          {{-- <td class="text-center"><textarea class="form-control" readonly>{{ $appointment->message }}</textarea></td> --}}
+                          @if (!$appointment->status)
+                            <td class="text-center" style="padding-left: 6px;">
+                              <a href="{{ route('client.appointment.edit',$appointment->id) }}" class="btn btn-warning btn-circle ml-1" role="button" data-bs-hover-animate="pulse" style="width: 30px;height: 30px;"><i class="fas fa-pen text-white"></i></a>
+                              {{-- @endif --}}
+                              <td class="text-center" style="padding-left: 11px;">
+                                {{-- @if ($appointment->status !== 'completed') --}}
+                                <a onclick="if(confirm('Are you sure, You want to delete this appointment ?')){
+                                  event.preventDefault();
+                                  document.getElementById('deleteform-{{$appointment->id}}').submit();
+                                }
+                                else{
+                                  event.preventDefault();
+                                }" class="btn btn-danger btn-circle ml-1" role="button" data-bs-hover-animate="pulse" style="width: 30px;height: 30px;"><i class="fas fa-trash text-white"></i></a>
+                              </td>
+                              @else
+                                <td class="text-right" style="padding-right: 0px;color: #0f9d58;"><strong>Do</strong></td>
+                                <td class="text-left" style="padding-left: 0px;color: #0f9d58;"><strong>ne</strong></td>
+                            @endif
+                              <form id="deleteform-{{$appointment->id}}" method="POST"  action="{{ route('client.appointment.destroy',$appointment->id)}}" style="display: none">
+                                @csrf
+                                @method('DELETE')
+                              </form>
+                            </tr>
+                          @endif
+                        @endforeach
+                      </tbody>
+                      <tfoot>
                         <tr>
-                          <td>{{ $loop->index +1 }}</td>
-                          <td>{{$appointment->tokken_no}}</td>
-                          <td>{{$appointment->getRelation('user')->company_name}}</td>
-                          <td>{{$appointment->getRelation('service')->service_name}}</td>
-                          <td>{{ \Carbon\Carbon::parse($appointment->getRelation('appointment_slot')->date)->format('F j, Y')}}</td>
-                          <td>{{ \Carbon\Carbon::parse($appointment->getRelation('appointment_slot')->time)->format('g:i a')}}</td>
-                          {{-- <td>{{ $appointment->occupied? 'yes' : 'no' }}</td> --}}
-                          {{-- <td><textarea class="form-control" readonly>{{ $appointment->message }}</textarea></td> --}}
-                          <td style="padding-left: 6px;"><a href="{{ route('client.appointment.edit',$appointment->id) }}" class="btn btn-warning btn-circle ml-1" role="button" data-bs-hover-animate="pulse" style="width: 30px;height: 30px;"><i class="fas fa-pen text-white"></i></a></td>
-                          <td style="padding-left: 11px;"><a onclick="if(confirm('Are you sure, You want to delete this appointment ?')){
-                            event.preventDefault();
-                            document.getElementById('deleteform-{{$appointment->id}}').submit();
-                          }
-                          else{
-                            event.preventDefault();
-                          }" class="btn btn-danger btn-circle ml-1" role="button" data-bs-hover-animate="pulse" style="width: 30px;height: 30px;"><i class="fas fa-trash text-white"></i></a></td>
-                          <form id="deleteform-{{$appointment->id}}" method="POST"  action="{{ route('client.appointment.destroy',$appointment->id)}}" style="display: none">
-                            @csrf
-                            @method('DELETE')
-                          </form>
+                          <th class="text-center">S.no.</th>
+                          <th class="text-center">Tokken no</th>
+                          <th class="text-center">Service provider</th>
+                          <th class="text-center">Service</th>
+                          <th class="text-center">Date</th>
+                          <th class="text-center">Time</th>
+                          <th class="text-center">Edit</th>
+                          <th class="text-center">Delete</th>
                         </tr>
-                      @endif
-                    @endforeach
-                  </tbody>
-                  <tfoot>
-                    <tr>
-                      <th>S.no.</th>
-                      <th>Tokken no</th>
-                      <th>Service provider</th>
-                      <th>Service</th>
-                      <th>Date</th>
-                      <th>Time</th>
-                      <th>Edit</th>
-                      <th>Delete</th>
-                    </tr>
-                  </tfoot>
-                </table>
-              </div>
-              <div class="row">
-                <div class="col-md-6 align-self-center">
-                  <p id="dataTable_info" class="dataTables_info" role="status" aria-live="polite">Showing 1 to 10 of 27</p>
-                </div>
-                <div class="col-md-6">
-                  <nav class="d-lg-flex justify-content-lg-end dataTables_paginate paging_simple_numbers">
-                    <ul class="pagination">
-                      <li class="page-item disabled"><a class="page-link" href="#" aria-label="Previous"><span aria-hidden="true">«</span></a></li>
-                      <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                      <li class="page-item"><a class="page-link" href="#">2</a></li>
-                      <li class="page-item"><a class="page-link" href="#">3</a></li>
-                      <li class="page-item"><a class="page-link" href="#" aria-label="Next"><span aria-hidden="true">»</span></a></li>
-                    </ul>
-                  </nav>
+                      </tfoot>
+                    </table>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6 align-self-center">
+                      <p id="dataTable_info" class="dataTables_info" role="status" aria-live="polite">Showing 1 to 10 of 27</p>
+                    </div>
+                    <div class="col-md-6">
+                      <nav class="d-lg-flex justify-content-lg-end dataTables_paginate paging_simple_numbers">
+                        <ul class="pagination">
+                          <li class="page-item disabled"><a class="page-link" href="#" aria-label="Previous"><span aria-hidden="true">«</span></a></li>
+                          <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                          <li class="page-item"><a class="page-link" href="#">2</a></li>
+                          <li class="page-item"><a class="page-link" href="#">3</a></li>
+                          <li class="page-item"><a class="page-link" href="#" aria-label="Next"><span aria-hidden="true">»</span></a></li>
+                        </ul>
+                      </nav>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </div>
-      <footer class="bg-white sticky-footer">
-        <div class="container my-auto">
-          <div class="text-center my-auto copyright"><span>Copyright © BookMyAppoint.2020</span></div>
-        </div>
-      </footer>
-    </div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a></div>
-    @include('layouts.client.bottom')
-  </body>
+          <footer class="bg-white sticky-footer">
+            <div class="container my-auto">
+              <div class="text-center my-auto copyright"><span>Copyright © BookMyAppoint.2020</span></div>
+            </div>
+          </footer>
+        </div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a></div>
+        @include('layouts.client.bottom')
+      </body>
 
-  </html>
+      </html>

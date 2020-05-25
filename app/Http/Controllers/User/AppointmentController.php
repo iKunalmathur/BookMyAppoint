@@ -60,7 +60,7 @@ $appointments = Appointment::with('client:id,name,phone','appointment_slot:id,da
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255'],
             'user_id' => ['required',],
-            'slot_id' => ['required',],
+            'slot_id' => ['required','unique:appointments,appointment_slot_id'],
             'service_id'=> ['required',],
             'phone' => ['required'],
         ]);
@@ -88,7 +88,7 @@ $appointments = Appointment::with('client:id,name,phone','appointment_slot:id,da
         $appointment->client_id = $client->id;
         $appointment->service_id = $request->service_id;
         $appointment->client_name = $request->name;
-        $appointment->status = 'pending';
+        $appointment->status = 0;
         $appointment_slot = Appointment_slot::select('id','occupied')->find($request->slot_id);
         $appointment_slot->occupied = 1;
         $appointment_slot->save();
@@ -134,7 +134,7 @@ $appointments = Appointment::with('client:id,name,phone','appointment_slot:id,da
             // 'name' => ['required', 'string', 'max:255'],
             // 'email' => ['required', 'string', 'email', 'max:255'],
             // 'user_id' => ['required',],
-            'slot_id' => ['required',],
+            'slot_id' => ['required','unique:appointments,appointment_slot_id'],
             'service_id'=> ['required',],
             // 'phone' => ['required'],
         ]);
@@ -182,8 +182,8 @@ $appointments = Appointment::with('client:id,name,phone','appointment_slot:id,da
     public function changestatus($id)
     {
         $appointment = Appointment::find($id);
-        $appointment->status = 'completed';
+        $appointment->status =  ($appointment->status) ? 0 : 1 ;
         $appointment->save();
-        return redirect()->back()->with('message','Slot Status Successfully Changed');
+        return redirect()->back()->with('message','Appointment Status Changed');
     }
 }

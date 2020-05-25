@@ -82,7 +82,7 @@ class bookappointController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255'],
             // 'user_id' => ['required',],
-            'slot_id' => ['required',],
+            'slot_id' => ['required','unique:appointments,appointment_slot_id'],
             'service_id'=> ['required',],
             // 'phone' => ['required'],
         ]);
@@ -92,6 +92,11 @@ class bookappointController extends Controller
         $appointment = new Appointment;
         $appointment->tokken_no = $tokken_no;
         $appointment->user_id = $id;
+        //////////////////////////////////
+        if (!User::select('status')->findOrFail($id)->status) {
+          return redirect()->back()->with('error', 'Sorry Store Closed');
+        }
+        // dd("STOP");
         //////////////////////////////////
         $appointment->appointment_slot_id = $request->slot_id;
         //////////////////////////////////

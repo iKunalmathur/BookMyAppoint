@@ -92,7 +92,7 @@
                               <p>{{ \Carbon\Carbon::parse($appointment->getRelation('appointment_slot')->time)->format('g:i a')}}</p>
                             </div>
                             <div class="col">
-                              <p>{{$appointment->status}}</p>
+                              <p>{{$appointment->status ? 'Completed' : 'Pending'}}</p>
                             </div>
                           </div>
                         @endif
@@ -118,36 +118,36 @@
                 <table class="table dataTable my-0" id="dataTable">
                   <thead>
                     <tr>
-                      <th>S.no.</th>
-                      <th>Tokken no</th>
-                      <th>Customer Name</th>
-                      <th>Phone no.</th>
-                      <th>Service</th>
-                      <th>Date</th>
-                      <th>Time</th>
-                      <th>Status</th>
-                      <th>Done</th>
-                      <th>Edit</th>
-                      <th>Delete</th>
+                      <th class="text-center">S.no.</th>
+                      <th class="text-center">Tokken no</th>
+                      <th class="text-center">Customer Name</th>
+                      <th class="text-center">Phone no.</th>
+                      <th class="text-center">Service</th>
+                      <th class="text-center">Date</th>
+                      <th class="text-center">Time</th>
+                      <th class="text-center">Status</th>
+                      <th class="text-center">Done</th>
+                      <th class="text-center">Edit</th>
+                      <th class="text-center">Delete</th>
                     </tr>
                   </thead>
                   <tbody>
                     @foreach($appointments as $appointment)
                       @if ($appointment->getRelation('appointment_slot')->date >= date('Y-m-d'))
                         <tr>
-                          <td>{{ $loop->index +1 }}</td>
-                          <td>{{$appointment->tokken_no}}</td>
-                          <td>{{$appointment->client_name}}</td>
-                          <td>{{$appointment->getRelation('client')->phone}}</td>
-                          <td>{{$appointment->getRelation('service')->service_name}}</td>
-                          <td>{{ \Carbon\Carbon::parse($appointment->getRelation('appointment_slot')->date)->format('F j, Y')}}</td>
-                          <td>{{ \Carbon\Carbon::parse($appointment->getRelation('appointment_slot')->time)->format('g:i a')}}</td>
-                          <td>{{$appointment->status}}</td>
-                          {{-- <td>{{ $appointment->occupied? 'yes' : 'no' }}</td> --}}
-                          {{-- <td><textarea class="form-control" readonly>{{ $appointment->message }}</textarea></td> --}}
-                          <td style="padding-left: 6px;"><a href="{{ route('user.changestatus',$appointment->id) }}" class="btn btn-success btn-circle ml-1" role="button" data-bs-hover-animate="pulse" style="width: 30px;height: 30px;"><i class="fas fa-check text-white"></i></a></td>
-                          <td style="padding-left: 6px;"><a href="{{ route('user.appointment.edit',$appointment->id) }}" class="btn btn-warning btn-circle ml-1" role="button" data-bs-hover-animate="pulse" style="width: 30px;height: 30px;"><i class="fas fa-pen text-white"></i></a></td>
-                          <td style="padding-left: 11px;"><a onclick="if(confirm('Are you sure, You want to delete this appointment ?')){
+                          <td class="text-center">{{ $loop->index +1 }}</td>
+                          <td class="text-center">{{$appointment->tokken_no}}</td>
+                          <td class="text-center">{{$appointment->client_name}}</td>
+                          <td class="text-center">{{$appointment->getRelation('client')->phone}}</td>
+                          <td class="text-center">{{$appointment->getRelation('service')->service_name}}</td>
+                          <td class="text-center">{{ \Carbon\Carbon::parse($appointment->getRelation('appointment_slot')->date)->format('F j, Y')}}</td>
+                          <td class="text-center">{{ \Carbon\Carbon::parse($appointment->getRelation('appointment_slot')->time)->format('g:i a')}}</td>
+                          <td class="text-center">{{$appointment->status ? 'Completed' : 'Pending'}}</td>
+                          {{-- <td class="text-center">{{ $appointment->occupied? 'yes' : 'no' }}</td> --}}
+                          {{-- <td class="text-center"><textarea class="form-control" readonly>{{ $appointment->message }}</textarea></td> --}}
+                          <td class="text-center" style="padding-left: 6px;"><a href="{{ route('user.changestatus',$appointment->id) }}" class="btn btn-success btn-circle ml-1" role="button" data-bs-hover-animate="pulse" style="width: 30px;height: 30px;"><i class="fas fa-check text-white"></i></a></td>
+                          <td class="text-center" style="padding-left: 6px;"><a href="{{ route('user.appointment.edit',$appointment->id) }}" class="btn btn-warning btn-circle ml-1" role="button" data-bs-hover-animate="pulse" style="width: 30px;height: 30px;"><i class="fas fa-pen text-white"></i></a></td>
+                          <td class="text-center" style="padding-left: 11px;"><a onclick="if(confirm('Are you sure, You want to delete this appointment ?')){
                             event.preventDefault();
                             document.getElementById('deleteform-{{$appointment->id}}').submit();
                           }
@@ -164,17 +164,17 @@
                   </tbody>
                   <tfoot>
                     <tr>
-                      <th>S.no.</th>
-                      <th>Tokken no</th>
-                      <th>Customer Name</th>
-                      <th>Phone no.</th>
-                      <th>Service</th>
-                      <th>Date</th>
-                      <th>Time</th>
-                      <th>Status</th>
-                      <th>Done</th>
-                      <th>Edit</th>
-                      <th>Delete</th>
+                      <th class="text-center">S.no.</th>
+                      <th class="text-center">Tokken no</th>
+                      <th class="text-center">Customer Name</th>
+                      <th class="text-center">Phone no.</th>
+                      <th class="text-center">Service</th>
+                      <th class="text-center">Date</th>
+                      <th class="text-center">Time</th>
+                      <th class="text-center">Status</th>
+                      <th class="text-center">Done</th>
+                      <th class="text-center">Edit</th>
+                      <th class="text-center">Delete</th>
                     </tr>
                   </tfoot>
                 </table>

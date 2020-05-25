@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use Carbon\Carbon;
 use App\Model\user\User;
-use App\Model\client\Client; 
+use App\Model\client\Client;
 use App\Model\user\Service;
 use App\Model\client\Appointment;
 use App\Model\user\Appointment_slot;
@@ -55,7 +55,7 @@ class AppointmentController extends Controller
         'name' => ['required', 'string', 'max:255'],
         'email' => ['required', 'string', 'email', 'max:255'],
         'user_id' => ['required',],
-        'slot_id' => ['required',],
+        'slot_id' => ['required','unique:appointments,appointment_slot_id'],
         'service_id'=> ['required',],
         'phone' => ['required'],
     ]);
@@ -71,6 +71,12 @@ class AppointmentController extends Controller
     $appointment = new Appointment;
     $appointment->tokken_no = $tokken_no;
     $appointment->user_id = $request->user_id;
+    //////////////////////////////////
+    if (!User::select('status')->findOrFail($request->user_id)->status) {
+      return redirect()->back()->with('error', 'Sorry Store Closed');
+    }
+    // dd("STOP");
+    //////////////////////////////////
     //////////////////////////////////
     $appointment->appointment_slot_id = $request->slot_id;
     //////////////////////////////////
@@ -129,7 +135,7 @@ class AppointmentController extends Controller
         'name' => ['required', 'string', 'max:255'],
         'email' => ['required', 'string', 'email', 'max:255'],
         'user_id' => ['required',],
-        'slot_id' => ['required',],
+        'slot_id' => ['required','unique:appointments,appointment_slot_id'],
         'service_id'=> ['required',],
         'phone' => ['required'],
     ]);
