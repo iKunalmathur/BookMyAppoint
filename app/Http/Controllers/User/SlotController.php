@@ -144,7 +144,9 @@ class SlotController extends Controller
   */
   public function destroy($id)
   {
-    Appointment_slot::where('id',$id)->delete();
-    return redirect()->back()->with('message','Slot Successfully Deleted');
+  $val =  Appointment_slot::where('id',$id)->where('occupied',0)->delete();
+    // dd($val);
+   return ($val) ? redirect()->back()->with('message','Slot Successfully Deleted'):redirect()->back()->with('error','Failed');
+    // return redirect()->back()->with('message','Slot Successfully Deleted');
   }
 }

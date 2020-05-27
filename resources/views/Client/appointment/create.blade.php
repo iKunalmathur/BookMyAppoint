@@ -3,12 +3,6 @@
 
 <head>
   @include('layouts.client.head')
-  <style>
-  select option:disabled {
-    color: #26262652;
-    font-weight: bold;
-  }
-  </style>
 </head>
 
 <body id="page-top">
@@ -120,7 +114,6 @@
               if(response.length>0)
               {
                 //removeOptions(document.getElementById('cities'));
-
                 for(i=0;i<response.length;i++)
                 {
                   slots = ""+response[i]['slot_name'];
@@ -138,6 +131,11 @@
                   var ampm = (H < 12 || H === 24) ? "am" : "pm";
                   timeString = h + timeString.substr(2, 3)+" "+ ampm;
                   document.getElementById("slot_id").options[i] =  new Option(slots+", "+dateString+", "+timeString,response[i]['id']);
+                  if(response[i]['occupied'] == 1){
+                    document.getElementById("slot_id").options[i].setAttribute('disabled',true);
+                  }else {
+                    document.getElementById("slot_id").options[i].setAttribute('selected',true);
+                  }
                 }
 
                 document.getElementById('slot_id').focus();

@@ -3,6 +3,12 @@
 
 <head>
   @include('layouts.user.head')
+  <style media="screen">
+  a.disabled {
+pointer-events: none;
+cursor: default;
+}
+  </style>
 </head>
 
 <body id="page-top">
@@ -145,15 +151,25 @@
                           <td class="text-center">{{$appointment->status ? 'Completed' : 'Pending'}}</td>
                           {{-- <td class="text-center">{{ $appointment->occupied? 'yes' : 'no' }}</td> --}}
                           {{-- <td class="text-center"><textarea class="form-control" readonly>{{ $appointment->message }}</textarea></td> --}}
-                          <td class="text-center" style="padding-left: 6px;"><a href="{{ route('user.changestatus',$appointment->id) }}" class="btn btn-success btn-circle ml-1" role="button" data-bs-hover-animate="pulse" style="width: 30px;height: 30px;"><i class="fas fa-check text-white"></i></a></td>
-                          <td class="text-center" style="padding-left: 6px;"><a href="{{ route('user.appointment.edit',$appointment->id) }}" class="btn btn-warning btn-circle ml-1" role="button" data-bs-hover-animate="pulse" style="width: 30px;height: 30px;"><i class="fas fa-pen text-white"></i></a></td>
+                          @if ($appointment->status)
+                            <td class="text-center" style="padding-left: 6px;"><a href="{{ route('user.changestatus',$appointment->id) }}" class="btn btn-info btn-circle ml-1" role="button" data-bs-hover-animate="pulse" style="width: 30px;height: 30px;"><i class="fas fa-undo"></i></a></td>
+                          @else
+                            <td class="text-center" style="padding-left: 6px;"><a href="{{ route('user.changestatus',$appointment->id) }}" class="btn btn-success btn-circle ml-1" role="button" data-bs-hover-animate="pulse" style="width: 30px;height: 30px;"><i class="fas fa-check text-white"></i></a></td>
+                          @endif
+
+                          <td class="text-center" style="padding-left: 6px;"><a  href="{{ route('user.appointment.edit',$appointment->id) }}" class="btn btn-warning btn-circle ml-1 @if ($appointment->status)
+                            disabled
+                          @endif" role="button"  data-bs-hover-animate="pulse" style="width: 30px;height: 30px;" ><i class="fas fa-pen text-white"></i></a></td>
+
                           <td class="text-center" style="padding-left: 11px;"><a onclick="if(confirm('Are you sure, You want to delete this appointment ?')){
                             event.preventDefault();
                             document.getElementById('deleteform-{{$appointment->id}}').submit();
                           }
                           else{
                             event.preventDefault();
-                          }" class="btn btn-danger btn-circle ml-1" role="button" data-bs-hover-animate="pulse" style="width: 30px;height: 30px;"><i class="fas fa-trash text-white"></i></a></td>
+                          }" class="btn btn-danger btn-circle ml-1 @if ($appointment->status)
+                            disabled
+                          @endif" role="button" data-bs-hover-animate="pulse" style="width: 30px;height: 30px;"><i class="fas fa-trash text-white"></i></a></td>
                           <form id="deleteform-{{$appointment->id}}" method="POST"  action="{{ route('user.appointment.destroy',$appointment->id)}}" style="display: none">
                             @csrf
                             @method('DELETE')

@@ -117,7 +117,7 @@ $appointments = Appointment::with('client:id,name,phone','appointment_slot:id,da
     {
         $users = User::where('id',Auth::user()->id)->get();
         $slots = Appointment_slot::all();
-        $appointment = Appointment::with('client')->findorFail($id);
+        $appointment = Appointment::with('client')->where('status',0)->findorFail($id);
         return  view('user.appointment.edit',compact('users','slots','appointment'));
     }
 
@@ -177,7 +177,14 @@ $appointments = Appointment::with('client:id,name,phone','appointment_slot:id,da
      */
     public function destroy($id)
     {
-        //
+      $appointment = Appointment::select('id','appointment_slot_id')->where('status',0)->findorFail($id);
+      // dd($appointment->appointment_slot_id);
+      $appointment_slot = Appointment_slot::select('id','occupied')->findOrFail($appointment->appointment_slot_id);
+      // dd($appointment_slot->occupied);
+      $appointment_slot->occupied = 0;
+      $appointment_slot->save();
+      $appointment->delete();
+      return redirect()->back()->with('success','Appointment Deleted');
     }
     public function changestatus($id)
     {

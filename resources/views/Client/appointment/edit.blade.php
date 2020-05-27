@@ -22,7 +22,7 @@
               <div class="card-header py-3">
                 <p class="text-primary m-0 font-weight-bold">User Settings</p>
               </div>
-              @include('includes.messages')
+              @include('includes.notify')
               <div class="card-body">
                 <form role="form" action="{{ route('client.appointment.update',$appointment->id) }}" method="POST" enctype="multipart/form-data">
                   @csrf
@@ -68,7 +68,7 @@
                       </div>
                     </div>
                     <br>
-                    <div class="form-group"><button class="btn btn-primary btn-sm" type="submit">Update</button></div>
+                    <div class="form-group"><button class="btn btn-primary btn-sm" id="btn_update" type="submit">Update</button></div>
                   </form>
                 </div>
               </div>
@@ -85,6 +85,7 @@
       <script type="text/javascript">
       $('#slot_id').prop("disabled",true);
       $('#service_id').prop("disabled",true);
+      $('#btn_update').prop("disabled",true);
       $("#user_id").on('change',function() {
         var id = $(this).val();
         // console.log(id);
@@ -260,8 +261,14 @@ $(document).ready(function () {
             // alert('hi');
             document.getElementById("slot_id").options[i] = new Option(slots+", "+dateString+", "+timeString,response[i]['id']);
             document.getElementById("slot_id").options[i].setAttribute('selected',true);
+            // if(response[i]['occupied'] == 1){
+            //   document.getElementById("slot_id").options[i].setAttribute('disabled',true);
+            // }
           }else{
             document.getElementById("slot_id").options[i] = new Option(slots+", "+dateString+", "+timeString,response[i]['id']);
+            if(response[i]['occupied'] == 1){
+              document.getElementById("slot_id").options[i].setAttribute('disabled',true);
+            }
           }
         }
         /**/
@@ -275,6 +282,7 @@ $(document).ready(function () {
     data:  ({user_id : user_id}),
     success: function(msg) {
       $('#service_id').prop("disabled", false)
+      $('#btn_update').prop("disabled", false)
       // $("#loding2").hide();
       var response = JSON.parse(msg);
       if (response.length > 0) {

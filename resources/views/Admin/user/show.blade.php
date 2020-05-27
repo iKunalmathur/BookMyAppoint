@@ -69,7 +69,7 @@
                         }" class="btn btn-danger btn-circle ml-1" role="button" data-bs-hover-animate="pulse" style="width: 30px;height: 30px;"><i class="fas fa-trash text-white"></i></a></td>
                         <form id="deleteform-{{$user->id}}" method="POST"  action="{{ route('admin.users.destroy',$user->id)}}" style="display: none">
                           @csrf
-                          @method('DELETE')
+                          @method('DELETE') 
                         </form>
                       </tr>
                     @endforeach

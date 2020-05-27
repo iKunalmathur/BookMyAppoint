@@ -1,9 +1,11 @@
 <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0">
   <div class="container-fluid d-flex flex-column p-0">
-    <a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="#">
+    <a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="/">
       <div class="sidebar-brand-icon rotate-n-15"></div>
-      <div class="sidebar-brand-text mx-3"><span>Bookmyappoint.</span></div>
+      <div class="sidebar-brand-text mx-3"><span>Bookmyappoint</span></div>
     </a>
+    {{-- <li class="nav-item" role="presentation"><a class="nav-link"><span style="margin: 5px;"></a></li> --}}
+
     <hr class="sidebar-divider my-0">
     <ul class="nav navbar-nav text-light" id="accordionSidebar">
       <li class="nav-item" role="presentation"><a class="nav-link @yield('dashboardActive')" href="{{ route('user.home') }}"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a>
@@ -24,7 +26,7 @@
                 @csrf
                 <div class="input-group"><input style="
                 width: 150px;
-                " type="text" class="bg-light form-control border-0 small" placeholder="ATN######" name="t_no" />
+                " type="text" required class="bg-light form-control border-0 small" placeholder="ATN######" name="t_no" />
                 <div class="input-group-append"><button  class="btn btn-primary py-0" style="
                 background-color: #216395;
                 border-color: #1f6392;
