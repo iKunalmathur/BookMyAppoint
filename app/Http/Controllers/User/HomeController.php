@@ -33,10 +33,18 @@ class HomeController extends Controller
     // echo $slotper;
     // dd($slotper);
     $Totelappointment = Appointment::select('id')->where('user_id',Auth::id())->get()->count();
-    // dd($Totelappointment);
+    // dd($Totelappointment_slot);
     $InProappointment = Appointment::select('id')->where('user_id',Auth::id())->where('status',1)->get()->count();
-    $compappostats = round(($InProappointment / $Totelappointment )*100);
-    $penappostats = round((($Totelappointment - $InProappointment) / $Totelappointment )*100);
+    // dd($InProappointment);
+    // dd("sad");
+    if ($Totelappointment > 0) {
+      $compappostats = round(($InProappointment / $Totelappointment )*100); //compleate appointments
+      $penappostats = round((($Totelappointment - $InProappointment) / $Totelappointment )*100);// pending appointments
+    }else {
+      $compappostats = 0;
+      $penappostats = 0;
+    }
+
 
     $stats[]= [
       'totelslot' => $Totelappointment_slot,

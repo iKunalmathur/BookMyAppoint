@@ -20,7 +20,7 @@
         <div class="row articles">
           @if ($users)
             @foreach($users as $user)
-              <div class="col-sm-6 col-md-4 item"><a href="#"><img class="img-fluid" width="300" height="300" src="{{asset(Storage::disk('local')->url($user->image))}}"></a>
+              <div class="col-sm-6 col-md-4 item"><a href="{{ Route('bookappointment.show',$user->id) }}"><img class="img-fluid" width="300" height="300" src="{{asset(Storage::disk('local')->url($user->image))}}"></a>
                 <h3 class="name">{{$user->company_name}}</h3>
                 <p class="description">{{$user->bio}}</p>
                 @if($user->status)

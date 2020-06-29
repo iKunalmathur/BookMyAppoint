@@ -134,7 +134,7 @@
                   if(response[i]['occupied'] == 1){
                     document.getElementById("slot_id").options[i].setAttribute('disabled',true);
                   }else {
-                    document.getElementById("slot_id").options[i].setAttribute('selected',true);
+                    document.getElementById("slot_id").options[i];
                   }
                 }
 

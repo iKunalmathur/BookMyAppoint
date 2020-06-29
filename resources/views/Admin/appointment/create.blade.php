@@ -73,7 +73,7 @@
                         </select>
                       </div>
                     </div><br>
-                    <div class="form-group"><button class="btn btn-primary btn-sm" type="submit">Add</button></div>
+                    <div class="form-group"><button class="btn btn-primary btn-sm" type="submit">Create</button></div>
                   </form>
                 </div>
               </div>
@@ -138,6 +138,9 @@
                   var ampm = (H < 12 || H === 24) ? "am" : "pm";
                   timeString = h + timeString.substr(2, 3)+" "+ ampm;
                   document.getElementById("slot_id").options[i] =  new Option(slots+", "+dateString+", "+timeString,response[i]['id']);
+                  if(response[i]['occupied'] == 1){
+                    document.getElementById("slot_id").options[i].setAttribute('disabled',true);
+                  }
                 }
 
                 document.getElementById('slot_id').focus();

@@ -62,18 +62,34 @@ class SlotController extends Controller
     $Slot->date = $request->date;
     $Slot->time = $request->time;
     $Slot->message = $request->message;
-    $Appointment_slots = Appointment_slot::select('date_time')->where('user_id',Auth::user()->id)->get();
-    // dd($Appointment_slots);
     $Slot->date_time = "$request->date $request->time";
-     // dd($Slot->date_time.":00");
-    foreach ($Appointment_slots as $Appointment_slot) {
-      // dd($Appointment_slot->date_time);
-      if ($Appointment_slot->date_time == $Slot->date_time.":00") {
-        return redirect()->route('user.slot.index')->with('success','Slot Already Exists');
-      }
+    if (Appointment_slot::where('date_time','=',$Slot->date_time.":00")->exists()) {
+      return redirect()->route('user.slot.index')->with('success','Slot Already Exists');
+    }else {
+      $Slot->save();
+      return redirect()->route('user.slot.index')->with('message','Slot Successfully Created');
     }
-    $Slot->save();
-    return redirect()->route('user.slot.index')->with('message','Slot Successfully Created');
+    return redirect()->route('user.slot.index')->with('message','Something went Wrong :(');
+    // $Appointment_slots = Appointment_slot::select('date_time')->where('user_id',Auth::user()->id)->get();
+    // // dd($Appointment_slots);
+    //  // dd($Slot->date_time.":00");
+    // foreach ($Appointment_slots as $Appointment_slot) {
+    //   // dd($Appointment_slot->date_time);
+    //   if ($Appointment_slot->date_time == $Slot->date_time.":00") {
+    //     return redirect()->route('user.slot.index')->with('success','Slot Already Exists');
+    //   }
+    // }
+
+    // $slot = Appointment_slot::firstOrCreate([
+    //   'user_id'=> Auth::user()->id,
+    //   'slot_name' => $request->slotname,
+    //   'date' => $request->date,
+    //   'time' => $request->time,
+    //   'message' => $request->message,
+    //   'date_time' => "$request->date $request->time"
+    // ]);
+    // dd($slot);
+
   }
 
   /**
@@ -125,12 +141,18 @@ class SlotController extends Controller
     $Slot->message = $request->message;
     $Slot->date_time = "$request->date $request->time";
     $isChanged = $Slot->isDirty();
-    $Slot->save();
-    if( $isChanged){
-      // changes have been made
-      return redirect()->route('user.slot.index')->with('message','Slot details has been Updated');
+    if (Appointment_slot::where('user_id','=',Auth::user()->id)->where('date_time','=',$Slot->date_time.":00")->exists()) {
+          return redirect()->route('user.slot.index')->with('success','Slot Already Exists');
+    }else {
+      $Slot->save();
+      if( $isChanged){
+        // changes have been made
+        return redirect()->route('user.slot.index')->with('message','Slot details has been Updated');
+      }
+      return redirect()->route('user.slot.index')->with('message2','No changes has been made');
     }
-    return redirect()->route('user.slot.index')->with('message2','No changes has been made');
+    return redirect()->route('user.slot.index')->with('message','Something went Wrong :(');
+
     // return redirect()->route('user.slot.index')->with('success','Slot Successfully Updated');
 
   }

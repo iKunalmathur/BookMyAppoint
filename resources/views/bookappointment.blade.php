@@ -1,6 +1,8 @@
 @extends('layouts.main')
 @section('title', 'BookMyAppoint.')
 @section('main-content')
+  
+  </style>
   <div class="container" style="margin-top: 50px;">
     {{-- @include('includes.messages') --}}
     {{-- include notify --}}
@@ -9,7 +11,7 @@
       <div class="col-auto" style="padding-left: 12px;padding-right: 12px;"><img class="img-thumbnail" src="{{asset(Storage::disk('local')->url($sp->image))}}" width="300px" height="300px" style="min-width: 300px;width: 320px;" /></div>
       <div class="col">
         <h1><strong>{{$sp->company_name}}</strong><br /></h1>
-        <h2>{{$sp->email}}</h2>
+        <h2>{{$sp->company_email}}</h2>
         <div class="row">
           <div class="col-auto">
             <p style="margin-bottom: 0;">{{$sp->phone}}</p>
@@ -119,6 +121,11 @@
               var ampm = (H < 12 || H === 24) ? "am" : "pm";
               timeString = h + timeString.substr(2, 3)+" "+ ampm;
               document.getElementById("slot_id").options[i] =  new Option(slots+", "+dateString+", "+timeString,response[i]['id']);
+              if(response[i]['occupied'] == 1){
+                    document.getElementById("slot_id").options[i].setAttribute('disabled',true);
+                  }else {
+                    document.getElementById("slot_id").options[i];
+                  }
             }
 
             document.getElementById('slot_id').focus();

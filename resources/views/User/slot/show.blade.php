@@ -37,7 +37,7 @@
                       <button type="button" class="close" data-dismiss="modal">&times;</button>
                     </div>
                     <div class="modal-body">
-                      <div class="row">
+                      <div class="row text-center">
                         <div class="col-1">
                           <p>S.no.</p>
                         </div>
@@ -59,7 +59,7 @@
                       </div>
                       @foreach($slots as $slot)
                         @if ($slot->date <  date('Y-m-d') )
-                      <div class="row">
+                      <div class="row text-center">
                         <div class="col-1">
                           <p>{{ $loop->index +1 }}</p>
                         </div>
@@ -107,14 +107,14 @@
                   <table class="table dataTable my-0" id="dataTable">
                     <thead>
                       <tr>
-                        <th>S.no.</th>
-                        <th>Slot Name</th>
-                        <th>Date&nbsp;</th>
-                        <th>Time</th>
-                        <th>Occupied</th>
-                        <th>Message</th>
-                        <th>Edit</th>
-                        <th>Delete</th>
+                        <th class="text-center">S.no.</th>
+                        <th class="text-center">Slot Name</th>
+                        <th class="text-center">Date&nbsp;</th>
+                        <th class="text-center">Time</th>
+                        <th class="text-center">Occupied</th>
+                        <th class="text-center">Message</th>
+                        <th class="text-center">Edit</th>
+                        <th class="text-center">Delete</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -122,14 +122,14 @@
                         {{-- {{ $slot->date }} {{ date('Y-m-d') }} , --}}
                         @if ($slot->date >=  date('Y-m-d') )
                         <tr>
-                          <td>{{ $loop->index +1 }}</td>
-                          <td>{{$slot->slot_name}}</td>
-                          <td>{{ \Carbon\Carbon::parse($slot->date)->format('F j, Y')}} </td>
-                          <td>{{ \Carbon\Carbon::parse($slot->time)->format('g:i a')}}</td>
-                          <td>{{ $slot->occupied? 'yes' : 'no' }}</td>
-                          <td><textarea class="form-control" readonly>{{ $slot->message }}</textarea></td>
-                          <td style="padding-left: 6px;"><a href="{{ route('user.slot.edit',$slot->id) }}" class="btn btn-warning btn-circle ml-1" role="button" data-bs-hover-animate="pulse" style="width: 30px;height: 30px;"><i class="fas fa-pen text-white"></i></a></td>
-                          <td style="padding-left: 11px;"><a onclick="if(confirm('Are you sure, You want to delete this slot ?')){
+                          <td class="text-center">{{ $loop->index +1 }}</td>
+                          <td class="text-center">{{$slot->slot_name}}</td>
+                          <td class="text-center">{{ \Carbon\Carbon::parse($slot->date)->format('F j, Y')}} </td>
+                          <td class="text-center">{{ \Carbon\Carbon::parse($slot->time)->format('g:i a')}}</td>
+                          <td class="text-center">{{ $slot->occupied? 'yes' : 'no' }}</td>
+                          <td class="text-center"><textarea class="form-control" readonly>{{ $slot->message }}</textarea></td>
+                          <td class="text-center" style="padding-left: 6px;"><a href="{{ route('user.slot.edit',$slot->id) }}" class="btn btn-warning btn-circle ml-1" role="button" data-bs-hover-animate="pulse" style="width: 30px;height: 30px;"><i class="fas fa-pen text-white"></i></a></td>
+                          <td class="text-center" style="padding-left: 11px;"><a onclick="if(confirm('Are you sure, You want to delete this slot ?')){
                             event.preventDefault();
                             document.getElementById('deleteform-{{$slot->id}}').submit();
                           }
@@ -146,14 +146,14 @@
                     </tbody>
                     <tfoot>
                       <tr>
-                        <th>S.no.</th>
-                        <th>Slot Name</th>
-                        <th>Date&nbsp;</th>
-                        <th>Time</th>
-                        <th>Occupied</th>
-                        <th>Message</th>
-                        <th>Edit</th>
-                        <th>Delete</th>
+                        <th class="text-center">S.no.</th>
+                        <th class="text-center">Slot Name</th>
+                        <th class="text-center">Date&nbsp;</th>
+                        <th class="text-center">Time</th>
+                        <th class="text-center">Occupied</th>
+                        <th class="text-center">Message</th>
+                        <th class="text-center">Edit</th>
+                        <th class="text-center">Delete</th>
                       </tr>
                     </tfoot>
                   </table>

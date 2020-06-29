@@ -17,6 +17,12 @@
 	    background-size: cover;
 	}
     </style>
+    <style>
+    select option:disabled {
+      color: #26262652;
+      /* font-weight: bold; */
+    }
+    </style>
     @section('head')
-        
+
     @show

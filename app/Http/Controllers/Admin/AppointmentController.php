@@ -80,18 +80,16 @@ class AppointmentController extends Controller
     //////////////////////////////////
     $appointment->appointment_slot_id = $request->slot_id;
     //////////////////////////////////
-    $appointment_slot = Appointment_slot::select('id','occupied')->findOrFail($request->slot_id);
-    $appointment_slot->occupied = 1;
-    $appointment_slot->save();
+    $appointment_slot =
       //////////////////////////////////
     $appointment->client_id = $client->id;
     $appointment->service_id = $request->service_id;
     $appointment->client_name = $request->name;
-    $appointment->status = 'pending';
+    $appointment->status = 0;
     $appointment_slot = Appointment_slot::select('id','occupied')->find($request->slot_id);
     $appointment_slot->occupied = 1;
-    $appointment_slot->save();
     $appointment->save();
+    $appointment_slot->save();
     // dd($appointment_slot->occupied);
     return redirect()->route('admin.appointment.index')->with('message','Appointment Successfully Created');
   }

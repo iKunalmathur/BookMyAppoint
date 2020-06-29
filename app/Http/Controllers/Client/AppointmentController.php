@@ -200,6 +200,7 @@ class AppointmentController extends Controller
   */
   public function destroy($id)
   {
+    // dd($id);
     $appointment = Appointment::select('id','appointment_slot_id')->where('status',0)->findorFail($id);
     // dd($appointment->appointment_slot_id);
     $appointment_slot = Appointment_slot::select('id','occupied')->findOrFail($appointment->appointment_slot_id);
@@ -207,6 +208,7 @@ class AppointmentController extends Controller
     $appointment_slot->occupied = 0;
     $appointment_slot->save();
     $appointment->delete();
+    // dd($appointment_slot->occupied);
     return redirect()->back()->with('success','Appointment Successfully Deleted');
   }
 

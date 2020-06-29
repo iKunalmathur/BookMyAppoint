@@ -45,7 +45,7 @@
                                     <div class="form-group"><label for="last_name"><strong>Message</strong></label><input class="form-control" type="text" value="{{$slot->message}}" name="message"></div>
                                 </div>
                             </div>
-                            <div class="form-group"><button class="btn btn-primary btn-sm" type="submit">Add</button></div>
+                            <div class="form-group"><button class="btn btn-primary btn-sm" type="submit">Update</button></div>
                         </form>
                     </div>
                 </div>
