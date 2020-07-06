@@ -5,8 +5,6 @@
     <ul class="nav navbar-nav mr-auto">
       <li class="nav-item" role="presentation"></li>
       <li class="nav-item" role="presentation"></li>
-      {{-- <li class="nav-item dropdown"><a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false" href="#">Dropdown </a> --}}
-      {{-- <div class="dropdown-menu" role="menu"><a class="dropdown-item" role="presentation" href="#">First Item</a><a class="dropdown-item" role="presentation" href="#">Second Item</a><a class="dropdown-item" role="presentation" href="#">Third Item</a></div> --}}
     </li>
   </ul>
   @auth('client')

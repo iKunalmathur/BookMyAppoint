@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Client;
 
 use Illuminate\Http\Request;
+use App\Model\client\Appointment;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -23,6 +25,14 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('Client.home');
+        $totalAppointments = Appointment::where('client_id',Auth::id())->get()->count();
+        $Penappointments = Appointment::where('status',0)->where('client_id',Auth::id())->get()->count();
+        $Penappointmentsper = 0;
+        $Comappointmentsper = 0;
+        if ($totalAppointments > 0) {
+          $Penappointmentsper = round(($Penappointments / $totalAppointments )*100);
+          $Comappointmentsper = round((($totalAppointments - $Penappointments) / $totalAppointments )*100);
+        }
+        return view('Client.home',compact('totalAppointments','Penappointmentsper','Comappointmentsper'));
     }
 }

@@ -27,8 +27,6 @@
         @include('layouts.admin.header')
         <div class="container-fluid">
           <h3 class="text-dark mb-4">Edit User Profile</h3>
-          {{-- include message --}}
-          {{-- @include('includes.messages') --}}
           {{-- include notify --}}
           @include('includes.notify')
           <form role="form" action="{{ route('admin.users.update',$user->id) }}" method="POST" enctype="multipart/form-data">
@@ -171,25 +169,6 @@
                     </div>
                   </div>
                 </div>
-                <div class="card shadow mb-4">
-                  <div class="card-header py-3">
-                    <h6 class="text-primary font-weight-bold m-0">Appointments&nbsp;</h6>
-                  </div>
-                  <div class="card-body">
-                    <h4 class="small font-weight-bold">Pending<span class="float-right">20%</span></h4>
-                    <div class="progress progress-sm mb-3">
-                      <div class="progress-bar bg-danger" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%;"><span class="sr-only">20%</span></div>
-                    </div>
-                    <h4 class="small font-weight-bold">In Process<span class="float-right">40%</span></h4>
-                    <div class="progress progress-sm mb-3">
-                      <div class="progress-bar bg-warning" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%;"><span class="sr-only">40%</span></div>
-                    </div>
-                    <h4 class="small font-weight-bold">Compleated<span class="float-right">Complete!</span></h4>
-                    <div class="progress progress-sm mb-3">
-                      <div class="progress-bar bg-success" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;"><span class="sr-only">100%</span></div>
-                    </div>
-                  </div>
-                </div>
               </div>
               <div class="col-lg-8">
                 <div class="row">
@@ -221,7 +200,7 @@
                             <div class="form-group"><label for="first_name"><strong>Contact no.</strong></label><input class="form-control" value="{{$user->phone}}" type="text" placeholder="phone" name="phone"></div>
                           </div>
                           <div class="col">
-                            <div class="form-group"><label for="last_name"><strong>Admin Password</strong></label><input class="form-control"  type="text" required name="old_password" ></div>
+                            <div class="form-group"><label for="last_name"><strong>Admin Password</strong></label><input class="form-control"  type="password" required name="old_password" ></div>
                           </div>
                         </div>
                         <div class="form-row">
@@ -249,7 +228,7 @@
                                 <select class="custom-select"  data-placeholder="Select a Country" id="country_id" style="width: 100%;" name="country">
                                   @foreach ($countries as $country)
                                     <option value="{{ $country->id }}"
-                                      @if ($country->id == $user->country)
+                                      @if ($country->id == $user->country_id)
                                         selected
                                       @endif
                                       >{{ $country->name }}</option>

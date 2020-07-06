@@ -7,7 +7,7 @@
         <div class="col-md-8">
           <div class="intro">
             <h1>Welcome To BookMyAppoint.</h1>
-            <p>Here you can book appointment&nbsp; with your own choice of service provider.</p><a class="btn btn-primary" role="button" href="#article-list" style="background-color: #0072c6;">Get Started</a></div>
+            <p>Book appointment&nbsp;with your own choice of service provider.</p><a class="btn btn-primary" role="button" href="#article-list" style="background-color: #0072c6;">Get Started</a></div>
           </div>
           <div class="col-sm-4">
             <div class="d-none d-md-block iphone-mockup"><img class="device" src="{{asset('assets/img/chooose-doctor.jpg')}}" style="opacity: 1;"></div>

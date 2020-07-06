@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
- 
+
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -80,13 +80,11 @@ class ProfileController extends Controller
             'email' => ['required', 'string', 'email', 'max:255'],
             'old_password' => ['required',],
             'phone' => ['required','unique:phones,phone_number'],
-            // 'password' => ['required', 'string', 'min:8', 'confirmed'],
-           
+
         ]);
 
         $admin = Admin::find($id);
 
-        // dd($request->all());
 
         if (Hash::check($request->old_password, $admin->password)){
 
@@ -113,16 +111,7 @@ class ProfileController extends Controller
                     $phone->save();
 
                 $admin->save();
-                
-                // $admin->phone->phone_number = $request->phone;
-                // dd($admin->phone);
-                // dd($request->phone);
-                // $phone = new phone;
-                // $admin->phone()->sync([
-                //     'phone_number' => $request->phone
-                // ]);
-                // $admin->phone()->update($admin->phone->phone_number = $request->phone);
-                // $request->session()->flash('error', ' Password does not match');
+
 
                 if( $isAdminChanged){
                     // changes have been made
@@ -139,7 +128,7 @@ class ProfileController extends Controller
             else{
 
                 return redirect()->back()->with('error', 'Password does not match');
-                
+
 
             }
 

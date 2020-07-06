@@ -13,19 +13,7 @@ class User extends Authenticatable
     {
       return $this->belongsTo('App\Model\Country');
     }
-    // public function appointment()
-    // {
-    //   return $this->hasMany('App\Model\client\Appointment');
-    // }
 
-    // public function country_id()
-    // {
-    //     return $this->belongsTo('App\Model\Country');
-    // }
-
-     // public function country_id(){
-     //    return $this->hasMany('App\Model\Country','id', 'country_id');
-     //   }
 
     use Notifiable;
 

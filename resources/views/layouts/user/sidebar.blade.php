@@ -4,8 +4,6 @@
       <div class="sidebar-brand-icon rotate-n-15"> <img src="{{ asset('assets/img/icons/brand-logo.png') }}" width=22px alt=""> </div>
       <div class="sidebar-brand-text mx-3"><span>Bookmyappoint</span></div>
     </a>
-    {{-- <li class="nav-item" role="presentation"><a class="nav-link"><span style="margin: 5px;"></a></li> --}}
-
     <hr class="sidebar-divider my-0">
     <ul class="nav navbar-nav text-light" id="accordionSidebar">
       <li class="nav-item" role="presentation"><a class="nav-link @yield('dashboardActive')" href="{{ route('user.home') }}"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a>
@@ -15,7 +13,7 @@
       </li>
       <li class="nav-item" role="presentation"><a class="nav-link @yield('ServiceActive')" href="{{ route('user.service.index') }}/"><i class="fa fa-cog" aria-hidden="true"></i><span>Service</span></a>
       </li>
-      <li class="nav-item" role="presentation"><a class="nav-link @yield('AppointmentActive')" href="{{ route('user.appointment.index') }}/"><i class="fas fa-table" aria-hidden="true"></i><span>Appointments</span></a>
+      <li class="nav-item" role="presentation"><a class="nav-link @yield('appointmentActive')" href="{{ route('user.appointment.index') }}/"><i class="fas fa-table" aria-hidden="true"></i><span>Appointments</span></a>
       </li>
       <li role="presentation" class="nav-item">
         <div><a class="btn btn-link nav-link @yield('tokkendetailsActive')" data-toggle="collapse" aria-expanded="false" aria-controls="collapse-1" href="#collapse-1" role="button"><i class="fas fa-user"></i><span>Tokken details</span></a>

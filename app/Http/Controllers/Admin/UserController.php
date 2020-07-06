@@ -53,11 +53,8 @@ class UserController extends Controller
       'email' => ['required', 'string', 'email', 'max:255','unique:clients', 'unique:users'],
       'old_password' => ['required',],
       'password' => ['required',],
-      // 'old_password' => ['required',],
-      // 'bio' => ['required',],
       'phone' => ['required'],
 
-      // 'password' => ['required', 'string', 'min:8', 'confirmed'],
 
     ]);
 
@@ -72,7 +69,6 @@ class UserController extends Controller
           'password' => 'confirmed|min:4',
         ]);
         $user->password = Hash::make($request->password);
-        // $request->session()->flash('success', 'Password changed');
       }
 
       if ($request->hasFile('image')){
@@ -88,14 +84,9 @@ class UserController extends Controller
       $user->address = $request->address;
       $user->city = $request->city;
       $user->state = $request->state;
-      $user->country = $request->country;
-      // $isChanged = $user->isDirty();
+      $user->country_id = $request->country;
       $user->save();
 
-      // if( $isChanged){
-      //     // changes have been made
-      //     return redirect()->back()->with('message','user details has been Updated');
-      // }
       return redirect()->back()->with('message','User created Successfully');
 
 
@@ -103,7 +94,6 @@ class UserController extends Controller
     else{
 
       return redirect()->back()->with('error', 'Admin Password does not match');
-      // $request->session()->flash('error', ' Password does not match');
 
     }
   }
@@ -149,8 +139,6 @@ class UserController extends Controller
       'email' => ['required', 'string', 'email', 'max:255',],
       'old_password' => ['required',],
       'bio' => ['required',],
-      // 'phone' => ['required', 'numeric'],
-      // 'password' => ['required', 'string', 'min:8', 'confirmed'],
 
     ]);
 
@@ -205,7 +193,7 @@ class UserController extends Controller
       $user->address = $request->address;
       $user->city = $request->city;
       $user->state = $request->state;
-      $user->country = $request->country;
+      $user->country_id = $request->country;
       $isChanged = $user->isDirty();
       $user->save();
 
@@ -239,14 +227,9 @@ class UserController extends Controller
   }
   public function activeinactivestatus(Request $request)
   {
-    // dd($request->all());
-    // console.log($request->user_id);
-    // echo "string";
-    // return "yup";
     $user = User::findOrFail($request->user_id);
 
     $user->active = $request->active;
-    // dd($user->active);
     $user->save();
     return response()->json(['message' => 'active status updated successfully.']);
   }

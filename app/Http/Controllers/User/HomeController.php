@@ -29,14 +29,15 @@ class HomeController extends Controller
   {
     $Totelappointment_slot = Appointment_slot::select('id','occupied')->where('user_id',Auth::id())->get()->count();
     $Ocupappointment_slot = Appointment_slot::select('id','occupied')->where('user_id',Auth::id())->where('occupied',1)->get()->count();
-    $slotper = round(($Ocupappointment_slot / $Totelappointment_slot )*100);
-    // echo $slotper;
-    // dd($slotper);
+    $slotper = 0;
+    if ($Totelappointment_slot > 0) {
+      $slotper = round(($Ocupappointment_slot / $Totelappointment_slot )*100);
+    }
+
     $Totelappointment = Appointment::select('id')->where('user_id',Auth::id())->get()->count();
-    // dd($Totelappointment_slot);
+
     $InProappointment = Appointment::select('id')->where('user_id',Auth::id())->where('status',1)->get()->count();
-    // dd($InProappointment);
-    // dd("sad");
+
     if ($Totelappointment > 0) {
       $compappostats = round(($InProappointment / $Totelappointment )*100); //compleate appointments
       $penappostats = round((($Totelappointment - $InProappointment) / $Totelappointment )*100);// pending appointments
@@ -53,7 +54,7 @@ class HomeController extends Controller
       'compappostats' => $compappostats,
       'penappostats' => $penappostats,
     ];
-    // dd($stats);
+
     return view('User.home',compact('stats'));
   }
 }

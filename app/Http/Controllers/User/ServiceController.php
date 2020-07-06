@@ -42,7 +42,7 @@ class ServiceController extends Controller
             'service_name' => ['required'],
         ]);
 
-        // dd($request->all());
+
 
         $service = new Service;
 
@@ -90,7 +90,7 @@ class ServiceController extends Controller
             'service_name' => ['required'],
         ]);
 
-        // dd($request->all());
+
 
         $service = Service::find($id);
 

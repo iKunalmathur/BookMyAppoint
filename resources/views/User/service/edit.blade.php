@@ -15,15 +15,15 @@
                 @include('layouts.user.header')
                 <div class="container-fluid">
                      <div class="d-sm-flex justify-content-between align-items-center mb-4">
-                        <h3 class="text-dark mb-0">Edit service</h3>{{-- <a class="btn btn-primary btn-sm d-none d-sm-inline-block" role="button" href="#"><i class="fas fa-download fa-sm text-white-50"></i>&nbsp;Generate Report</a> --}}</div>
-                {{-- @include('includes.messages') --}}
+                        <h3 class="text-dark mb-0">Edit service</h3>
+                      </div>
                 {{-- include notify --}}
-                @include('includes.notify') 
+                @include('includes.notify')
                 </div>
-            <div class="col">
+            <div class="col-5">
                 <div class="card shadow mb-3">
                     <div class="card-header py-3">
-                        <p class="text-primary m-0 font-weight-bold">Edit service</p>
+                        <p class="text-primary m-0 font-weight-bold">Edit service info</p>
                     </div>
                     <div class="card-body">
                         <form role="form" action="{{ route('user.service.update',$service->id) }}" method="POST">
@@ -47,21 +47,5 @@
     </footer>
     </div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a></div>
     @include('layouts.user.bottom')
-    <script type="text/javascript">
-        $(function(){
-            var dtToday = new Date();
-            var month = dtToday.getMonth() + 1;
-            var day = dtToday.getDate();
-            var year = dtToday.getFullYear();
-            if(month < 10)
-                month = '0' + month.toString();
-            if(day < 10)
-                day = '0' + day.toString();
-            
-            var minDate= year + '-' + month + '-' + day;
-            
-            $('#Date').attr('min', minDate);
-        });
-    </script>
 </body>
 </html>

@@ -1,10 +1,9 @@
 @extends('layouts.main')
 @section('title', 'BookMyAppoint.')
 @section('main-content')
-  
+
   </style>
   <div class="container" style="margin-top: 50px;">
-    {{-- @include('includes.messages') --}}
     {{-- include notify --}}
     @include('includes.notify')
     <div class="row">
@@ -69,40 +68,24 @@
 @endsection
 @section('bottom')
   <script type="text/javascript">
-  // $('#slot_id').prop("disabled",true);
-  // $('#service_id').prop("disabled",true);
-  // $("#user_id").on('change',function() {
   $(document).ready(function() {
-    // var id = $(this).val();
     var id = {{$sp->id}};
     console.log(id);
-    //alert(id);
-    //  $("#loding2").show();
     $("#slot_id").find('option').remove();
     $("#service_id").find('option').remove();
     if (id) {
-      // console.log(id);
       $.ajax({
         type: "GET",
         url: '{{ route('client.getslots')}}' ,
         data:  ({user_id : id}),
-        //cache: false,
         success: function(msg)
         {
-          // console.log('result: '+msg);
-          // console.log(JSON.stringify(msg));
-          //false;
-          // $("#city_id").find('option').remove();
-          // $("#city_id").prop("disabled",true);
           $('#slot_id').prop("disabled",false);
           $("#loding2").hide();
-          // var response = JSON.stringify(msg);
-          // console.log('result: '+response);
           var response = JSON.parse(msg);
           var state_name="";
           if(response.length>0)
           {
-            //removeOptions(document.getElementById('cities'));
 
             for(i=0;i<response.length;i++)
             {
@@ -112,7 +95,6 @@
               const dtf = new Intl.DateTimeFormat('en', { year: 'numeric', month: 'short', day: '2-digit' })
               const [{ value: mo },,{ value: da },,{ value: ye }] = dtf.formatToParts(d)
               dateString = `${da}-${mo}-${ye}`
-              // console.log(dateString)
 
               ///////// Time AM/PM ///////////
               var timeString = response[i]['time'];
@@ -134,18 +116,8 @@
 
 
         },
-        /*success: function(html) {
-        console.log(html);
-        $("#loding2").hide();
-        $.each(html, function(key, value) {
-        $('<option>').val('').text('select');
-        $('<option>').val(key).text(value).appendTo($("#cities"));
-      });
-    },*/
     error: function(e)
     {
-      //$('#city_id').prop("disabled", true);
-      //$('#state_id').prop("disabled", true);
       alert("Country Invalid : " + e.responseText.message);
       console.log(e);
     }
@@ -154,23 +126,14 @@
     type: "GET",
     url: '{{ route('client.getservices')}}' ,
     data:  ({user_id : id}),
-    //cache: false,
     success: function(msg)
     {
-      // console.log('result: '+msg);
-      // console.log(JSON.stringify(msg));
-      //false;
-      // $("#city_id").find('option').remove();
-      // $("#city_id").prop("disabled",true);
       $('#service_id').prop("disabled",false);
       $("#loding2").hide();
-      // var response = JSON.stringify(msg);
-      // console.log('result: '+response);
       var response = JSON.parse(msg);
       var state_name="";
       if(response.length>0)
       {
-        //removeOptions(document.getElementById('cities'));
 
         for(i=0;i<response.length;i++)
         {
@@ -184,18 +147,8 @@
 
 
     },
-    /*success: function(html) {
-    console.log(html);
-    $("#loding2").hide();
-    $.each(html, function(key, value) {
-    $('<option>').val('').text('select');
-    $('<option>').val(key).text(value).appendTo($("#cities"));
-  });
-},*/
 error: function(e)
 {
-  //$('#city_id').prop("disabled", true);
-  //$('#state_id').prop("disabled", true);
   alert("Country Invalid : " + e.responseText.message);
   console.log(e);
 }
@@ -204,7 +157,6 @@ error: function(e)
 
 else{
   $("#loding2").hide();
-  // $('#city_id').prop("disabled", true);
   $('#slot_id').prop("disabled",true);
 }
 });

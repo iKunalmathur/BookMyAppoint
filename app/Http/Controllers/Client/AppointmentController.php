@@ -22,27 +22,9 @@ class AppointmentController extends Controller
   public function index()
   {
     $appointments = Appointment::with('user','appointment_slot','service:id,service_name')->where('client_id', '=', Auth::user()->id)->get()->sortBy('appointment_slot.date_time');
-    // $appointments = Appointment::with('user:id,company_name','appointment_slot:id,date','service:id,service_name')->where('client_id', '=', Auth::user()->id)->get();
-    // ['client_id', '=', Auth::user()->id],])->whereHas('appointment_slot', function($q){
-    // $q->where('date','>=', Carbon::today());
-    // })->get()->sortBy('appointment_slot.time')->sortBydesc('appointment_slot.date');
-    // })->get()->sortBy('appointment_slot.date_time');
-    // foreach ($appointments as $appointment) {
-    //
-    //     dd($appointment->getRelations());
-    //
-    // }
-    // ->sortBy('appointment_slot.date')
+
     return  view('client.appointment.show',compact('appointments'));
 
-    // ])->whereDate('created_at', Carbon::today())->get();
-    // dd($appointments);
-    // dd($appointments);
-    // dd($appointments->getRelation());
-    // $mytime = \Carbon\Carbon::now();
-    // $temp = $mytime->toDateTimeString();
-    // $temp = Carbon::today()->toDateTimeString();
-    // dd($temp);
 
   }
 
@@ -67,7 +49,7 @@ class AppointmentController extends Controller
   */
   public function store(Request $request)
   {
-    // dd($request->all());
+
     $this->validate($request,[
       'name' => ['required', 'string', 'max:255'],
       'email' => ['required', 'string', 'email', 'max:255'],
@@ -76,28 +58,17 @@ class AppointmentController extends Controller
       'service_id'=> ['required',],
       'phone' => ['required'],
     ]);
-    // $tokken_no = rand();
+
     $tokken_no = "ATN".rand(100000,999999);
-    // dd($tokken_no);
+
     $appointment = new Appointment;
     $appointment->tokken_no = $tokken_no;
     $appointment->user_id = $request->user_id;
-    //////////////////////////////////
+
     if (!User::select('status')->findOrFail($request->user_id)->status) {
       return redirect()->back()->with('error', 'Sorry Store Closed');
     }
-    // dd("STOP");
-    //////////////////////////////////
-    // $appointment_slot = Appointment_slot::select('id','occupied')->findOrFail($appointment->appointment_slot_id);
-    // $appointment_slot->occupied = 0;
-    // $appointment_slot->save();
-    //////////////////////////////////
     $appointment->appointment_slot_id = $request->slot_id;
-    //////////////////////////////////
-    // $appointment_slot = Appointment_slot::select('id','occupied')->findOrFail($request->slot_id);
-    // $appointment_slot->occupied = 1;
-    // $appointment_slot->save();
-    //////////////////////////////////
     $appointment->client_id = Auth::user()->id;
     $appointment->service_id = $request->service_id;
     $appointment->client_name = $request->name;
@@ -106,7 +77,6 @@ class AppointmentController extends Controller
     $appointment_slot->occupied = 1;
     $appointment->save();
     $appointment_slot->save();
-    // dd($appointment_slot->occupied);
     return redirect()->route('client.appointment.index')->with('message','Appointment Successfully Created');
 
   }
@@ -133,7 +103,6 @@ class AppointmentController extends Controller
     $users = User::all();
     $slots = Appointment_slot::all();
     $appointment = Appointment::with('client')->where('status',0)->findorFail($id);
-    // dd($appointment->getRelations());
     return  view('client.appointment.edit',compact('users','slots','appointment'));
   }
 
@@ -154,12 +123,6 @@ class AppointmentController extends Controller
       'service_id'=> ['required',],
       'phone' => ['required'],
     ]);
-    // $tokken_no = rand();
-    // $tokken_no = "ATN".rand(100000,999999);
-    // dd($tokken_no);
-    // dd($tokken_no);
-    // dd($request->all());
-
     $appointment = Appointment::where('status',0)->findorFail($id);
     $appointment_slot = Appointment_slot::select('id','occupied')->findOrFail($appointment->appointment_slot_id);
     if ($appointment->appointment_slot_id != $request->slot_id) {
@@ -167,22 +130,16 @@ class AppointmentController extends Controller
       'slot_id' => ['required','unique:appointments,appointment_slot_id'],
         ]);
     }
-    // $appointment->tokken_no = $tokken_no;
+
     $appointment->user_id = $request->user_id;
-    //////////////////////////////////
     $appointment_slot->occupied = 0;
     $appointment_slot->save();
-    //////////////////////////////////
     $appointment->appointment_slot_id = $request->slot_id;
-    //////////////////////////////////
     $appointment_slot = Appointment_slot::select('id','occupied')->findOrFail($request->slot_id);
     $appointment_slot->occupied = 1;
     $appointment_slot->save();
-    //////////////////////////////////
-    // $appointment->client_id = Auth::user()->id;
     $appointment->service_id = $request->service_id;
     $appointment->client_name = $request->name;
-    // $appointment->status = 'pending';
     $isChanged = $appointment->isDirty();
     $appointment->save();
     if( $isChanged){
@@ -200,15 +157,12 @@ class AppointmentController extends Controller
   */
   public function destroy($id)
   {
-    // dd($id);
     $appointment = Appointment::select('id','appointment_slot_id')->where('status',0)->findorFail($id);
-    // dd($appointment->appointment_slot_id);
     $appointment_slot = Appointment_slot::select('id','occupied')->findOrFail($appointment->appointment_slot_id);
-    // dd($appointment_slot->occupied);
+
     $appointment_slot->occupied = 0;
     $appointment_slot->save();
     $appointment->delete();
-    // dd($appointment_slot->occupied);
     return redirect()->back()->with('success','Appointment Successfully Deleted');
   }
 

@@ -10,10 +10,6 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-// Route::get('/', function () {
-//     return view('welcome');
-// })->name('index');
 Route::get('/notify', function () {
   return view('includes.notify');
 })->name('notify');
@@ -91,16 +87,11 @@ Route::middleware(['auth:client'])->namespace('Client')->prefix('')->name('clien
   Route::resource('appointment','AppointmentController');
 });
 
-// Route::middleware(['auth:admin'],['auth:user'],['auth:client'])->namespace('Client')->prefix('')->name('client.')->group(function () {
-//   Route::get('getslots/{data?}','AppointmentController@getslots')->name('getslots');
-//   Route::get('getservices/{data?}','AppointmentController@getservices')->name('getservices');
-// });
-
 Route::group(['namespace' => 'Client','middleware' => 'auth:client,user,admin'], function() {
     Route::get('getslots/{data?}','AppointmentController@getslots')->name('client.getslots');
     Route::get('getservices/{data?}','AppointmentController@getservices')->name('client.getservices');
 });
-//////////////////////////////Routes//////////////////////////////////
+//////////////////////////////General Routes//////////////////////////////////
 
 // LOGOUT
 

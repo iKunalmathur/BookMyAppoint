@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Client;
- 
+
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -19,7 +19,7 @@ class ProfileController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {   
+    {
         $id = Auth::user()->id;
         $client = Client::find($id);
         $countries = Country::select('id','name')->get();
@@ -84,14 +84,10 @@ class ProfileController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255'],
             'old_password' => ['required',]
-            // 'phone' => ['required', 'numeric'],
-            // 'password' => ['required', 'string', 'min:8', 'confirmed'],
-           
+
         ]);
 
         $client = Client::find($id);
-
-        // dd($request->all());
 
         if (Hash::check($request->old_password, $client->password)){
 
@@ -129,7 +125,6 @@ class ProfileController extends Controller
             else{
 
                 return redirect()->back()->with('error', 'Password does not match');
-                // $request->session()->flash('error', ' Password does not match');
 
             }
 
@@ -145,5 +140,5 @@ class ProfileController extends Controller
     {
         //
     }
-    
+
 }

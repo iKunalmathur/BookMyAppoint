@@ -18,9 +18,12 @@ class ClientController extends Controller
      */
     public function index()
     {
-        $clients = Client::with('country')->paginate(20);
+        $clients = Client::with('country:id,name')->get();
         // dd($clients);
-        // dd($clients->getRelations());
+        foreach ($clients as $client) {
+          // dd($client);
+          // dd($client->getRelation('country')->name);
+        }
         return view('Admin.client.show',compact('clients'));
     }
 
@@ -48,13 +51,10 @@ class ClientController extends Controller
          'email' => ['required', 'string', 'email', 'max:255','unique:clients', 'unique:users'],
          'old_password' => ['required',],
          'phone' => ['required'],
-         // 'password' => ['required', 'string', 'min:8', 'confirmed'],
 
      ]);
 
      $client = new Client;
-
-     // dd($request->all());
 
      if (Hash::check($request->old_password, Auth::user()->password)){
 
@@ -64,7 +64,6 @@ class ClientController extends Controller
              'password' => 'confirmed|min:4',
              ]);
              $client->password = Hash::make($request->password);
-             // $request->session()->flash('success', 'Password changed');
          }
 
          if ($request->hasFile('image')){
@@ -78,13 +77,9 @@ class ClientController extends Controller
              $client->city = $request->city;
              $client->state = $request->state;
              $client->country_id = $request->country;
-             // $isChanged = $client->isDirty();
+
              $client->save();
 
-             // if( $isChanged){
-             //     // changes have been made
-             //     return redirect()->back()->with('message','Client details has been Updated');
-             // }
              return redirect()->back()->with('message','Client created Successfully');
 
 
@@ -93,7 +88,6 @@ class ClientController extends Controller
          else{
 
              return redirect()->back()->with('error', 'Admin Password does not match');
-             // $request->session()->flash('error', ' Password does not match');
 
          }
     }
@@ -136,9 +130,6 @@ class ClientController extends Controller
             'email' => ['required', 'string', 'email', 'max:255','unique:users'],
             'old_password' => ['required',],
             'phone' => ['required'],
-            // 'image' => ['required'],
-            // 'password' => ['required', 'string', 'min:8', 'confirmed'],
-
         ]);
 
         $client = Client::find($id);
@@ -148,8 +139,6 @@ class ClientController extends Controller
              'email' => ['required', 'string', 'email', 'max:255', 'unique:clients', 'unique:users'],
             ]);
         }
-        // dd($request->all());
-
         if (Hash::check($request->old_password, Auth::user()->password)){
 
             // new password
@@ -186,8 +175,6 @@ class ClientController extends Controller
             else{
 
                 return redirect()->back()->with('error', 'Admin Password does not match');
-                // $request->session()->flash('error', ' Password does not match');
-
             }
 
     }

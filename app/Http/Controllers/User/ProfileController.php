@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\User;
- 
+
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -19,16 +19,12 @@ class ProfileController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {   
+    {
         $id = Auth::user()->id;
         $user = User::with('country')->find($id);
-        // $user->getRelation('country');
-        // dd($user);
-        // dd($user->getRelations());
-        // dd($user->getRelation('country')->name);
+
         $countries = Country::select('id','name')->get();
-        // $states = State::select('id','name')->get();
-        // $cities = City::select('id','name')->get();
+
         return view('user.profile',compact('user','countries'));
     }
 
@@ -89,14 +85,13 @@ class ProfileController extends Controller
             'email' => ['required', 'string', 'email', 'max:255'],
             'old_password' => ['required',],
             'bio' => ['required',],
-            // 'phone' => ['required', 'numeric'],
-            // 'password' => ['required', 'string', 'min:8', 'confirmed'],
-           
+
+
         ]);
 
         $user = User::find($id);
 
-        // dd($request->all());
+
 
         if (Hash::check($request->old_password, $user->password)){
 
@@ -122,7 +117,7 @@ class ProfileController extends Controller
                 $user->address = $request->address;
                 $user->city = $request->city;
                 $user->state = $request->state;
-                $user->country = $request->country;
+                $user->country_id = $request->country;
                 $isChanged = $user->isDirty();
                 $user->save();
 
@@ -137,7 +132,7 @@ class ProfileController extends Controller
             else{
 
                 return redirect()->back()->with('error', 'Password does not match');
-                // $request->session()->flash('error', ' Password does not match');
+
 
             }
 
@@ -151,7 +146,7 @@ class ProfileController extends Controller
      */
     public function destroy($id)
     {
-        
+
     }
 
     public function opnclsstatus(Request $request)

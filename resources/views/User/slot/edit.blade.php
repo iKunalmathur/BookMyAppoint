@@ -15,8 +15,7 @@
                 @include('layouts.user.header')
                 <div class="container-fluid">
                      <div class="d-sm-flex justify-content-between align-items-center mb-4">
-                        <h3 class="text-dark mb-0">Edit Slot</h3>{{-- <a class="btn btn-primary btn-sm d-none d-sm-inline-block" role="button" href="#"><i class="fas fa-download fa-sm text-white-50"></i>&nbsp;Generate Report</a> --}}</div>
-                {{-- @include('includes.messages') --}}
+                        <h3 class="text-dark mb-0">Edit Slot</h3></div>
                 {{-- include notify --}}
                 @include('includes.notify')
                 </div>

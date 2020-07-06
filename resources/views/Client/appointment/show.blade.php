@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html> 
+<html>
 
 <head>
   @include('layouts.client.head')
@@ -26,7 +26,6 @@
                   </div>
                   <div class="col"><button class="btn  float-right" type="button" data-toggle="modal" data-target="#myModal" style="background-color: #f8f9fc;"><i class="fa fa-history" style="color: #4285f4;"></i></button></div>
                 </div>
-                {{-- @include('includes.messages') --}}
                 @include('includes.notify')
               </div>
               <!-- Modal -->
@@ -86,22 +85,11 @@
                         @endif
                       @endforeach
                     </div>
-                    {{-- <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                  </div> --}}
                 </div>
 
               </div>
             </div>
             <div class="card-body">
-              <div class="row">
-                <div class="col-md-6 text-nowrap">
-                  <div id="dataTable_length" class="dataTables_length" aria-controls="dataTable"><label>Show&nbsp;<select class="form-control form-control-sm custom-select custom-select-sm"><option value="10" selected="">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select>&nbsp;</label></div>
-                </div>
-                <div class="col-md-6">
-                  <div class="text-md-right dataTables_filter" id="dataTable_filter"><label><input type="search" class="form-control form-control-sm" aria-controls="dataTable" placeholder="Search"></label></div>
-                </div>
-              </div>
               <div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
                 <table class="table dataTable my-0" id="dataTable">
                   <thead>
@@ -126,7 +114,6 @@
                           @endif
                         @endforeach
                         <tr @if ($appointment->status)
-                          {{-- style="background-color: #8BC34A;color: #3a3b45;" --}}
                         @endif>
                         <td class="text-center">{{ $loop->index +1 }}</td>
                         <td class="text-center"><p>{{$appointment->tokken_no}}<p></td>
@@ -142,14 +129,10 @@
                               <hr style="border-top-color: red;">
                             @endif
                           </td>
-                          {{-- <td class="text-center">{{ $appointment->occupied? 'yes' : 'no' }}</td> --}}
-                          {{-- <td class="text-center"><textarea class="form-control" readonly>{{ $appointment->message }}</textarea></td> --}}
                           @if (!$appointment->status)
                             <td class="text-center" style="padding-left: 6px;">
                               <a href="{{ route('client.appointment.edit',$appointment->id) }}" class="btn btn-warning btn-circle ml-1" role="button" data-bs-hover-animate="pulse" style="width: 30px;height: 30px;"><i class="fas fa-pen text-white"></i></a>
-                              {{-- @endif --}}
                               <td class="text-center" style="padding-left: 11px;">
-                                {{-- @if ($appointment->status !== 'completed') --}}
                                 <a onclick="if(confirm('Are you sure, You want to delete this appointment ?')){
                                   event.preventDefault();
                                   document.getElementById('deleteform-{{$appointment->id}}').submit();
@@ -170,35 +153,7 @@
                           @endif
                         @endforeach
                       </tbody>
-                      <tfoot>
-                        <tr>
-                          <th class="text-center">S.no.</th>
-                          <th class="text-center">Tokken no</th>
-                          <th class="text-center">Service provider</th>
-                          <th class="text-center">Service</th>
-                          <th class="text-center">Date</th>
-                          <th class="text-center">Time</th>
-                          <th class="text-center">Edit</th>
-                          <th class="text-center">Delete</th>
-                        </tr>
-                      </tfoot>
                     </table>
-                  </div>
-                  <div class="row">
-                    <div class="col-md-6 align-self-center">
-                      <p id="dataTable_info" class="dataTables_info" role="status" aria-live="polite">Showing 1 to 10 of 27</p>
-                    </div>
-                    <div class="col-md-6">
-                      <nav class="d-lg-flex justify-content-lg-end dataTables_paginate paging_simple_numbers">
-                        <ul class="pagination">
-                          <li class="page-item disabled"><a class="page-link" href="#" aria-label="Previous"><span aria-hidden="true">«</span></a></li>
-                          <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                          <li class="page-item"><a class="page-link" href="#">2</a></li>
-                          <li class="page-item"><a class="page-link" href="#">3</a></li>
-                          <li class="page-item"><a class="page-link" href="#" aria-label="Next"><span aria-hidden="true">»</span></a></li>
-                        </ul>
-                      </nav>
-                    </div>
                   </div>
                 </div>
               </div>
@@ -212,5 +167,4 @@
         </div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a></div>
         @include('layouts.client.bottom')
       </body>
-
       </html>

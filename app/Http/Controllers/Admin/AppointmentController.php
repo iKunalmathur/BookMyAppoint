@@ -22,11 +22,7 @@ class AppointmentController extends Controller
   public function index()
   {
     $appointments = Appointment::with('client','user','appointment_slot','service:id,service_name')->get()->sortBy('appointment_slot.date_time');
-    // foreach ($appointments as $appointment) {
-    //
-    //     dd($appointment->getRelations());
-    //
-    // }
+
     return  view('admin.appointment.show',compact('appointments'));
   }
 
@@ -50,7 +46,7 @@ class AppointmentController extends Controller
   */
   public function store(Request $request)
   {
-    // dd($request->all());
+
     $this->validate($request,[
         'name' => ['required', 'string', 'max:255'],
         'email' => ['required', 'string', 'email', 'max:255'],
@@ -59,11 +55,11 @@ class AppointmentController extends Controller
         'service_id'=> ['required',],
         'phone' => ['required'],
     ]);
-    // $tokken_no = rand();
+
     $tokken_no = "ATN".rand(100000,999999);
-    // dd($tokken_no);
+
     $client = Client::select('id')->where('email',$request->email)->first();
-    // dd($client);
+
     if($client == null){
         return redirect()->route('admin.appointment.create')->with('message2','Customer not found, Check your email address');
     }
@@ -71,17 +67,10 @@ class AppointmentController extends Controller
     $appointment = new Appointment;
     $appointment->tokken_no = $tokken_no;
     $appointment->user_id = $request->user_id;
-    //////////////////////////////////
     if (!User::select('status')->findOrFail($request->user_id)->status) {
       return redirect()->back()->with('error', 'Sorry Store Closed');
     }
-    // dd("STOP");
-    //////////////////////////////////
-    //////////////////////////////////
     $appointment->appointment_slot_id = $request->slot_id;
-    //////////////////////////////////
-    $appointment_slot =
-      //////////////////////////////////
     $appointment->client_id = $client->id;
     $appointment->service_id = $request->service_id;
     $appointment->client_name = $request->name;
@@ -90,7 +79,6 @@ class AppointmentController extends Controller
     $appointment_slot->occupied = 1;
     $appointment->save();
     $appointment_slot->save();
-    // dd($appointment_slot->occupied);
     return redirect()->route('admin.appointment.index')->with('message','Appointment Successfully Created');
   }
 
@@ -140,17 +128,13 @@ class AppointmentController extends Controller
 
     $appointment = Appointment::find($id);
     $appointment->user_id = $request->user_id;
-    //////////////////////////////////
     $appointment_slot = Appointment_slot::select('id','occupied')->findOrFail($appointment->appointment_slot_id);
     $appointment_slot->occupied = 0;
     $appointment_slot->save();
-    //////////////////////////////////
     $appointment->appointment_slot_id = $request->slot_id;
-    //////////////////////////////////
     $appointment_slot = Appointment_slot::select('id','occupied')->findOrFail($request->slot_id);
     $appointment_slot->occupied = 1;
     $appointment_slot->save();
-    ////////////////////////////////
     $appointment->service_id = $request->service_id;
     $appointment->client_name = $request->name;
     $isChanged = $appointment->isDirty();

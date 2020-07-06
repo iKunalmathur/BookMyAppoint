@@ -15,7 +15,8 @@
         @include('layouts.admin.header')
         <div class="container-fluid">
           <div class="d-sm-flex justify-content-between align-items-center mb-4">
-            <h3 class="text-dark mb-0">Edit Appointment</h3>{{-- <a class="btn btn-primary btn-sm d-none d-sm-inline-block" role="button" href="#"><i class="fas fa-download fa-sm text-white-50"></i>&nbsp;Generate Report</a> --}}</div>
+            <h3 class="text-dark mb-0">Edit Appointment</h3>
+          </div>
           </div>
           <div class="col">
             <div class="card shadow mb-3">
@@ -87,35 +88,21 @@
       $('#service_id').prop("disabled",true);
       $("#user_id").on('change',function() {
         var id = $(this).val();
-        // console.log(id);
-        //alert(id);
-        //  $("#loding2").show();
         $("#slot_id").find('option').remove();
         $("#service_id").find('option').remove();
         if (id) {
-          // console.log(id);
           $.ajax({
             type: "GET",
             url: '{{ route('admin.getslots')}}' ,
             data:  ({user_id : id}),
-            //cache: false,
             success: function(msg)
             {
-              // console.log('result: '+msg);
-              // console.log(JSON.stringify(msg));
-              //false;
-              // $("#city_id").find('option').remove();
-              // $("#city_id").prop("disabled",true);
               $('#slot_id').prop("disabled",false);
               $("#loding2").hide();
-              // var response = JSON.stringify(msg);
-              // console.log('result: '+response);
               var response = JSON.parse(msg);
               var state_name="";
               if(response.length>0)
               {
-                //removeOptions(document.getElementById('cities'));
-
                 for(i=0;i<response.length;i++)
                 {
                   slots = ""+response[i]['slot_name'];
@@ -124,7 +111,6 @@
                   const dtf = new Intl.DateTimeFormat('en', { year: 'numeric', month: 'short', day: '2-digit' })
                   const [{ value: mo },,{ value: da },,{ value: ye }] = dtf.formatToParts(d)
                   dateString = `${da}-${mo}-${ye}`
-                  // console.log(dateString)
 
                   ///////// Time AM/PM ///////////
                   var timeString = response[i]['time'];
@@ -141,18 +127,8 @@
 
 
             },
-            /*success: function(html) {
-            console.log(html);
-            $("#loding2").hide();
-            $.each(html, function(key, value) {
-            $('<option>').val('').text('select');
-            $('<option>').val(key).text(value).appendTo($("#cities"));
-          });
-        },*/
         error: function(e)
         {
-          //$('#city_id').prop("disabled", true);
-          //$('#state_id').prop("disabled", true);
           alert("Country Invalid : " + e.responseText.message);
           console.log(e);
         }
@@ -161,24 +137,14 @@
         type: "GET",
         url: '{{ route('admin.getservices')}}' ,
         data:  ({user_id : id}),
-        //cache: false,
         success: function(msg)
         {
-          // console.log('result: '+msg);
-          // console.log(JSON.stringify(msg));
-          //false;
-          // $("#city_id").find('option').remove();
-          // $("#city_id").prop("disabled",true);
           $('#service_id').prop("disabled",false);
           $("#loding2").hide();
-          // var response = JSON.stringify(msg);
-          // console.log('result: '+response);
           var response = JSON.parse(msg);
           var state_name="";
           if(response.length>0)
           {
-            //removeOptions(document.getElementById('cities'));
-
             for(i=0;i<response.length;i++)
             {
               service = response[i]['service_name'];
@@ -191,18 +157,8 @@
 
 
         },
-        /*success: function(html) {
-        console.log(html);
-        $("#loding2").hide();
-        $.each(html, function(key, value) {
-        $('<option>').val('').text('select');
-        $('<option>').val(key).text(value).appendTo($("#cities"));
-      });
-    },*/
     error: function(e)
     {
-      //$('#city_id').prop("disabled", true);
-      //$('#state_id').prop("disabled", true);
       alert("Country Invalid : " + e.responseText.message);
       console.log(e);
     }
@@ -211,12 +167,10 @@
 
 else{
   $("#loding2").hide();
-  // $('#city_id').prop("disabled", true);
   $('#slot_id').prop("disabled",true);
 }
 });
 </script>
-{{-- ---------------------------------------- --}}
 <script type="text/javascript">
 $(document).ready(function () {
   var user_id = document.getElementById('user_id').value;
@@ -232,15 +186,11 @@ $(document).ready(function () {
     data:  ({user_id : user_id}),
     success: function(msg) {
       $('#slot_id').prop("disabled", false)
-      // $("#loding2").hide();
       var response = JSON.parse(msg);
       if (response.length > 0) {
-        //removeOptions(document.getElementById('cities'));
-        /**/
         for(i=0;i<response.length;i++)
         {
           var slot_id = '{{$appointment->appointment_slot_id}}';
-          //alert(slot_id);
           states = response[i]['slot_name'];
           slots = ""+response[i]['slot_name'];
           slotsdates = response[i]['date'];
@@ -248,7 +198,6 @@ $(document).ready(function () {
           const dtf = new Intl.DateTimeFormat('en', { year: 'numeric', month: 'short', day: '2-digit' })
           const [{ value: mo },,{ value: da },,{ value: ye }] = dtf.formatToParts(d)
           dateString = `${da}-${mo}-${ye}`
-          // console.log(dateString)
 
           ///////// Time AM/PM ///////////
           var timeString = response[i]['time'];
@@ -257,7 +206,6 @@ $(document).ready(function () {
           var ampm = (H < 12 || H === 24) ? "am" : "pm";
           timeString = h + timeString.substr(2, 3)+" "+ ampm;
           if(response[i]['id'] == slot_id){
-            // alert('hi');
             document.getElementById("slot_id").options[i] = new Option(slots+", "+dateString+", "+timeString,response[i]['id']);
             document.getElementById("slot_id").options[i].setAttribute('selected',true);
           }else{
@@ -275,18 +223,14 @@ $(document).ready(function () {
     data:  ({user_id : user_id}),
     success: function(msg) {
       $('#service_id').prop("disabled", false)
-      // $("#loding2").hide();
       var response = JSON.parse(msg);
       if (response.length > 0) {
-        //removeOptions(document.getElementById('cities'));
         /**/
         for(i=0;i<response.length;i++)
         {
           var service_id = '{{$appointment->service_id}}';
-          //alert(service_id);
           states = response[i]['service_name'];
           if(response[i]['id'] == service_id){
-            // alert('hi');
             document.getElementById("service_id").options[i] = new Option(states, response[i]['id']);
             document.getElementById("service_id").options[i].setAttribute('selected',true);
           }else{
@@ -294,7 +238,6 @@ $(document).ready(function () {
           }
         }
         /**/
-
       }
     }
   })

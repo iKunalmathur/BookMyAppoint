@@ -52,7 +52,6 @@ class bookappointController extends Controller
   {
 
     $sp = User::where('status',1)->where('active',1)->findOrFail($id);
-    // dd($sp);
     return view('bookappointment',compact('sp'));
   }
 
@@ -76,35 +75,27 @@ class bookappointController extends Controller
   */
   public function update(Request $request, $id)
   {
-    // dd($id);
-    // dd($request->all());
+
     $this->validate($request,[
       'name' => ['required', 'string', 'max:255'],
       'email' => ['required', 'string', 'email', 'max:255'],
-      // 'user_id' => ['required',],
       'slot_id' => ['required','unique:appointments,appointment_slot_id'],
       'service_id'=> ['required',],
-      // 'phone' => ['required'],
+
     ]);
     $tokken_no = "ATN".rand(100000,999999);
 
-    // dd($tokken_no);
+
     $appointment = new Appointment;
     $appointment->tokken_no = $tokken_no;
     $appointment->user_id = $id;
-    //////////////////////////////////
+
     if (!User::select('status')->findOrFail($id)->status) {
       return redirect()->back()->with('error', 'Sorry Store Closed');
     }
-    // dd("STOP");
-    //////////////////////////////////
+
 
     $appointment->appointment_slot_id = $request->slot_id;
-    //////////////////////////////////
-    // $appointment_slot = Appointment_slot::select('id','occupied')->findOrFail($request->slot_id);
-    // $appointment_slot->occupied = 1;
-    // $appointment_slot->save();
-    //////////////////////////////////
     $appointment->client_id = Auth::user()->id;
     $appointment->service_id = $request->service_id;
     $appointment->client_name = $request->name;

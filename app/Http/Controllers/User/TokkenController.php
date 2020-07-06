@@ -37,12 +37,12 @@ class TokkenController extends Controller
     public function store(Request $request)
     {
 
-      // dd($request->all());
+
         $appointment = Appointment::with('client','user','appointment_slot','service:id,service_name')->where('tokken_no',$request->t_no)->firstOrFail();
-        // dd($appointment);
+
 
         return view("user.tokkendetails",compact('appointment'));
-        // return redirect()->back();
+
     }
 
     /**

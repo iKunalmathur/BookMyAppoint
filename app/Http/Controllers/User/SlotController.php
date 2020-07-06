@@ -16,7 +16,6 @@ class SlotController extends Controller
   */
   public function index()
   {
-    // Appointment_slot::where('date',"<",\Carbon\Carbon::today())->delete();
     $slots = Appointment_slot::where('user_id',Auth::user()->id)->orderBy('date_time','ASC')->get();
     return view('user.slot.show',compact('slots'));
   }
@@ -39,21 +38,13 @@ class SlotController extends Controller
   */
   public function store(Request $request)
   {
-    // 24-hour time to 12-hour time
-    // $time_in_12_hour_format  = date("g:i a", strtotime($request->time));
-    // 12-hour time to 24-hour time
-    // $time_in_24_hour_format  = date("H:i", strtotime($request->time));
-    // echo "time_in_12_hour_format ".$time_in_12_hour_format;
-    // echo "time_in_24_hour_format ".$time_in_24_hour_format;
-
     $this->validate($request,[
       'slotname' => ['required', 'string', 'max:255'],
       'date' => ['required'],
       'time' => ['required'],
-      // 'date_time' => ['unique:appointment_slot'],
+
     ]);
 
-    // dd($request->all());
 
     $Slot = new Appointment_slot;
 
@@ -70,25 +61,7 @@ class SlotController extends Controller
       return redirect()->route('user.slot.index')->with('message','Slot Successfully Created');
     }
     return redirect()->route('user.slot.index')->with('message','Something went Wrong :(');
-    // $Appointment_slots = Appointment_slot::select('date_time')->where('user_id',Auth::user()->id)->get();
-    // // dd($Appointment_slots);
-    //  // dd($Slot->date_time.":00");
-    // foreach ($Appointment_slots as $Appointment_slot) {
-    //   // dd($Appointment_slot->date_time);
-    //   if ($Appointment_slot->date_time == $Slot->date_time.":00") {
-    //     return redirect()->route('user.slot.index')->with('success','Slot Already Exists');
-    //   }
-    // }
 
-    // $slot = Appointment_slot::firstOrCreate([
-    //   'user_id'=> Auth::user()->id,
-    //   'slot_name' => $request->slotname,
-    //   'date' => $request->date,
-    //   'time' => $request->time,
-    //   'message' => $request->message,
-    //   'date_time' => "$request->date $request->time"
-    // ]);
-    // dd($slot);
 
   }
 
@@ -130,7 +103,7 @@ class SlotController extends Controller
       'time' => ['required'],
 
     ]);
-    // dd($request->all());
+
 
     $Slot = Appointment_slot::find($id);
 
@@ -167,8 +140,8 @@ class SlotController extends Controller
   public function destroy($id)
   {
   $val =  Appointment_slot::where('id',$id)->where('occupied',0)->delete();
-    // dd($val);
+
    return ($val) ? redirect()->back()->with('message','Slot Successfully Deleted'):redirect()->back()->with('error','Failed');
-    // return redirect()->back()->with('message','Slot Successfully Deleted');
+
   }
 }

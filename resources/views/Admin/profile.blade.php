@@ -27,9 +27,6 @@
                 @include('layouts.admin.header')
                 <div class="container-fluid">
                     <h3 class="text-dark mb-4">Profile</h3>
-                    {{-- include message --}}
-                    {{-- @include('includes.messages') --}}
-                    {{-- include notify --}}
                     @include('includes.notify')
                     <form role="form" action="{{ route('admin.profile.update',$admin->id) }}" method="POST" enctype="multipart/form-data">
                        @csrf
@@ -79,51 +76,8 @@
                                                 </div>
                                             </div>
                                             <div class="form-group"><button class="btn btn-primary btn-sm" type="submit">Save Settings</button></div>
-                                            
                                         </div>
                                     </div>
-                                    <div class="card shadow">
-                                    {{-- <div class="card-header py-3">
-                                        <p class="text-primary m-0 font-weight-bold">Contact Settings</p>
-                                    </div> --}}
-                                    {{-- <div class="card-body">
-                                        <form>
-                                            <div class="form-group"><label for="address"><strong>Address</strong></label><input class="form-control" type="text" value="{{$admin->address}}"  name="address"></div>
-                                            <div class="form-row">
-                                                <div class="col">
-                                                    <label>Select Country</label>
-                                                    <select class="custom-select"  data-placeholder="Select a Country" id="country_id" style="width: 100%;" name="country">
-                                                      @foreach ($countries as $country)
-                                                          <option value="{{ $country->id }}"
-                                                            @if ($country->id == $admin->country)
-                                                              selected
-                                                          @endif
-                                                            >{{ $country->name }}</option>
-                                                      @endforeach 
-                                                    </select>
-                                                </div>
-                                                <div class="col">
-                                                    <label>Select State</label>
-                                                    <select class="custom-select" id="state_id" data-placeholder="Select a State" style="width: 100%;" name="state">
-                                                    </select>
-                                                </div>
-                                                
-                                            </div>
-                                            <div class="form-row" style="padding-top:10px;">
-                                                <div class="col">
-                                                    <label >Select City</label>
-                                                    <select class="custom-select"  data-placeholder="Select a City" style="width: 100%;" id="city_id" name="city"> 
-                                                    </select>
-                                                </div>
-                                                <div class="col">
-                                                </div>
-
-                                            </div>
-                                            <br>
-                                            <div class="form-group"><button class="btn btn-primary btn-sm" type="submit">Save&nbsp;Settings</button></div>
-                                        </form>
-                                    </div> --}}
-                                </div>
                             </div>
                         </div>
                     </div>
